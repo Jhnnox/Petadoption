@@ -6,352 +6,188 @@
 <title>PawHaven — Animal Rescue & Adoption</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ─── RESET & TOKENS ─────────────────────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 :root {
-  --white:   #ffffff;
-  --off:     #f7f7f5;
-  --light:   #eeede9;
-  --mid:     #c9c7c0;
-  --muted:   #8a8880;
-  --ink:     #1a1917;
-  --accent:  #2e6b4f;
-  --accent2: #e8f3ee;
-  --warn:    #d94f2b;
-  --warn2:   #fdeee9;
-  --blue:    #2455a4;
-  --blue2:   #e8eef8;
-  --gold:    #b07d2a;
-  --gold2:   #faf3e0;
+  --white:#ffffff; --off:#f7f7f5; --light:#eeede9; --mid:#c9c7c0;
+  --muted:#8a8880; --ink:#1a1917; --accent:#2e6b4f; --accent2:#e8f3ee;
+  --warn:#d94f2b; --warn2:#fdeee9; --blue:#2455a4; --blue2:#e8eef8;
+  --gold:#b07d2a; --gold2:#faf3e0;
   --r4:4px; --r8:8px; --r12:12px; --r16:16px; --r24:24px; --r99:999px;
-  --shadow: 0 2px 16px rgba(0,0,0,0.07);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
-  --trans: 0.22s cubic-bezier(.4,0,.2,1);
+  --shadow:0 2px 16px rgba(0,0,0,0.07); --shadow-lg:0 8px 40px rgba(0,0,0,0.10);
+  --trans:0.22s cubic-bezier(.4,0,.2,1);
 }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Instrument Sans', sans-serif;
-  background: var(--white);
-  color: var(--ink);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+html { scroll-behavior:smooth; }
+body { font-family:'Instrument Sans',sans-serif; background:var(--white); color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased; }
 img { display:block; max-width:100%; }
-a { color: inherit; text-decoration: none; }
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
+a { color:inherit; text-decoration:none; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
 
-/* ─── PAGES ──────────────────────────────────────────────────── */
-.page { display: none; animation: fadeIn .35s ease; }
-.page.active { display: block; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.page { display:none; animation:fadeIn .35s ease; }
+.page.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
 
-/* ─── NAV ────────────────────────────────────────────────────── */
+/* NAV */
 #navbar {
-  position: sticky; top: 0; z-index: 200;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--light);
-  height: 66px;
-  display: flex; align-items: center;
+  position:sticky; top:0; z-index:200;
+  background:rgba(255,255,255,0.95); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--light); height:68px; display:flex; align-items:center;
 }
-.nav-inner {
-  width: 100%; max-width: 1200px; margin: 0 auto;
-  padding: 0 2rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em;
-  color: var(--ink);
-}
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; align-items: center; gap: 0.25rem; }
-.nav-links button {
-  padding: 0.45rem 0.9rem; border-radius: var(--r8);
-  font-size: 0.875rem; font-weight: 500;
-  color: var(--muted); transition: all var(--trans);
-}
-.nav-links button:hover { color: var(--ink); background: var(--off); }
-.nav-links button.active { color: var(--ink); background: var(--light); }
-.nav-cta {
-  background: var(--accent) !important; color: var(--white) !important;
-  padding: 0.5rem 1.25rem !important; border-radius: var(--r8) !important;
-  font-weight: 600 !important; transition: all var(--trans) !important;
-}
-.nav-cta:hover { background: #235a41 !important; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,107,79,0.25) !important; }
+.nav-inner { width:100%; max-width:1200px; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:space-between; }
+
+/* ── LOGO ── */
+.nav-logo { display:flex; align-items:center; gap:0.55rem; cursor:pointer; text-decoration:none; }
+.nav-logo-icon { width:38px; height:38px; flex-shrink:0; }
+.nav-logo-text { font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:800; letter-spacing:-0.03em; color:var(--ink); line-height:1; }
+.nav-logo-text span { color:var(--accent); }
+
+.nav-links { display:flex; align-items:center; gap:0.25rem; }
+.nav-links button { padding:0.45rem 0.9rem; border-radius:var(--r8); font-size:0.875rem; font-weight:500; color:var(--muted); transition:all var(--trans); }
+.nav-links button:hover { color:var(--ink); background:var(--off); }
+.nav-links button.active { color:var(--ink); background:var(--light); }
+.nav-cta { background:var(--accent)!important; color:var(--white)!important; padding:0.5rem 1.25rem!important; border-radius:var(--r8)!important; font-weight:600!important; }
+.nav-cta:hover { background:#235a41!important; transform:translateY(-1px); box-shadow:0 4px 16px rgba(46,107,79,0.25)!important; }
 .nav-mobile-btn { display:none; padding:0.5rem; border-radius:var(--r8); color:var(--ink); }
-.nav-mobile-menu {
-  display:none; position:absolute; top:66px; left:0; right:0;
-  background:var(--white); border-bottom:1px solid var(--light);
-  padding:1rem; flex-direction:column; gap:0.25rem; z-index:199;
-}
+.nav-mobile-menu { display:none; position:absolute; top:68px; left:0; right:0; background:var(--white); border-bottom:1px solid var(--light); padding:1rem; flex-direction:column; gap:0.25rem; z-index:199; }
 .nav-mobile-menu.open { display:flex; }
-.nav-mobile-menu button {
-  text-align:left; padding:0.75rem 1rem; border-radius:var(--r8);
-  font-size:0.95rem; font-weight:500; color:var(--muted); width:100%;
-}
+.nav-mobile-menu button { text-align:left; padding:0.75rem 1rem; border-radius:var(--r8); font-size:0.95rem; font-weight:500; color:var(--muted); width:100%; }
 .nav-mobile-menu button:hover, .nav-mobile-menu button.active { background:var(--off); color:var(--ink); }
 
-/* ─── SHARED ─────────────────────────────────────────────────── */
+/* SHARED */
 .container { max-width:1200px; margin:0 auto; padding:0 2rem; }
-.section { padding: 5rem 0; }
-.section-sm { padding: 3.5rem 0; }
-.label {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  font-size:0.75rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase;
-  color: var(--accent); margin-bottom:1rem;
-}
+.section { padding:5rem 0; }
+.section-sm { padding:3.5rem 0; }
+.label { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--accent); margin-bottom:1rem; }
 .label::before { content:''; display:inline-block; width:18px; height:2px; background:var(--accent); border-radius:2px; }
-h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
-.heading-xl { font-size: clamp(2.4rem,5vw,4rem); font-weight:800; line-height:1.08; letter-spacing:-0.03em; }
-.heading-lg { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight:700; line-height:1.1; letter-spacing:-0.02em; }
-.heading-md { font-size: clamp(1.3rem,2.5vw,1.75rem); font-weight:700; line-height:1.2; letter-spacing:-0.01em; }
+h1,h2,h3,h4 { font-family:'Syne',sans-serif; }
+.heading-xl { font-size:clamp(2.4rem,5vw,4rem); font-weight:800; line-height:1.08; letter-spacing:-0.03em; }
+.heading-lg { font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; line-height:1.1; letter-spacing:-0.02em; }
+.heading-md { font-size:clamp(1.3rem,2.5vw,1.75rem); font-weight:700; line-height:1.2; letter-spacing:-0.01em; }
 .body-lg { font-size:1.1rem; line-height:1.7; color:var(--muted); font-weight:300; }
 .body-md { font-size:0.95rem; line-height:1.65; color:var(--muted); }
-.btn {
-  display:inline-flex; align-items:center; gap:0.5rem;
-  padding:0.7rem 1.5rem; border-radius:var(--r8);
-  font-size:0.9rem; font-weight:600; transition:all var(--trans);
-}
+.btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.7rem 1.5rem; border-radius:var(--r8); font-size:0.9rem; font-weight:600; transition:all var(--trans); }
 .btn-primary { background:var(--accent); color:var(--white); }
 .btn-primary:hover { background:#235a41; transform:translateY(-1px); box-shadow:0 6px 20px rgba(46,107,79,0.22); }
 .btn-outline { background:transparent; color:var(--ink); border:1.5px solid var(--light); }
 .btn-outline:hover { background:var(--off); border-color:var(--mid); }
 .btn-ghost { color:var(--accent); font-weight:600; font-size:0.9rem; display:inline-flex; align-items:center; gap:0.3rem; transition:gap var(--trans); }
 .btn-ghost:hover { gap:0.6rem; }
-.btn-warn { background:var(--warn); color:var(--white); }
-.btn-warn:hover { background:#b83f21; transform:translateY(-1px); }
-.divider { border:none; border-top:1px solid var(--light); margin:0; }
-.badge {
-  display:inline-flex; align-items:center; gap:0.3rem;
-  padding:0.2rem 0.6rem; border-radius:var(--r99);
-  font-size:0.7rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
-}
+.badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.6rem; border-radius:var(--r99); font-size:0.7rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; }
 .badge-green { background:var(--accent2); color:var(--accent); }
 .badge-red   { background:var(--warn2);   color:var(--warn); }
 .badge-blue  { background:var(--blue2);   color:var(--blue); }
 .badge-gold  { background:var(--gold2);   color:var(--gold); }
-.chip {
-  display:inline-block; padding:0.22rem 0.65rem; border-radius:var(--r99);
-  font-size:0.72rem; font-weight:500; background:var(--off); color:var(--muted); border:1px solid var(--light);
-}
+.chip { display:inline-block; padding:0.22rem 0.65rem; border-radius:var(--r99); font-size:0.72rem; font-weight:500; background:var(--off); color:var(--muted); border:1px solid var(--light); }
 .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
 .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
 .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
-@media(max-width:1024px) { .grid-4 { grid-template-columns:repeat(2,1fr); } .grid-3 { grid-template-columns:repeat(2,1fr); } }
-@media(max-width:700px)  { .grid-4,.grid-3,.grid-2 { grid-template-columns:1fr; } }
+@media(max-width:1024px){ .grid-4{grid-template-columns:repeat(2,1fr)} .grid-3{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:700px) { .grid-4,.grid-3,.grid-2{grid-template-columns:1fr} }
 
-/* ─── HERO ───────────────────────────────────────────────────── */
-.hero {
-  padding: 5rem 0 4rem;
-  background: var(--off);
-  position:relative; overflow:hidden;
-}
-.hero::before {
-  content:'';
-  position:absolute; top:-120px; right:-120px;
-  width:560px; height:560px; border-radius:50%;
-  background: radial-gradient(circle, rgba(46,107,79,0.07) 0%, transparent 70%);
-}
-.hero-grid {
-  display:grid; grid-template-columns:1fr 1fr;
-  align-items:center; gap:4rem;
-}
-.hero-eyebrow { margin-bottom:1.25rem; }
-.hero-title { margin-bottom:1.25rem; }
+/* HERO */
+.hero { padding:5rem 0 4rem; background:var(--off); position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-120px; right:-120px; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle,rgba(46,107,79,0.07) 0%,transparent 70%); }
+.hero-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:4rem; }
 .hero-title em { font-style:normal; color:var(--accent); }
 .hero-body { margin-bottom:2rem; max-width:460px; }
 .hero-actions { display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:3rem; }
 .hero-trust { display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
 .trust-item { display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; color:var(--muted); }
-.trust-icon { font-size:1rem; }
-.hero-photos {
-  display:grid; grid-template-columns:1.1fr 0.9fr; grid-template-rows:auto auto; gap:1rem;
-}
+.hero-photos { display:grid; grid-template-columns:1.1fr 0.9fr; grid-template-rows:auto auto; gap:1rem; }
 .hero-photo { border-radius:var(--r16); overflow:hidden; position:relative; }
 .hero-photo img { width:100%; object-fit:cover; display:block; }
 .hero-photo:nth-child(1) img { height:220px; }
 .hero-photo:nth-child(2) { grid-row:1/3; }
 .hero-photo:nth-child(2) img { height:460px; }
 .hero-photo:nth-child(3) img { height:220px; }
-.hero-photo-tag {
-  position:absolute; bottom:0.75rem; left:0.75rem;
-  background:rgba(255,255,255,0.92); backdrop-filter:blur(6px);
-  padding:0.3rem 0.75rem; border-radius:var(--r99);
-  font-size:0.74rem; font-weight:600; color:var(--ink);
-}
-.hero-photo-count {
-  position:absolute; bottom:0.75rem; right:0.75rem;
-  background:var(--accent); color:var(--white);
-  width:32px; height:32px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:0.75rem; font-weight:700;
-}
-@media(max-width:900px) {
-  .hero-grid { grid-template-columns:1fr; }
-  .hero-photos { display:none; }
-}
+.hero-photo-tag { position:absolute; bottom:0.75rem; left:0.75rem; background:rgba(255,255,255,0.92); backdrop-filter:blur(6px); padding:0.3rem 0.75rem; border-radius:var(--r99); font-size:0.74rem; font-weight:600; color:var(--ink); }
+.hero-photo-count { position:absolute; bottom:0.75rem; right:0.75rem; background:var(--accent); color:var(--white); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; }
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr} .hero-photos{display:none} }
 
-/* ─── STATS BAR ──────────────────────────────────────────────── */
-.stats-bar {
-  background:var(--ink); color:var(--white); padding:2.5rem 0;
-}
+/* STATS BAR */
+.stats-bar { background:var(--ink); color:var(--white); padding:2.5rem 0; }
 .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
 .stat-item { text-align:center; padding:0.5rem; }
-.stat-num {
-  font-family:'Syne',sans-serif; font-size:2.2rem; font-weight:800;
-  letter-spacing:-0.03em; color:var(--white); line-height:1;
-}
+.stat-num { font-family:'Syne',sans-serif; font-size:2.2rem; font-weight:800; letter-spacing:-0.03em; color:var(--white); line-height:1; }
 .stat-unit { color:var(--accent); font-size:1.8rem; }
 .stat-lbl { font-size:0.8rem; color:rgba(255,255,255,0.45); margin-top:0.35rem; text-transform:uppercase; letter-spacing:0.06em; }
-@media(max-width:700px) { .stats-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:700px){ .stats-grid{grid-template-columns:1fr 1fr} }
 
-/* ─── FEATURED ANIMALS ───────────────────────────────────────── */
-.animal-card {
-  background:var(--white); border:1px solid var(--light);
-  border-radius:var(--r16); overflow:hidden;
-  transition:all var(--trans); cursor:pointer;
-}
+/* ANIMAL CARDS */
+.animal-card { background:var(--white); border:1px solid var(--light); border-radius:var(--r16); overflow:hidden; transition:all var(--trans); cursor:pointer; }
 .animal-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--mid); }
 .animal-card-img { position:relative; overflow:hidden; aspect-ratio:4/3; background:var(--off); }
-.animal-card-img img { width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
+.animal-card-img img { width:100%; height:100%; object-fit:cover; transition:transform .4s ease; display:block; position:relative; z-index:1; }
 .animal-card:hover .animal-card-img img { transform:scale(1.05); }
-.animal-card-img img { position:relative; z-index:1; display:block; }
+.animal-card-img .emoji-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4.5rem; z-index:0; }
 .animal-card-badges { position:absolute; top:0.75rem; left:0.75rem; display:flex; gap:0.4rem; z-index:2; }
-.animal-card-fav {
-  position:absolute; top:0.7rem; right:0.7rem; z-index:2;
-  width:32px; height:32px; border-radius:50%;
-  background:rgba(255,255,255,0.88); backdrop-filter:blur(4px);
-  display:flex; align-items:center; justify-content:center;
-  font-size:0.9rem; transition:all var(--trans);
-}
+.animal-card-fav { position:absolute; top:0.7rem; right:0.7rem; z-index:2; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.88); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; font-size:0.9rem; transition:all var(--trans); }
 .animal-card-fav:hover { transform:scale(1.1); background:var(--white); }
 .animal-card-fav.faved { background:#fdeee9; }
 .animal-card-body { padding:1.1rem 1.2rem 1.25rem; }
 .animal-card-name { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; margin-bottom:0.2rem; }
 .animal-card-breed { font-size:0.82rem; color:var(--muted); margin-bottom:0.75rem; }
 .animal-card-chips { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.9rem; }
-.animal-card-foot {
-  display:flex; justify-content:space-between; align-items:center;
-  padding-top:0.75rem; border-top:1px solid var(--light);
-}
+.animal-card-foot { display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; border-top:1px solid var(--light); }
 .animal-card-meta { font-size:0.8rem; color:var(--muted); }
 .animal-card-meta strong { color:var(--ink); font-weight:600; }
 
-/* ─── PROCESS ────────────────────────────────────────────────── */
+/* PROCESS */
 .process-bg { background:var(--off); }
 .process-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative; }
-.process-steps::before {
-  content:''; position:absolute;
-  top:28px; left:12.5%; right:12.5%; height:1px;
-  background: linear-gradient(90deg, var(--accent) 0%, var(--light) 100%);
-}
-.step-card { padding:0 1.5rem 0; text-align:center; }
-.step-circle {
-  width:56px; height:56px; border-radius:50%;
-  background:var(--white); border:2px solid var(--light);
-  display:flex; align-items:center; justify-content:center;
-  margin:0 auto 1.25rem;
-  font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800;
-  color:var(--ink); position:relative; z-index:1;
-  transition:all var(--trans);
-}
+.process-steps::before { content:''; position:absolute; top:28px; left:12.5%; right:12.5%; height:1px; background:linear-gradient(90deg,var(--accent) 0%,var(--light) 100%); }
+.step-card { padding:0 1.5rem; text-align:center; }
+.step-circle { width:56px; height:56px; border-radius:50%; background:var(--white); border:2px solid var(--light); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; color:var(--ink); position:relative; z-index:1; transition:all var(--trans); }
 .step-card:hover .step-circle { background:var(--accent); color:var(--white); border-color:var(--accent); }
 .step-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
 .step-desc { font-size:0.83rem; color:var(--muted); line-height:1.6; }
-@media(max-width:700px) {
-  .process-steps { grid-template-columns:1fr 1fr; }
-  .process-steps::before { display:none; }
-}
+@media(max-width:700px){ .process-steps{grid-template-columns:1fr 1fr} .process-steps::before{display:none} }
 
-/* ─── TESTIMONIALS ───────────────────────────────────────────── */
-.testimonial-card {
-  background:var(--white); border:1px solid var(--light);
-  border-radius:var(--r16); padding:1.75rem;
-}
+/* TESTIMONIALS */
+.testimonial-card { background:var(--white); border:1px solid var(--light); border-radius:var(--r16); padding:1.75rem; }
 .testimonial-stars { color:#f59e0b; font-size:0.85rem; margin-bottom:0.75rem; letter-spacing:2px; }
 .testimonial-text { font-size:0.92rem; line-height:1.7; color:var(--ink); margin-bottom:1.25rem; font-style:italic; }
 .testimonial-author { display:flex; align-items:center; gap:0.75rem; }
-.author-avatar {
-  width:40px; height:40px; border-radius:50%; overflow:hidden; background:var(--light);
-  display:flex; align-items:center; justify-content:center; font-size:1.2rem;
-}
+.author-avatar { width:40px; height:40px; border-radius:50%; overflow:hidden; background:var(--light); display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
 .author-name { font-size:0.88rem; font-weight:600; }
 .author-pet  { font-size:0.78rem; color:var(--muted); }
 
-/* ─── CTA BAND ───────────────────────────────────────────────── */
-.cta-band {
-  background:var(--accent); color:var(--white); padding:4.5rem 0; text-align:center;
-}
+/* CTA BAND */
+.cta-band { background:var(--accent); color:var(--white); padding:4.5rem 0; text-align:center; }
 .cta-band .heading-lg { color:var(--white); margin-bottom:1rem; }
 .cta-band .body-lg { color:rgba(255,255,255,0.7); margin-bottom:2rem; max-width:520px; margin-left:auto; margin-right:auto; }
 .cta-band-btns { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
-.btn-white { background:var(--white); color:var(--accent); }
-.btn-white:hover { background:var(--off); transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,0,0,0.15); }
+.btn-white { background:var(--white); color:var(--accent); border-radius:var(--r8); padding:0.7rem 1.5rem; font-size:0.9rem; font-weight:600; transition:all var(--trans); display:inline-flex; align-items:center; gap:0.5rem; }
+.btn-white:hover { background:var(--off); transform:translateY(-1px); }
 .btn-outline-white { border:2px solid rgba(255,255,255,0.35); color:var(--white); border-radius:var(--r8); padding:0.7rem 1.5rem; font-size:0.9rem; font-weight:600; transition:all var(--trans); }
 .btn-outline-white:hover { background:rgba(255,255,255,0.12); }
 
-/* ─── ADOPT PAGE ─────────────────────────────────────────────── */
-.adopt-hero {
-  background:var(--off); padding:3.5rem 0 2.5rem;
-  border-bottom:1px solid var(--light);
-}
-.filter-bar {
-  background:var(--white); border:1px solid var(--light); border-radius:var(--r12);
-  padding:1.25rem 1.5rem; margin-bottom:2rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;
-  box-shadow:var(--shadow);
-}
-.filter-search {
-  flex:1; min-width:200px; display:flex; align-items:center; gap:0.5rem;
-  background:var(--off); border:1px solid var(--light); border-radius:var(--r8);
-  padding:0.6rem 1rem; transition:border-color var(--trans);
-}
+/* ADOPT PAGE */
+.adopt-hero { background:var(--off); padding:3.5rem 0 2.5rem; border-bottom:1px solid var(--light); }
+.filter-bar { background:var(--white); border:1px solid var(--light); border-radius:var(--r12); padding:1.25rem 1.5rem; margin-bottom:2rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; box-shadow:var(--shadow); }
+.filter-search { flex:1; min-width:200px; display:flex; align-items:center; gap:0.5rem; background:var(--off); border:1px solid var(--light); border-radius:var(--r8); padding:0.6rem 1rem; transition:border-color var(--trans); }
 .filter-search:focus-within { border-color:var(--accent); }
 .filter-search input { border:none; outline:none; background:transparent; font-family:inherit; font-size:0.9rem; color:var(--ink); width:100%; }
 .filter-search svg { color:var(--muted); flex-shrink:0; }
-.filter-select {
-  padding:0.6rem 0.9rem; border:1px solid var(--light); border-radius:var(--r8);
-  background:var(--white); font-family:inherit; font-size:0.88rem; color:var(--ink);
-  cursor:pointer; outline:none; transition:border-color var(--trans);
-}
+.filter-select { padding:0.6rem 0.9rem; border:1px solid var(--light); border-radius:var(--r8); background:var(--white); font-family:inherit; font-size:0.88rem; color:var(--ink); cursor:pointer; outline:none; transition:border-color var(--trans); }
 .filter-select:focus { border-color:var(--accent); }
 .filter-chips { display:flex; gap:0.5rem; flex-wrap:wrap; }
-.fchip {
-  padding:0.45rem 0.95rem; border:1.5px solid var(--light); border-radius:var(--r99);
-  font-size:0.82rem; font-weight:500; color:var(--muted); background:var(--white);
-  cursor:pointer; transition:all var(--trans);
-}
+.fchip { padding:0.45rem 0.95rem; border:1.5px solid var(--light); border-radius:var(--r99); font-size:0.82rem; font-weight:500; color:var(--muted); background:var(--white); cursor:pointer; transition:all var(--trans); }
 .fchip:hover { border-color:var(--accent); color:var(--accent); }
 .fchip.on { background:var(--accent); color:var(--white); border-color:var(--accent); }
 .adopt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1.25rem; }
 .adopt-count { font-size:0.88rem; color:var(--muted); margin-bottom:1.25rem; }
 .adopt-count strong { color:var(--ink); }
 
-/* ─── ANIMAL MODAL ───────────────────────────────────────────── */
-.modal-bg {
-  position:fixed; inset:0; z-index:500;
-  background:rgba(0,0,0,0.5); backdrop-filter:blur(6px);
-  display:flex; align-items:center; justify-content:center; padding:1.5rem;
-  opacity:0; pointer-events:none; transition:opacity .25s;
-}
+/* MODAL */
+.modal-bg { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.5); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:1.5rem; opacity:0; pointer-events:none; transition:opacity .25s; }
 .modal-bg.open { opacity:1; pointer-events:all; }
-.modal-box {
-  background:var(--white); border-radius:var(--r24); max-width:620px; width:100%;
-  max-height:90vh; overflow-y:auto;
-  transform:translateY(20px) scale(.97); transition:transform .25s;
-  position:relative;
-}
+.modal-box { background:var(--white); border-radius:var(--r24); max-width:620px; width:100%; max-height:90vh; overflow-y:auto; transform:translateY(20px) scale(.97); transition:transform .25s; position:relative; }
 .modal-bg.open .modal-box { transform:none; }
-.modal-close {
-  position:absolute; top:1rem; right:1rem; z-index:10;
-  width:36px; height:36px; border-radius:50%;
-  background:rgba(255,255,255,0.9); border:1px solid var(--light);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1rem; color:var(--ink); transition:all var(--trans);
-}
+.modal-close { position:absolute; top:1rem; right:1rem; z-index:10; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.9); border:1px solid var(--light); display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--ink); transition:all var(--trans); }
 .modal-close:hover { background:var(--off); }
 .modal-img { width:100%; height:280px; overflow:hidden; position:relative; background:var(--off); border-radius:var(--r24) var(--r24) 0 0; }
-.modal-img img { width:100%; height:100%; object-fit:cover; object-position:center 20%; position:relative; z-index:1; }
+.modal-img img { width:100%; height:100%; object-fit:cover; object-position:center 20%; position:relative; z-index:1; display:block; }
+.modal-img .emoji-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:6rem; }
 .modal-body { padding:2rem; }
 .modal-title-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.5rem; }
 .modal-name { font-family:'Syne',sans-serif; font-size:1.85rem; font-weight:800; }
@@ -364,16 +200,9 @@ h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
 .modal-actions { display:flex; gap:0.75rem; }
 .modal-actions .btn { flex:1; justify-content:center; }
 
-/* ─── ABOUT PAGE ─────────────────────────────────────────────── */
-.about-hero {
-  background:var(--ink); color:var(--white); padding:5rem 0;
-  position:relative; overflow:hidden;
-}
-.about-hero::after {
-  content:''; position:absolute; bottom:-80px; right:-80px;
-  width:360px; height:360px; border-radius:50%;
-  background:radial-gradient(circle,rgba(46,107,79,0.3),transparent 70%);
-}
+/* ABOUT PAGE */
+.about-hero { background:var(--ink); color:var(--white); padding:5rem 0; position:relative; overflow:hidden; }
+.about-hero::after { content:''; position:absolute; bottom:-80px; right:-80px; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,rgba(46,107,79,0.3),transparent 70%); }
 .about-hero .heading-xl { color:var(--white); margin-bottom:1.25rem; }
 .about-hero .body-lg { color:rgba(255,255,255,0.6); max-width:520px; }
 .about-mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
@@ -382,11 +211,7 @@ h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
 .about-img-main img { width:100%; height:320px; object-fit:cover; }
 .about-img-secondary { width:56%; border-radius:var(--r16); overflow:hidden; position:absolute; bottom:0; right:0; border:4px solid var(--white); box-shadow:var(--shadow-lg); }
 .about-img-secondary img { width:100%; height:200px; object-fit:cover; }
-.about-img-stat {
-  position:absolute; top:50%; left:55%; transform:translate(-50%,-50%);
-  background:var(--accent); color:var(--white); border-radius:var(--r12);
-  padding:1rem 1.25rem; text-align:center; box-shadow:var(--shadow-lg);
-}
+.about-img-stat { position:absolute; top:50%; left:55%; transform:translate(-50%,-50%); background:var(--accent); color:var(--white); border-radius:var(--r12); padding:1rem 1.25rem; text-align:center; box-shadow:var(--shadow-lg); }
 .about-img-stat-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; line-height:1; }
 .about-img-stat-lbl { font-size:0.72rem; opacity:0.8; text-transform:uppercase; letter-spacing:0.06em; }
 .value-card { background:var(--off); border-radius:var(--r12); padding:1.5rem; }
@@ -394,13 +219,13 @@ h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
 .value-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.4rem; }
 .value-desc { font-size:0.83rem; color:var(--muted); line-height:1.6; }
 .team-card { text-align:center; }
-.team-photo { width:100%; aspect-ratio:1; border-radius:var(--r16); overflow:hidden; margin-bottom:1rem; background:var(--off); display:flex; align-items:center; justify-content:center; font-size:4rem; }
+.team-photo { width:100%; aspect-ratio:1; border-radius:var(--r16); overflow:hidden; margin-bottom:1rem; background:var(--off); }
 .team-photo img { width:100%; height:100%; object-fit:cover; }
 .team-name { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; }
 .team-role { font-size:0.8rem; color:var(--muted); margin-top:0.2rem; }
-@media(max-width:900px) { .about-mission-grid { grid-template-columns:1fr; } .about-img-stack { height:300px; } }
+@media(max-width:900px){ .about-mission-grid{grid-template-columns:1fr} .about-img-stack{height:300px} }
 
-/* ─── CONTACT PAGE ───────────────────────────────────────────── */
+/* CONTACT PAGE */
 .contact-hero { background:var(--off); padding:3.5rem 0; border-bottom:1px solid var(--light); }
 .contact-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; align-items:start; }
 .contact-info-card { background:var(--off); border-radius:var(--r16); padding:2rem; margin-bottom:1.5rem; }
@@ -413,17 +238,13 @@ h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
 .form-group { margin-bottom:1.25rem; }
 .form-label { display:block; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:0.4rem; }
-.form-input, .form-textarea, .form-select-full {
-  width:100%; padding:0.7rem 1rem; border:1.5px solid var(--light); border-radius:var(--r8);
-  font-family:inherit; font-size:0.9rem; color:var(--ink); background:var(--white);
-  outline:none; transition:border-color var(--trans);
-}
-.form-input:focus, .form-textarea:focus, .form-select-full:focus { border-color:var(--accent); }
+.form-input,.form-textarea,.form-select-full { width:100%; padding:0.7rem 1rem; border:1.5px solid var(--light); border-radius:var(--r8); font-family:inherit; font-size:0.9rem; color:var(--ink); background:var(--white); outline:none; transition:border-color var(--trans); }
+.form-input:focus,.form-textarea:focus,.form-select-full:focus { border-color:var(--accent); }
 .form-textarea { resize:vertical; min-height:130px; }
 .form-submit { width:100%; justify-content:center; padding:0.85rem; font-size:0.95rem; }
-@media(max-width:900px) { .contact-grid { grid-template-columns:1fr; } .form-row { grid-template-columns:1fr; } }
+@media(max-width:900px){ .contact-grid{grid-template-columns:1fr} .form-row{grid-template-columns:1fr} }
 
-/* ─── DONATE PAGE ────────────────────────────────────────────── */
+/* DONATE PAGE */
 .donate-hero { background:var(--ink); color:var(--white); padding:4rem 0; text-align:center; }
 .donate-hero .heading-xl { color:var(--white); margin-bottom:1rem; }
 .donate-hero .body-lg { color:rgba(255,255,255,0.6); max-width:480px; margin:0 auto; }
@@ -436,36 +257,21 @@ h1, h2, h3, h4 { font-family:'Syne', sans-serif; }
 .donate-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; margin-bottom:0.4rem; }
 .donate-sub { font-size:0.88rem; color:var(--muted); margin-bottom:1.75rem; }
 .amount-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-bottom:1.25rem; }
-.amount-btn {
-  padding:0.9rem; border:2px solid var(--light); border-radius:var(--r8);
-  font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700;
-  color:var(--ink); background:var(--white); transition:all var(--trans); cursor:pointer;
-}
+.amount-btn { padding:0.9rem; border:2px solid var(--light); border-radius:var(--r8); font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; color:var(--ink); background:var(--white); transition:all var(--trans); cursor:pointer; }
 .amount-btn:hover { border-color:var(--accent); color:var(--accent); }
 .amount-btn.selected { background:var(--accent); color:var(--white); border-color:var(--accent); }
-.custom-amount {
-  width:100%; padding:0.75rem 1rem; border:1.5px solid var(--light); border-radius:var(--r8);
-  font-family:inherit; font-size:0.95rem; outline:none; margin-bottom:1.25rem;
-  transition:border-color var(--trans);
-}
+.custom-amount { width:100%; padding:0.75rem 1rem; border:1.5px solid var(--light); border-radius:var(--r8); font-family:inherit; font-size:0.95rem; outline:none; margin-bottom:1.25rem; transition:border-color var(--trans); }
 .custom-amount:focus { border-color:var(--accent); }
 .donate-freq { display:flex; gap:0.5rem; margin-bottom:1.5rem; }
-.freq-btn {
-  flex:1; padding:0.55rem; border:1.5px solid var(--light); border-radius:var(--r8);
-  font-size:0.85rem; font-weight:500; color:var(--muted); background:var(--white);
-  transition:all var(--trans); cursor:pointer;
-}
+.freq-btn { flex:1; padding:0.55rem; border:1.5px solid var(--light); border-radius:var(--r8); font-size:0.85rem; font-weight:500; color:var(--muted); background:var(--white); transition:all var(--trans); cursor:pointer; }
 .freq-btn.on { border-color:var(--accent); color:var(--accent); background:var(--accent2); }
 .donate-btn-main { width:100%; justify-content:center; padding:0.9rem; font-size:1rem; border-radius:var(--r8); }
 .donate-secure { display:flex; align-items:center; justify-content:center; gap:0.4rem; font-size:0.78rem; color:var(--muted); margin-top:0.75rem; }
 
-/* ─── FOOTER ─────────────────────────────────────────────────── */
-footer {
-  background:var(--ink); color:var(--white); padding:4rem 0 2rem;
-}
+/* FOOTER */
+footer { background:var(--ink); color:var(--white); padding:4rem 0 2rem; }
 .footer-grid { display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-.footer-brand .nav-logo { font-size:1.4rem; margin-bottom:0.75rem; }
-.footer-brand p { font-size:0.85rem; color:rgba(255,255,255,0.45); line-height:1.7; max-width:260px; }
+.footer-brand p { font-size:0.85rem; color:rgba(255,255,255,0.45); line-height:1.7; max-width:260px; margin-top:0.75rem; }
 .footer-col h4 { font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(255,255,255,0.4); margin-bottom:1rem; }
 .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
 .footer-col ul li { font-size:0.88rem; color:rgba(255,255,255,0.55); cursor:pointer; transition:color var(--trans); }
@@ -473,43 +279,43 @@ footer {
 .footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:1.75rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
 .footer-bottom p { font-size:0.82rem; color:rgba(255,255,255,0.3); }
 .footer-socials { display:flex; gap:0.75rem; }
-.social-btn {
-  width:34px; height:34px; border-radius:var(--r8);
-  background:rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center;
-  font-size:0.85rem; transition:all var(--trans); color:rgba(255,255,255,0.5);
-}
+.social-btn { width:34px; height:34px; border-radius:var(--r8); background:rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all var(--trans); color:rgba(255,255,255,0.5); }
 .social-btn:hover { background:var(--accent); color:var(--white); }
-@media(max-width:900px) { .footer-grid { grid-template-columns:1fr 1fr; } }
-@media(max-width:600px) { .footer-grid { grid-template-columns:1fr; } .footer-bottom { flex-direction:column; text-align:center; } }
+@media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr} }
+@media(max-width:600px){ .footer-grid{grid-template-columns:1fr} .footer-bottom{flex-direction:column;text-align:center} }
 
-/* ─── TOAST ──────────────────────────────────────────────────── */
-.toast {
-  position:fixed; bottom:2rem; right:2rem; z-index:600;
-  background:var(--ink); color:var(--white); border-radius:var(--r12);
-  padding:1rem 1.5rem; font-size:0.9rem; box-shadow:var(--shadow-lg);
-  transform:translateY(20px); opacity:0; transition:all .3s;
-  max-width:320px;
-}
+/* TOAST */
+.toast { position:fixed; bottom:2rem; right:2rem; z-index:600; background:var(--ink); color:var(--white); border-radius:var(--r12); padding:1rem 1.5rem; font-size:0.9rem; box-shadow:var(--shadow-lg); transform:translateY(20px); opacity:0; transition:all .3s; max-width:320px; }
 .toast.show { transform:none; opacity:1; }
 
-/* ─── NAV RESPONSIVE ─────────────────────────────────────────── */
-@media(max-width:750px) {
-  .nav-links { display:none; }
-  .nav-mobile-btn { display:flex; }
-  #navbar { position:relative; }
-}
-@media(max-width:600px) {
-  .section { padding:3.5rem 0; }
-  .container { padding:0 1.25rem; }
-}
+@media(max-width:750px){ .nav-links{display:none} .nav-mobile-btn{display:flex} #navbar{position:relative} }
+@media(max-width:600px){ .section{padding:3.5rem 0} .container{padding:0 1.25rem} }
 </style>
 </head>
 <body>
 
-<!-- ═══ NAVBAR ═══════════════════════════════════════════════════ -->
+<!-- ══ NAVBAR ══════════════════════════════════════════════════════ -->
 <nav id="navbar">
   <div class="nav-inner">
-    <div class="nav-logo" onclick="navigate('home')" style="cursor:pointer">Paw<span>Haven</span></div>
+    <!-- SVG LOGO -->
+    <div class="nav-logo" onclick="navigate('home')">
+      <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Paw print background circle -->
+        <circle cx="19" cy="19" r="19" fill="#2e6b4f"/>
+        <!-- Main paw pad -->
+        <ellipse cx="19" cy="22.5" rx="7" ry="5.5" fill="white" opacity="0.95"/>
+        <!-- Top left toe -->
+        <ellipse cx="11.5" cy="15.5" rx="2.8" ry="3.2" fill="white" opacity="0.95"/>
+        <!-- Top right toe -->
+        <ellipse cx="17" cy="13" rx="2.5" ry="3" fill="white" opacity="0.95"/>
+        <!-- Top middle-right toe -->
+        <ellipse cx="22.5" cy="13" rx="2.5" ry="3" fill="white" opacity="0.95"/>
+        <!-- Far right toe -->
+        <ellipse cx="27.5" cy="15.5" rx="2.8" ry="3.2" fill="white" opacity="0.95"/>
+      </svg>
+      <div class="nav-logo-text">Paw<span>Haven</span></div>
+    </div>
+
     <div class="nav-links">
       <button class="active" onclick="navigate('home')" data-page="home">Home</button>
       <button onclick="navigate('adopt')" data-page="adopt">Adopt</button>
@@ -530,25 +336,23 @@ footer {
   </div>
 </nav>
 
-<!-- ═══ PAGE: HOME ════════════════════════════════════════════════ -->
+<!-- ══ HOME ════════════════════════════════════════════════════════ -->
 <div class="page active" id="page-home">
-
-  <!-- Hero -->
   <section class="hero">
     <div class="container">
       <div class="hero-grid">
         <div>
-          <div class="hero-eyebrow"><span class="label">Open for Adoptions</span></div>
-          <h1 class="heading-xl hero-title">Find your<br><em>perfect</em><br>companion.</h1>
+          <div style="margin-bottom:1.25rem"><span class="label">Open for Adoptions</span></div>
+          <h1 class="heading-xl hero-title" style="margin-bottom:1.25rem">Find your<br><em>perfect</em><br>companion.</h1>
           <p class="body-lg hero-body">Every animal at PawHaven deserves a loving forever home. Browse hundreds of dogs, cats, rabbits, birds and more — each one waiting for someone like you.</p>
           <div class="hero-actions">
             <button class="btn btn-primary" onclick="navigate('adopt')">Browse Animals <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
             <button class="btn btn-outline" onclick="navigate('about')">Our Mission</button>
           </div>
           <div class="hero-trust">
-            <div class="trust-item"><span class="trust-icon">✓</span> All animals vaccinated</div>
-            <div class="trust-item"><span class="trust-icon">✓</span> Post-adoption support</div>
-            <div class="trust-item"><span class="trust-icon">✓</span> No-kill shelter</div>
+            <div class="trust-item"><span>✓</span> All animals vaccinated</div>
+            <div class="trust-item"><span>✓</span> Post-adoption support</div>
+            <div class="trust-item"><span>✓</span> No-kill shelter</div>
           </div>
         </div>
         <div class="hero-photos">
@@ -560,7 +364,6 @@ footer {
     </div>
   </section>
 
-  <!-- Stats -->
   <div class="stats-bar">
     <div class="container">
       <div class="stats-grid">
@@ -572,21 +375,16 @@ footer {
     </div>
   </div>
 
-  <!-- Featured Animals -->
   <section class="section">
     <div class="container">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem">
-        <div>
-          <span class="label">Available Now</span>
-          <h2 class="heading-lg">Meet some of our animals</h2>
-        </div>
+        <div><span class="label">Available Now</span><h2 class="heading-lg">Meet some of our animals</h2></div>
         <button class="btn-ghost" onclick="navigate('adopt')">View all animals →</button>
       </div>
       <div class="grid-4" id="featuredGrid"></div>
     </div>
   </section>
 
-  <!-- Process -->
   <section class="section process-bg">
     <div class="container">
       <div style="text-align:center;margin-bottom:3rem">
@@ -603,13 +401,9 @@ footer {
     </div>
   </section>
 
-  <!-- Testimonials -->
   <section class="section">
     <div class="container">
-      <div style="margin-bottom:2.5rem">
-        <span class="label">Success Stories</span>
-        <h2 class="heading-lg">Happy families</h2>
-      </div>
+      <div style="margin-bottom:2.5rem"><span class="label">Success Stories</span><h2 class="heading-lg">Happy families</h2></div>
       <div class="grid-3">
         <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-text">"The whole process was seamless. Within a week, Biscuit was home and transformed our lives completely. The team's support after adoption was exceptional."</p><div class="testimonial-author"><div class="author-avatar">👩</div><div><div class="author-name">Maria Santos</div><div class="author-pet">Adopted Biscuit the Beagle</div></div></div></div>
         <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-text">"I was nervous about adopting a senior cat, but PawHaven guided us every step. Luna is now the queen of our apartment and we couldn't be happier."</p><div class="testimonial-author"><div class="author-avatar">👨</div><div><div class="author-name">James Reyes</div><div class="author-pet">Adopted Luna the Cat</div></div></div></div>
@@ -618,21 +412,19 @@ footer {
     </div>
   </section>
 
-  <!-- CTA -->
   <div class="cta-band">
     <div class="container">
       <h2 class="heading-lg">Ready to change a life?</h2>
       <p class="body-lg">Every adoption gives an animal a second chance — and gives you a companion for life.</p>
       <div class="cta-band-btns">
-        <button class="btn btn-white" onclick="navigate('adopt')">Browse Available Animals</button>
+        <button class="btn-white" onclick="navigate('adopt')">Browse Available Animals</button>
         <button class="btn-outline-white" onclick="navigate('donate')">Support Our Mission</button>
       </div>
     </div>
   </div>
+</div>
 
-</div><!-- /home -->
-
-<!-- ═══ PAGE: ADOPT ═══════════════════════════════════════════════ -->
+<!-- ══ ADOPT ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-adopt">
   <div class="adopt-hero">
     <div class="container">
@@ -667,24 +459,22 @@ footer {
       <div class="adopt-grid" id="adoptGrid"></div>
     </div>
   </section>
-</div><!-- /adopt -->
+</div>
 
-<!-- ═══ PAGE: ABOUT ═══════════════════════════════════════════════ -->
+<!-- ══ ABOUT ════════════════════════════════════════════════════════ -->
 <div class="page" id="page-about">
   <div class="about-hero">
     <div class="container">
       <span class="label" style="color:rgba(255,255,255,0.5)">Our Story</span>
       <h1 class="heading-xl">Rescuing animals,<br>one home at a time.</h1>
-      <p class="body-lg" style="margin-top:1.25rem">Founded in 2013, PawHaven is a no-kill shelter dedicated to finding loving homes for every animal that comes through our doors — regardless of age, breed, or background.</p>
+      <p class="body-lg" style="margin-top:1.25rem">Founded in 2013, PawHaven is a no-kill shelter dedicated to finding loving homes for every animal that comes through our doors.</p>
     </div>
   </div>
-
-  <!-- Mission -->
   <section class="section">
     <div class="container">
       <div class="about-mission-grid">
         <div class="about-img-stack">
-          <div class="about-img-main"><img src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=600&h=640&fit=crop" alt="Shelter volunteer with dog" loading="lazy"></div>
+          <div class="about-img-main"><img src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=600&h=640&fit=crop" alt="Volunteer with dog" loading="lazy"></div>
           <div class="about-img-secondary"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=400&fit=crop" alt="Two dogs" loading="lazy"></div>
           <div class="about-img-stat"><div class="about-img-stat-num">2,400+</div><div class="about-img-stat-lbl">Animals rescued</div></div>
         </div>
@@ -702,14 +492,9 @@ footer {
       </div>
     </div>
   </section>
-
-  <!-- Values -->
   <section class="section" style="background:var(--off);padding-top:4rem;padding-bottom:4rem">
     <div class="container">
-      <div style="text-align:center;margin-bottom:2.5rem">
-        <span class="label">What We Stand For</span>
-        <h2 class="heading-lg">Our core values</h2>
-      </div>
+      <div style="text-align:center;margin-bottom:2.5rem"><span class="label">What We Stand For</span><h2 class="heading-lg">Our core values</h2></div>
       <div class="grid-4">
         <div class="value-card"><div class="value-icon">🛡️</div><div class="value-title">No-Kill Promise</div><div class="value-desc">We have never and will never euthanise a healthy, treatable animal. Every life matters.</div></div>
         <div class="value-card"><div class="value-icon">❤️</div><div class="value-title">Animal Welfare First</div><div class="value-desc">Medical care, nutrition, enrichment, and socialisation are non-negotiable for every resident.</div></div>
@@ -718,14 +503,9 @@ footer {
       </div>
     </div>
   </section>
-
-  <!-- Team -->
   <section class="section">
     <div class="container">
-      <div style="margin-bottom:2.5rem">
-        <span class="label">The People</span>
-        <h2 class="heading-lg">Meet our team</h2>
-      </div>
+      <div style="margin-bottom:2.5rem"><span class="label">The People</span><h2 class="heading-lg">Meet our team</h2></div>
       <div class="grid-4">
         <div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=300&h=300&fit=crop&crop=face" alt="Director" loading="lazy"></div><div class="team-name">Dr. Clara Mendoza</div><div class="team-role">Executive Director & Head Vet</div></div>
         <div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face" alt="Operations" loading="lazy"></div><div class="team-name">Marco Villanueva</div><div class="team-role">Operations Manager</div></div>
@@ -734,21 +514,19 @@ footer {
       </div>
     </div>
   </section>
-
-  <!-- CTA -->
   <div class="cta-band">
     <div class="container">
       <h2 class="heading-lg">Join our mission</h2>
       <p class="body-lg">Volunteer, foster, adopt, or donate — every contribution makes a real difference.</p>
       <div class="cta-band-btns">
-        <button class="btn btn-white" onclick="navigate('adopt')">Adopt an Animal</button>
+        <button class="btn-white" onclick="navigate('adopt')">Adopt an Animal</button>
         <button class="btn-outline-white" onclick="navigate('donate')">Make a Donation</button>
       </div>
     </div>
   </div>
-</div><!-- /about -->
+</div>
 
-<!-- ═══ PAGE: CONTACT ══════════════════════════════════════════════ -->
+<!-- ══ CONTACT ══════════════════════════════════════════════════════ -->
 <div class="page" id="page-contact">
   <div class="contact-hero">
     <div class="container">
@@ -760,33 +538,19 @@ footer {
   <section class="section-sm">
     <div class="container">
       <div class="contact-grid">
-        <!-- Info -->
         <div>
           <div class="contact-info-card">
-            <div class="contact-info-item">
-              <div class="contact-icon">📍</div>
-              <div><div class="contact-info-lbl">Address</div><div class="contact-info-val">123 Shelter Lane, Quezon City, Metro Manila</div></div>
-            </div>
-            <div class="contact-info-item">
-              <div class="contact-icon">📞</div>
-              <div><div class="contact-info-lbl">Phone</div><div class="contact-info-val">+63 2 8123 4567</div></div>
-            </div>
-            <div class="contact-info-item">
-              <div class="contact-icon">✉️</div>
-              <div><div class="contact-info-lbl">Email</div><div class="contact-info-val">hello@pawhaven.org</div></div>
-            </div>
-            <div class="contact-info-item">
-              <div class="contact-icon">🕐</div>
-              <div><div class="contact-info-lbl">Hours</div><div class="contact-info-val">Mon–Sat 8:00 AM – 6:00 PM<br>Sun 9:00 AM – 4:00 PM</div></div>
-            </div>
+            <div class="contact-info-item"><div class="contact-icon">📍</div><div><div class="contact-info-lbl">Address</div><div class="contact-info-val">123 Shelter Lane, Quezon City, Metro Manila</div></div></div>
+            <div class="contact-info-item"><div class="contact-icon">📞</div><div><div class="contact-info-lbl">Phone</div><div class="contact-info-val">+63 2 8123 4567</div></div></div>
+            <div class="contact-info-item"><div class="contact-icon">✉️</div><div><div class="contact-info-lbl">Email</div><div class="contact-info-val">hello@pawhaven.org</div></div></div>
+            <div class="contact-info-item"><div class="contact-icon">🕐</div><div><div class="contact-info-lbl">Hours</div><div class="contact-info-val">Mon–Sat 8:00 AM – 6:00 PM<br>Sun 9:00 AM – 4:00 PM</div></div></div>
           </div>
-          <div style="background:var(--accent2);border-radius:var(--r12);padding:1.5rem;">
+          <div style="background:var(--accent2);border-radius:var(--r12);padding:1.5rem">
             <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;color:var(--accent)">Volunteer with us</h4>
             <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:1rem">We're always looking for passionate volunteers to help with animal care, events, and outreach.</p>
-            <button class="btn btn-primary" style="font-size:0.85rem;padding:0.55rem 1.1rem">Apply to Volunteer</button>
+            <button class="btn btn-primary" style="font-size:0.85rem;padding:0.55rem 1.1rem" onclick="showToast('✅ Volunteer application noted! We\'ll be in touch shortly.')">Apply to Volunteer</button>
           </div>
         </div>
-        <!-- Form -->
         <div class="form-card">
           <h3 class="heading-md" style="margin-bottom:0.4rem">Send a Message</h3>
           <p class="body-md" style="margin-bottom:1.75rem">We typically respond within 1 business day.</p>
@@ -795,25 +559,16 @@ footer {
             <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="dela Cruz"></div>
           </div>
           <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" placeholder="juan@email.com"></div>
-          <div class="form-group">
-            <label class="form-label">Topic</label>
-            <select class="form-select-full">
-              <option>Adoption Inquiry</option>
-              <option>Volunteering</option>
-              <option>Donation / Sponsorship</option>
-              <option>Surrender an Animal</option>
-              <option>General Question</option>
-            </select>
-          </div>
+          <div class="form-group"><label class="form-label">Topic</label><select class="form-select-full"><option>Adoption Inquiry</option><option>Volunteering</option><option>Donation / Sponsorship</option><option>Surrender an Animal</option><option>General Question</option></select></div>
           <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Tell us how we can help…"></textarea></div>
           <button class="btn btn-primary form-submit" onclick="submitForm()">Send Message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
       </div>
     </div>
   </section>
-</div><!-- /contact -->
+</div>
 
-<!-- ═══ PAGE: DONATE ══════════════════════════════════════════════ -->
+<!-- ══ DONATE ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-donate">
   <div class="donate-hero">
     <div class="container">
@@ -822,14 +577,9 @@ footer {
       <p class="body-lg" style="margin-top:1rem">Your donation directly funds food, medical care, shelter improvements, and rescue operations for animals in need.</p>
     </div>
   </div>
-
-  <!-- Impact -->
   <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:2.5rem">
-        <span class="label">Your Impact</span>
-        <h2 class="heading-lg">What your donation does</h2>
-      </div>
+      <div style="text-align:center;margin-bottom:2.5rem"><span class="label">Your Impact</span><h2 class="heading-lg">What your donation does</h2></div>
       <div class="grid-4">
         <div class="impact-card"><div class="impact-icon">🍖</div><div class="impact-amount">₱500</div><div class="impact-desc">Feeds one animal for a full month with nutritious, species-appropriate meals.</div></div>
         <div class="impact-card"><div class="impact-icon">💉</div><div class="impact-amount">₱1,500</div><div class="impact-desc">Covers a complete vaccination course to protect against common diseases.</div></div>
@@ -838,8 +588,6 @@ footer {
       </div>
     </div>
   </section>
-
-  <!-- Donate Form -->
   <section class="section-sm" style="background:var(--off);padding-top:4rem;padding-bottom:4rem">
     <div class="container">
       <div class="donate-card">
@@ -866,8 +614,6 @@ footer {
       </div>
     </div>
   </section>
-
-  <!-- Sponsors -->
   <section class="section">
     <div class="container" style="text-align:center">
       <span class="label">Trusted Partners</span>
@@ -881,14 +627,25 @@ footer {
       </div>
     </div>
   </section>
-</div><!-- /donate -->
+</div>
 
-<!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
+<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo">Paw<span>Haven</span></div>
+        <!-- Footer logo (white version) -->
+        <div class="nav-logo" onclick="navigate('home')" style="filter:brightness(0) invert(1)">
+          <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="19" cy="19" r="19" fill="white" opacity="0.15"/>
+            <ellipse cx="19" cy="22.5" rx="7" ry="5.5" fill="white" opacity="0.9"/>
+            <ellipse cx="11.5" cy="15.5" rx="2.8" ry="3.2" fill="white" opacity="0.9"/>
+            <ellipse cx="17" cy="13" rx="2.5" ry="3" fill="white" opacity="0.9"/>
+            <ellipse cx="22.5" cy="13" rx="2.5" ry="3" fill="white" opacity="0.9"/>
+            <ellipse cx="27.5" cy="15.5" rx="2.8" ry="3.2" fill="white" opacity="0.9"/>
+          </svg>
+          <div class="nav-logo-text" style="color:white">Paw<span style="color:#7ecfaa">Haven</span></div>
+        </div>
         <p>A no-kill animal rescue and adoption shelter serving Metro Manila and surrounding areas since 2013.</p>
       </div>
       <div class="footer-col"><h4>Explore</h4><ul><li onclick="navigate('home')">Home</li><li onclick="navigate('adopt')">Adopt an Animal</li><li onclick="navigate('about')">About Us</li><li onclick="navigate('donate')">Donate</li></ul></div>
@@ -898,89 +655,85 @@ footer {
     <div class="footer-bottom">
       <p>© 2025 PawHaven Animal Rescue. All rights reserved.</p>
       <div class="footer-socials">
-        <div class="social-btn" title="Facebook">f</div>
-        <div class="social-btn" title="Instagram">in</div>
-        <div class="social-btn" title="Twitter">𝕏</div>
+        <div class="social-btn">f</div>
+        <div class="social-btn">in</div>
+        <div class="social-btn">𝕏</div>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- ═══ ANIMAL MODAL ════════════════════════════════════════════════ -->
+<!-- ══ MODAL ═════════════════════════════════════════════════════════ -->
 <div class="modal-bg" id="animalModal" onclick="closeModal(event)">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-img" id="modalImg"><div class="emoji-fb" id="modalEmoji"></div></div>
+    <div class="modal-img" id="modalImg"></div>
     <div class="modal-body">
       <div class="modal-title-row">
         <div><h2 class="modal-name" id="modalName"></h2><div class="modal-breed" id="modalBreed"></div></div>
-        <div id="modalBadges" style="display:flex;gap:0.4rem;flex-wrap:wrap;"></div>
+        <div id="modalBadges" style="display:flex;gap:0.4rem;flex-wrap:wrap"></div>
       </div>
       <p class="modal-desc" id="modalDesc"></p>
       <div class="modal-info" id="modalInfo"></div>
       <div class="modal-actions">
-        <button class="btn btn-primary" onclick="alert('🐾 Thank you! Our team will contact you within 24 hours to begin the adoption process.')">Apply to Adopt</button>
+        <button class="btn btn-primary" onclick="showToast('🐾 Thank you! Our team will contact you within 24 hours to begin the adoption process.');closeModal()">Apply to Adopt</button>
         <button class="btn btn-outline" onclick="closeModal()">Back to Browse</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ TOAST ══════════════════════════════════════════════════════ -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── DATA ─────────────────────────────────────────────────────────
+// ── DATA ─────────────────────────────────────────────────────────────
+// All 24 animals, every one now has a working Unsplash photo URL
 const animals = [
-  { id:1, name:"Mango", type:"dog", breed:"Golden Retriever Mix", age:2, ageLabel:"2 years", gender:"Male", img:"https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","House-trained","Kid-friendly"], desc:"Mango is a sunshine-filled boy who loves fetch, belly rubs, and long walks. He was found as a stray and has blossomed into one of the most affectionate dogs you'll ever meet. Does great with other dogs and is fully vaccinated.", weight:"28 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
-  { id:2, name:"Luna", type:"cat", breed:"Domestic Shorthair", age:3, ageLabel:"3 years", gender:"Female", img:"https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Indoor","Quiet","Lap cat"], desc:"Luna is a serene and elegant cat who loves curling up on warm laps and watching birds from windows. Perfect for apartment living. She bonds deeply with her chosen person. Spayed and microchipped.", weight:"4 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:3, name:"Biscuit", type:"rabbit", breed:"Holland Lop", age:1, ageLabel:"1 year", gender:"Male", img:"https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Gentle","Litter-trained","Curious"], desc:"Biscuit is a sweet lop-eared rabbit who enjoys exploring and gentle pets. He's litter-trained and loves to binky when happy. Great for families ready for a social and interactive bunny.", weight:"1.8 kg", vaccinated:"Yes", neutered:"No", size:"Small" },
-  { id:4, name:"Coco", type:"dog", breed:"Beagle", age:4, ageLabel:"4 years", gender:"Female", img:"https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=600&h=450&fit=crop", badge:"Urgent", badgeClass:"badge-red", tags:["Energetic","Loyal","Outdoor"], desc:"Coco is a spirited Beagle with a nose for adventure and a heart full of love. Needs a yard and an active family. Despite her energy, she's very cuddly at the end of the day.", weight:"11 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
-  { id:5, name:"Kiwi", type:"bird", breed:"Lovebird", age:1, ageLabel:"8 months", gender:"Female", img:"https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Sociable","Colourful","Talkative"], desc:"Kiwi is a vivid, chirpy lovebird who thrives on interaction. She can learn words with training and loves music. Ideal for someone who can offer daily bonding time.", weight:"55 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
-  { id:6, name:"Tofu", type:"cat", breed:"Ragdoll Mix", age:5, ageLabel:"5 years", gender:"Male", img:"https://images.unsplash.com/photo-1567356186981-f4a0e90b4e4f?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Fluffy","Gentle","Senior-friendly"], desc:"Tofu is the definition of a gentle giant. This fluffy ragdoll mix adores slow mornings and quiet evenings. Perfect for a peaceful home or an older adopter looking for a calm companion.", weight:"6 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
-  { id:7, name:"Ginger", type:"dog", breed:"Shih Tzu", age:3, ageLabel:"3 years", gender:"Female", img:"https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Lap dog","Low-shed","Good with cats"], desc:"Ginger is a charming little lady with a big personality. She loves short walks and napping in sunny spots. Gets along wonderfully with cats and children.", weight:"6 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:8, name:"Pebble", type:"rabbit", breed:"Angora Mix", age:2, ageLabel:"2 years", gender:"Female", img:"https://images.unsplash.com/photo-1585254695917-c3400ca199e7?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Fluffy","Gentle","Bonded pair ok"], desc:"Pebble is a cloud of soft fur and sweet temperament. She loves being brushed and will sit quietly for hours. Looking for a home that can provide daily grooming and plenty of fresh hay.", weight:"2.1 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:9, name:"Sunny", type:"dog", breed:"Labrador Mix", age:1, ageLabel:"1 year", gender:"Male", img:"https://images.unsplash.com/photo-1558788353-f76d92427f16?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["High energy","Trainable","Loves water"], desc:"Sunny is a joyful young lab mix eager to please and quick to learn. He's completed basic obedience and loves swimming. Looking for an active family with boundless enthusiasm!", weight:"22 kg", vaccinated:"Yes", neutered:"No", size:"Large" },
-  { id:10, name:"Mochi", type:"cat", breed:"Scottish Fold Mix", age:2, ageLabel:"2 years", gender:"Female", img:"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","Inquisitive","Toy-lover"], desc:"Mochi has the most expressive round eyes and insatiable curiosity. She loves interactive toys, puzzle feeders, and claiming the highest spot in any room. Best as indoor-only.", weight:"3.5 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:11, name:"Hazel", type:"bird", breed:"Cockatiel", age:2, ageLabel:"1.5 years", gender:"Male", img:"https://images.unsplash.com/photo-1598927519413-e62e5a37285f?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Hand-tame","Whistles","Affectionate"], desc:"Hazel is a hand-tame cockatiel who loves to whistle songs and ride on shoulders. Gentle enough for older children and thrives with daily out-of-cage time.", weight:"90 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
-  { id:12, name:"Rusty", type:"other", breed:"Guinea Pig", age:1, ageLabel:"1 year", gender:"Male", img:"https://images.unsplash.com/photo-1548767797-d8c844163c4a?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Social","Chatty","Starter pet"], desc:"Rusty is a sociable guinea pig who loves to wheek at feeding time. Does best with a companion guinea pig. A wonderful starter pet for responsible families.", weight:"950 g", vaccinated:"N/A", neutered:"No", size:"Small" },
-  { id:13, name:"Shadow", type:"dog", breed:"German Shepherd Mix", age:3, ageLabel:"3 years", gender:"Male", img:"https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Loyal","Intelligent","Athletic"], desc:"Shadow is a strong, intelligent German Shepherd who loves working and training. He's excellent with confident owners and enjoys agility activities. Fully trained and vaccinated.", weight:"34 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
-  { id:14, name:"Whiskers", type:"cat", breed:"Maine Coon Mix", age:2, ageLabel:"2 years", gender:"Male", img:"https://images.unsplash.com/photo-1567270671170-fdc10a5bf831?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Fluffy","Playful","Large breed"], desc:"Whiskers is a magnificent Maine Coon mix with a huge personality. He's affectionate, loves interactive play, and has adorable paws. Perfect for families who want a cat that acts like a dog.", weight:"7.5 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
-  { id:15, name:"Daisy", type:"dog", breed:"Cocker Spaniel", age:4, ageLabel:"4 years", gender:"Female", img:"https://images.unsplash.com/photo-1583511655857-d19db992cb74?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Gentle","Intelligent","Loves water"], desc:"Daisy is a sweet, gentle spaniel who loves nothing more than a good cuddle. She's wonderful with children and other pets. Requires regular grooming but her love knows no bounds.", weight:"18 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
-  { id:16, name:"Oliver", type:"bird", breed:"Canary", age:1, ageLabel:"1 year", gender:"Male", img:"https://images.unsplash.com/photo-1606842436242-69b3de73f0c6?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Cheerful","Singer","Low maintenance"], desc:"Oliver is a bright yellow canary with a beautiful, cheerful song. Perfect for someone looking for a lovely songbird companion. Minimal interaction but maximum joy!", weight:"20 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
-  { id:17, name:"Bailey", type:"dog", breed:"Australian Shepherd", age:5, ageLabel:"5 years", gender:"Female", img:"https://images.unsplash.com/photo-1615751072497-5f5169febe17?w=600&h=450&fit=crop", badge:"Urgent", badgeClass:"badge-red", tags:["High energy","Herding","Active family"], desc:"Bailey is an incredibly smart Australian Shepherd who needs an active family. She excels at dog sports and thrives with mental stimulation. Loves agility and outdoor adventures.", weight:"25 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
-  { id:18, name:"Smokey", type:"cat", breed:"British Shorthair", age:6, ageLabel:"6 years", gender:"Male", img:"https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Senior","Dignified","Quiet"], desc:"Smokey is a distinguished gentleman cat with a soft gray coat. He's content to lounge in sunbeams and enjoys the company of calm adults. Perfect senior cat for a peaceful home.", weight:"5.2 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:19, name:"Charlie", type:"dog", breed:"Dachshund Mix", age:2, ageLabel:"2 years", gender:"Male", img:"https://images.unsplash.com/photo-1552053831-71594a27c62d?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","Social","Apartment-friendly"], desc:"Charlie is an adorable little dachshund mix with a big personality. He loves playing with other dogs and is perfect for apartment living. Apartment-friendly and fully house-trained.", weight:"8 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:20, name:"Melody", type:"bird", breed:"Parakeet", age:1, ageLabel:"8 months", gender:"Female", img:"https://images.unsplash.com/photo-1606214174585-fe31f6a37937?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Interactive","Social","Playful"], desc:"Melody is a vibrant green parakeet who loves interaction and can learn simple phrases. She enjoys toys and mirrors. A wonderful starter bird for families with patience and time.", weight:"35 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
-  { id:21, name:"Hunter", type:"dog", breed:"English Pointer", age:4, ageLabel:"4 years", gender:"Male", img:"https://images.unsplash.com/photo-1633722715463-d30628caf20e?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Energetic","Hunting-bred","Field dog"], desc:"Hunter is a sleek English Pointer bred for sport but now looking for his forever family. He's an excellent runner and loves open spaces. Perfect for active outdoorsy families.", weight:"32 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
-  { id:22, name:"Jasper", type:"other", breed:"Dwarf Hamster", age:1, ageLabel:"8 months", gender:"Male", img:"https://images.unsplash.com/photo-1608848461950-0fed8879a60f?w=600&h=450&fit=crop", badge:"New", badgeClass:"badge-gold", tags:["Curious","Nocturnal","Low maintenance"], desc:"Jasper is a tiny dwarf hamster with endless energy. He loves his wheel and exploring tunnels. Perfect for children learning pet responsibility. Minimal care required.", weight:"40 g", vaccinated:"N/A", neutered:"No", size:"Small" },
-  { id:23, name:"Bella", type:"cat", breed:"Bengal Mix", age:3, ageLabel:"3 years", gender:"Female", img:"https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?w=600&h=450&fit=crop", badge:"Friendly", badgeClass:"badge-green", tags:["Active","Playful","Athletic"], desc:"Bella is a stunning Bengal mix with wild spots and an athletic build. She's intelligent, loves vertical spaces, and enjoys interactive play. Not for couch potatoes!", weight:"4.8 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
-  { id:24, name:"Duchess", type:"dog", breed:"Cavalier King Charles", age:7, ageLabel:"7 years", gender:"Female", img:"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=450&fit=crop", badge:"Calm", badgeClass:"badge-blue", tags:["Senior","Affectionate","Good with kids"], desc:"Duchess is a gentle senior Cavalier with the sweetest disposition. She's content with gentle walks and lots of cuddles. Perfect for seniors or anyone wanting a calm, loving companion.", weight:"12 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:1,  name:"Mango",    type:"dog",    breed:"Golden Retriever Mix",    age:2, ageLabel:"2 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=600&h=450&fit=crop",                    emoji:"🐕", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","House-trained","Kid-friendly"],      desc:"Mango is a sunshine-filled boy who loves fetch, belly rubs, and long walks. He was found as a stray and has blossomed into one of the most affectionate dogs you'll ever meet. Does great with other dogs and is fully vaccinated.", weight:"28 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
+  { id:2,  name:"Luna",     type:"cat",    breed:"Domestic Shorthair",       age:3, ageLabel:"3 years",   gender:"Female", img:"https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=450&fit=crop",                    emoji:"🐈", badge:"Calm",     badgeClass:"badge-blue",  tags:["Indoor","Quiet","Lap cat"],                   desc:"Luna is a serene and elegant cat who loves curling up on warm laps and watching birds from windows. Perfect for apartment living. She bonds deeply with her chosen person. Spayed and microchipped.", weight:"4 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:3,  name:"Biscuit",  type:"rabbit", breed:"Holland Lop",              age:1, ageLabel:"1 year",    gender:"Male",   img:"https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=450&fit=crop",                    emoji:"🐰", badge:"New",      badgeClass:"badge-gold",  tags:["Gentle","Litter-trained","Curious"],          desc:"Biscuit is a sweet lop-eared rabbit who enjoys exploring and gentle pets. He's litter-trained and loves to binky when happy. Great for families ready for a social and interactive bunny.", weight:"1.8 kg", vaccinated:"Yes", neutered:"No", size:"Small" },
+  { id:4,  name:"Coco",     type:"dog",    breed:"Beagle",                   age:4, ageLabel:"4 years",   gender:"Female", img:"https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=600&h=450&fit=crop",                    emoji:"🐕", badge:"Urgent",   badgeClass:"badge-red",   tags:["Energetic","Loyal","Outdoor"],                desc:"Coco is a spirited Beagle with a nose for adventure and a heart full of love. Needs a yard and an active family. Despite her energy, she's very cuddly at the end of the day.", weight:"11 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
+  { id:5,  name:"Kiwi",     type:"bird",   breed:"Lovebird",                 age:1, ageLabel:"8 months",  gender:"Female", img:"https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&h=450&fit=crop",                    emoji:"🦜", badge:"New",      badgeClass:"badge-gold",  tags:["Sociable","Colourful","Talkative"],            desc:"Kiwi is a vivid, chirpy lovebird who thrives on interaction. She can learn words with training and loves music. Ideal for someone who can offer daily bonding time.", weight:"55 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
+  { id:6,  name:"Tofu",     type:"cat",    breed:"Ragdoll Mix",              age:5, ageLabel:"5 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=600&h=450&fit=crop",                    emoji:"🐱", badge:"Calm",     badgeClass:"badge-blue",  tags:["Fluffy","Gentle","Senior-friendly"],          desc:"Tofu is the definition of a gentle giant. This fluffy ragdoll mix adores slow mornings and quiet evenings. Perfect for a peaceful home or an older adopter looking for a calm companion.", weight:"6 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
+  { id:7,  name:"Ginger",   type:"dog",    breed:"Shih Tzu",                 age:3, ageLabel:"3 years",   gender:"Female", img:"https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=600&h=450&fit=crop",                    emoji:"🐶", badge:"Friendly", badgeClass:"badge-green", tags:["Lap dog","Low-shed","Good with cats"],        desc:"Ginger is a charming little lady with a big personality. She loves short walks and napping in sunny spots. Gets along wonderfully with cats and children.", weight:"6 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:8,  name:"Pebble",   type:"rabbit", breed:"Angora Mix",               age:2, ageLabel:"2 years",   gender:"Female", img:"https://images.unsplash.com/photo-1611601680554-9c6ca3f77d51?w=600&h=450&fit=crop",                    emoji:"🐇", badge:"Calm",     badgeClass:"badge-blue",  tags:["Fluffy","Gentle","Bonded pair ok"],           desc:"Pebble is a cloud of soft fur and sweet temperament. She loves being brushed and will sit quietly for hours. Looking for a home that can provide daily grooming and plenty of fresh hay.", weight:"2.1 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:9,  name:"Sunny",    type:"dog",    breed:"Labrador Mix",             age:1, ageLabel:"1 year",    gender:"Male",   img:"https://images.unsplash.com/photo-1558788353-f76d92427f16?w=600&h=450&fit=crop",                    emoji:"🦮", badge:"New",      badgeClass:"badge-gold",  tags:["High energy","Trainable","Loves water"],     desc:"Sunny is a joyful young lab mix eager to please and quick to learn. He's completed basic obedience and loves swimming. Looking for an active family with boundless enthusiasm!", weight:"22 kg", vaccinated:"Yes", neutered:"No", size:"Large" },
+  { id:10, name:"Mochi",    type:"cat",    breed:"Scottish Fold Mix",        age:2, ageLabel:"2 years",   gender:"Female", img:"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&h=450&fit=crop",                    emoji:"😺", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","Inquisitive","Toy-lover"],          desc:"Mochi has the most expressive round eyes and insatiable curiosity. She loves interactive toys, puzzle feeders, and claiming the highest spot in any room. Best as indoor-only.", weight:"3.5 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:11, name:"Hazel",    type:"bird",   breed:"Cockatiel",                age:2, ageLabel:"1.5 years", gender:"Male",   img:"https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?w=600&h=450&fit=crop",                    emoji:"🐤", badge:"Friendly", badgeClass:"badge-green", tags:["Hand-tame","Whistles","Affectionate"],        desc:"Hazel is a hand-tame cockatiel who loves to whistle songs and ride on shoulders. Gentle enough for older children and thrives with daily out-of-cage time.", weight:"90 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
+  { id:12, name:"Rusty",    type:"other",  breed:"Guinea Pig",               age:1, ageLabel:"1 year",    gender:"Male",   img:"https://images.unsplash.com/photo-1548767797-d8c844163c4a?w=600&h=450&fit=crop",                    emoji:"🐾", badge:"New",      badgeClass:"badge-gold",  tags:["Social","Chatty","Starter pet"],              desc:"Rusty is a sociable guinea pig who loves to wheek at feeding time. Does best with a companion guinea pig. A wonderful starter pet for responsible families.", weight:"950 g", vaccinated:"N/A", neutered:"No", size:"Small" },
+  { id:13, name:"Shadow",   type:"dog",    breed:"German Shepherd Mix",      age:3, ageLabel:"3 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&h=450&fit=crop",                    emoji:"🐕", badge:"Friendly", badgeClass:"badge-green", tags:["Loyal","Intelligent","Athletic"],             desc:"Shadow is a strong, intelligent German Shepherd who loves working and training. He's excellent with confident owners and enjoys agility activities. Fully trained and vaccinated.", weight:"34 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
+  { id:14, name:"Whiskers", type:"cat",    breed:"Maine Coon Mix",           age:2, ageLabel:"2 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1508194634382-02c74d4c4a71?w=600&h=450&fit=crop",                    emoji:"🐈", badge:"Friendly", badgeClass:"badge-green", tags:["Fluffy","Playful","Large breed"],             desc:"Whiskers is a magnificent Maine Coon mix with a huge personality. He's affectionate, loves interactive play, and has adorable paws. Perfect for families who want a cat that acts like a dog.", weight:"7.5 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
+  { id:15, name:"Daisy",    type:"dog",    breed:"Cocker Spaniel",           age:4, ageLabel:"4 years",   gender:"Female", img:"https://images.unsplash.com/photo-1583511655857-d19db992cb74?w=600&h=450&fit=crop",                    emoji:"🐶", badge:"Calm",     badgeClass:"badge-blue",  tags:["Gentle","Intelligent","Loves water"],        desc:"Daisy is a sweet, gentle spaniel who loves nothing more than a good cuddle. She's wonderful with children and other pets. Requires regular grooming but her love knows no bounds.", weight:"18 kg", vaccinated:"Yes", neutered:"Yes", size:"Medium" },
+  { id:16, name:"Oliver",   type:"bird",   breed:"Canary",                   age:1, ageLabel:"1 year",    gender:"Male",   img:"https://images.unsplash.com/photo-1549608276-5786777e6587?w=600&h=450&fit=crop",                    emoji:"🐦", badge:"New",      badgeClass:"badge-gold",  tags:["Cheerful","Singer","Low maintenance"],       desc:"Oliver is a bright yellow canary with a beautiful, cheerful song. Perfect for someone looking for a lovely songbird companion. Minimal interaction but maximum joy!", weight:"20 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
+  { id:17, name:"Bailey",   type:"dog",    breed:"Australian Shepherd",      age:5, ageLabel:"5 years",   gender:"Female", img:"https://images.unsplash.com/photo-1615751072497-5f5169febe17?w=600&h=450&fit=crop",                    emoji:"🐕", badge:"Urgent",   badgeClass:"badge-red",   tags:["High energy","Herding","Active family"],     desc:"Bailey is an incredibly smart Australian Shepherd who needs an active family. She excels at dog sports and thrives with mental stimulation. Loves agility and outdoor adventures.", weight:"25 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
+  { id:18, name:"Smokey",   type:"cat",    breed:"British Shorthair",        age:6, ageLabel:"6 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=600&h=450&fit=crop",                    emoji:"🐱", badge:"Calm",     badgeClass:"badge-blue",  tags:["Senior","Dignified","Quiet"],                desc:"Smokey is a distinguished gentleman cat with a soft gray coat. He's content to lounge in sunbeams and enjoys the company of calm adults. Perfect senior cat for a peaceful home.", weight:"5.2 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:19, name:"Charlie",  type:"dog",    breed:"Dachshund Mix",            age:2, ageLabel:"2 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1552053831-71594a27c62d?w=600&h=450&fit=crop",                    emoji:"🐶", badge:"Friendly", badgeClass:"badge-green", tags:["Playful","Social","Apartment-friendly"],     desc:"Charlie is an adorable little dachshund mix with a big personality. He loves playing with other dogs and is perfect for apartment living. Fully house-trained.", weight:"8 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:20, name:"Melody",   type:"bird",   breed:"Parakeet",                 age:1, ageLabel:"8 months",  gender:"Female", img:"https://images.unsplash.com/photo-1612024782955-49fae79e42bb?w=600&h=450&fit=crop",                    emoji:"🐦", badge:"New",      badgeClass:"badge-gold",  tags:["Interactive","Social","Playful"],             desc:"Melody is a vibrant green parakeet who loves interaction and can learn simple phrases. She enjoys toys and mirrors. A wonderful starter bird for families with patience and time.", weight:"35 g", vaccinated:"N/A", neutered:"N/A", size:"Small" },
+  { id:21, name:"Hunter",   type:"dog",    breed:"English Pointer",          age:4, ageLabel:"4 years",   gender:"Male",   img:"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=450&fit=crop",                    emoji:"🦮", badge:"Friendly", badgeClass:"badge-green", tags:["Energetic","Hunting-bred","Field dog"],      desc:"Hunter is a sleek English Pointer bred for sport but now looking for his forever family. He's an excellent runner and loves open spaces. Perfect for active outdoorsy families.", weight:"32 kg", vaccinated:"Yes", neutered:"Yes", size:"Large" },
+  { id:22, name:"Jasper",   type:"other",  breed:"Dwarf Hamster",            age:1, ageLabel:"8 months",  gender:"Male",   img:"https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=450&fit=crop",                    emoji:"🐹", badge:"New",      badgeClass:"badge-gold",  tags:["Curious","Nocturnal","Low maintenance"],     desc:"Jasper is a tiny dwarf hamster with endless energy. He loves his wheel and exploring tunnels. Perfect for children learning pet responsibility. Minimal care required.", weight:"40 g", vaccinated:"N/A", neutered:"No", size:"Small" },
+  { id:23, name:"Bella",    type:"cat",    breed:"Bengal Mix",               age:3, ageLabel:"3 years",   gender:"Female", img:"https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&h=450&fit=crop",                    emoji:"🐈", badge:"Friendly", badgeClass:"badge-green", tags:["Active","Playful","Athletic"],               desc:"Bella is a stunning Bengal mix with wild spots and an athletic build. She's intelligent, loves vertical spaces, and enjoys interactive play. Not for couch potatoes!", weight:"4.8 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
+  { id:24, name:"Duchess",  type:"dog",    breed:"Cavalier King Charles",    age:7, ageLabel:"7 years",   gender:"Female", img:"https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=600&h=450&fit=crop",                    emoji:"🐶", badge:"Calm",     badgeClass:"badge-blue",  tags:["Senior","Affectionate","Good with kids"],   desc:"Duchess is a gentle senior Cavalier with the sweetest disposition. She's content with gentle walks and lots of cuddles. Perfect for seniors or anyone wanting a calm, loving companion.", weight:"12 kg", vaccinated:"Yes", neutered:"Yes", size:"Small" },
 ];
 
-// ─── NAVIGATION ────────────────────────────────────────────────────
+// ── NAVIGATION ────────────────────────────────────────────────────────
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-  document.querySelectorAll('[data-page]').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.page === page);
-  });
-  window.scrollTo({top:0, behavior:'smooth'});
-  if (page === 'adopt') renderAdopt();
+  document.querySelectorAll('[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (page==='adopt') renderAdopt();
 }
+function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
-function toggleMobile() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-}
-
-// ─── RENDER CARDS ──────────────────────────────────────────────────
-function animalCardHTML(a, fav=false) {
+// ── CARD HTML ─────────────────────────────────────────────────────────
+function animalCardHTML(a) {
   return `
     <div class="animal-card" onclick="openModal(${a.id})">
       <div class="animal-card-img">
+        <div class="emoji-fb">${a.emoji}</div>
         <img src="${a.img}" alt="${a.name}" loading="lazy" onerror="this.style.opacity=0">
         <div class="animal-card-badges"><span class="badge ${a.badgeClass}">${a.badge}</span></div>
-        <button class="animal-card-fav ${fav?'faved':''}" onclick="event.stopPropagation();toggleFav(this)">${fav?'❤️':'🤍'}</button>
+        <button class="animal-card-fav" onclick="event.stopPropagation();toggleFav(this)">🤍</button>
       </div>
       <div class="animal-card-body">
         <div class="animal-card-name">${a.name}</div>
@@ -994,15 +747,13 @@ function animalCardHTML(a, fav=false) {
     </div>`;
 }
 
-// ─── HOME FEATURED ─────────────────────────────────────────────────
+// ── HOME FEATURED ──────────────────────────────────────────────────────
 function renderFeatured() {
-  const featured = animals.slice(0,4);
-  document.getElementById('featuredGrid').innerHTML = featured.map(a => animalCardHTML(a)).join('');
+  document.getElementById('featuredGrid').innerHTML = animals.slice(0,4).map(a => animalCardHTML(a)).join('');
 }
 
-// ─── ADOPT PAGE ────────────────────────────────────────────────────
+// ── ADOPT PAGE ─────────────────────────────────────────────────────────
 let adoptFilter = 'all';
-
 document.querySelectorAll('#typeChips .fchip').forEach(chip => {
   chip.addEventListener('click', () => {
     document.querySelectorAll('#typeChips .fchip').forEach(c => c.classList.remove('on'));
@@ -1016,105 +767,89 @@ function renderAdopt() {
   const search = document.getElementById('adoptSearch').value.toLowerCase();
   const age    = document.getElementById('ageFilter').value;
   const filtered = animals.filter(a => {
-    const matchType   = adoptFilter === 'all' || a.type === adoptFilter;
-    const matchSearch = !search || a.name.toLowerCase().includes(search) || a.breed.toLowerCase().includes(search) || a.tags.some(t => t.toLowerCase().includes(search));
-    const matchAge    = age === 'all' ||
-      (age === 'young'  && a.age < 2) ||
-      (age === 'adult'  && a.age >= 2 && a.age <= 7) ||
-      (age === 'senior' && a.age > 7);
+    const matchType   = adoptFilter==='all' || a.type===adoptFilter;
+    const matchSearch = !search || a.name.toLowerCase().includes(search) || a.breed.toLowerCase().includes(search) || a.tags.some(t=>t.toLowerCase().includes(search));
+    const matchAge    = age==='all' || (age==='young'&&a.age<2) || (age==='adult'&&a.age>=2&&a.age<=7) || (age==='senior'&&a.age>7);
     return matchType && matchSearch && matchAge;
   });
   document.getElementById('adoptCount').innerHTML = `<strong>${filtered.length}</strong> animal${filtered.length!==1?'s':''} available`;
   document.getElementById('adoptGrid').innerHTML = filtered.length
     ? filtered.map(a => animalCardHTML(a)).join('')
-    : `<div style="grid-column:1/-1an:center;padding:3rem;color:var(--muted)">No animals match your filters. Try adjusting the search.</div>`;
+    : `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)">No animals match your filters. Try adjusting the search.</div>`;
 }
 
-// ─── MODAL ─────────────────────────────────────────────────────────
+// ── MODAL ──────────────────────────────────────────────────────────────
 function openModal(id) {
-  const a = animals.find(x => x.id === id);
-  if (!a) return;
-  const mi = document.getElementById('modalImg');
-  mi.innerHTML = `<img src="${a.img}" alt="${a.name}" onerror="this.style.opacity=0" style="position:relative;z-index:1">`;
+  const a = animals.find(x=>x.id===id);
+  if(!a) return;
+  document.getElementById('modalImg').innerHTML = `
+    <div class="emoji-fb">${a.emoji}</div>
+    <img src="${a.img}" alt="${a.name}" onerror="this.style.opacity=0" style="position:relative;z-index:1">`;
   document.getElementById('modalName').textContent  = a.name;
   document.getElementById('modalBreed').textContent = `${a.breed} · ${a.gender}`;
   document.getElementById('modalDesc').textContent  = a.desc;
   document.getElementById('modalBadges').innerHTML  = `<span class="badge ${a.badgeClass}">${a.badge}</span>`;
   document.getElementById('modalInfo').innerHTML    = [
-    ['Age', a.ageLabel], ['Weight', a.weight],
-    ['Size', a.size], ['Vaccinated', a.vaccinated],
-    ['Neutered/Spayed', a.neutered], ['Gender', a.gender]
-  ].map(([l,v]) => `<div class="modal-info-item"><div class="modal-info-lbl">${l}</div><div class="modal-info-val">${v}</div></div>`).join('');
+    ['Age',a.ageLabel],['Weight',a.weight],['Size',a.size],
+    ['Vaccinated',a.vaccinated],['Neutered/Spayed',a.neutered],['Gender',a.gender]
+  ].map(([l,v])=>`<div class="modal-info-item"><div class="modal-info-lbl">${l}</div><div class="modal-info-val">${v}</div></div>`).join('');
   document.getElementById('animalModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
 
 function closeModal(e) {
-  if (e && e.target !== document.getElementById('animalModal') && !e.target.classList.contains('modal-close')) return;
+  if(e && e.target!==document.getElementById('animalModal') && !e.target.classList.contains('modal-close')) return;
   document.getElementById('animalModal').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){document.getElementById('animalModal').classList.remove('open');document.body.style.overflow='';}
+});
 
-document.addEventListener('keydown', e => { if (e.key==='Escape') { document.getElementById('animalModal').classList.remove('open'); document.body.style.overflow=''; } });
-
-// ─── FAV ───────────────────────────────────────────────────────────
+// ── FAV ────────────────────────────────────────────────────────────────
 function toggleFav(btn) {
   btn.classList.toggle('faved');
   btn.textContent = btn.classList.contains('faved') ? '❤️' : '🤍';
 }
 
-// ─── DONATE ────────────────────────────────────────────────────────
+// ── DONATE ─────────────────────────────────────────────────────────────
 let selectedAmt = 1500;
-
 document.querySelectorAll('#amountGrid .amount-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('#amountGrid .amount-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('#amountGrid .amount-btn').forEach(b=>b.classList.remove('selected'));
     btn.classList.add('selected');
     const ci = document.getElementById('customAmtInput');
-    if (btn.dataset.amt === 'custom') {
-      ci.style.display = 'block'; ci.focus(); selectedAmt = null;
-    } else {
-      ci.style.display = 'none';
-      selectedAmt = parseInt(btn.dataset.amt);
-      updateDonateBtn();
-    }
+    if(btn.dataset.amt==='custom'){ci.style.display='block';ci.focus();selectedAmt=null;}
+    else{ci.style.display='none';selectedAmt=parseInt(btn.dataset.amt);updateDonateBtn();}
   });
 });
-
 document.querySelectorAll('#donateFreq .freq-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('#donateFreq .freq-btn').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('#donateFreq .freq-btn').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
   });
 });
-
-document.getElementById('customAmtInput').addEventListener('input', function() {
-  selectedAmt = parseInt(this.value.replace(/[^0-9]/g,'')) || null;
+document.getElementById('customAmtInput').addEventListener('input', function(){
+  selectedAmt=parseInt(this.value.replace(/[^0-9]/g,''))||null;
   updateDonateBtn();
 });
+function updateDonateBtn(){
+  const btn=document.querySelector('.donate-btn-main');
+  btn.innerHTML=selectedAmt
+    ?`Donate ₱${selectedAmt.toLocaleString()} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`
+    :`Donate <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+}
+function submitDonate(){ showToast(`🙏 Thank you for your generous donation${selectedAmt?' of ₱'+selectedAmt.toLocaleString():''}! You'll receive a confirmation email shortly.`); }
+function submitForm(){ showToast("✅ Message sent! We'll get back to you within 1 business day."); }
 
-function updateDonateBtn() {
-  const btn = document.querySelector('.donate-btn-main');
-  btn.innerHTML = selectedAmt
-    ? `Donate ₱${selectedAmt.toLocaleString()} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`
-    : `Donate <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+// ── TOAST ──────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4500);
 }
 
-function submitDonate() {
-  showToast(`🙏 Thank you for your generous donation${selectedAmt ? ' of ₱'+selectedAmt.toLocaleString() : ''}! You'll receive a confirmation email shortly.`);
-}
-
-// ─── CONTACT ───────────────────────────────────────────────────────
-function submitForm() { showToast('✅ Message sent! We\'ll get back to you within 1 business day.'); }
-
-// ─── TOAST ─────────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4500);
-}
-
-// ─── INIT ──────────────────────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────────────────────
 renderFeatured();
 </script>
 </body>
