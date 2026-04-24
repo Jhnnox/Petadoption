@@ -368,14 +368,12 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .admin-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--white);transition:all var(--t)}
 .admin-close:hover{background:rgba(255,255,255,0.2)}
 .admin-body{padding:2rem}
-/* Admin tabs */
 .admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;border-bottom:1px solid var(--light);padding-bottom:0}
 .admin-tab{padding:0.6rem 1.1rem;font-size:0.88rem;font-weight:600;color:var(--muted);border-radius:var(--r6) var(--r6) 0 0;transition:all var(--t);position:relative;bottom:-1px}
 .admin-tab:hover{color:var(--ink);background:var(--off)}
 .admin-tab.on{color:var(--accent);background:var(--white);border:1px solid var(--light);border-bottom:1px solid var(--white)}
 .admin-pane{display:none}
 .admin-pane.on{display:block}
-/* Animal list in admin */
 .admin-animal-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;max-height:400px;overflow-y:auto}
 .admin-animal-row{display:flex;align-items:center;gap:1rem;background:var(--off);border-radius:var(--r10);padding:0.75rem 1rem;transition:all var(--t)}
 .admin-animal-row:hover{background:var(--light)}
@@ -389,7 +387,6 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .admin-icon-btn.edit:hover{background:var(--blue);color:var(--white)}
 .admin-icon-btn.del{background:var(--warn2);color:var(--warn)}
 .admin-icon-btn.del:hover{background:var(--warn);color:var(--white)}
-/* Add/Edit form */
 .admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .admin-fgroup{margin-bottom:0}
 .admin-flabel{display:block;font-size:0.78rem;font-weight:600;color:var(--ink);margin-bottom:0.35rem}
@@ -397,10 +394,8 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .admin-finput:focus,.admin-fselect:focus,.admin-ftextarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
 .admin-ftextarea{resize:vertical;min-height:80px;line-height:1.5}
 .admin-form-actions{display:flex;gap:0.65rem;margin-top:1.25rem}
-/* Loading indicator */
 .admin-loading{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem}
 .admin-loading::before{content:'⏳ '}
-/* Connection status */
 .db-status{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:var(--rpill);font-weight:600}
 .db-status.ok{background:var(--accent2);color:var(--accent)}
 .db-status.ok::before{content:'●';font-size:0.6rem}
@@ -408,6 +403,26 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .db-status.err::before{content:'●';font-size:0.6rem}
 .db-status.loading{background:var(--gold2);color:var(--gold)}
 .db-status.loading::before{content:'●';font-size:0.6rem}
+
+/* ── PHOTO UPLOAD ── */
+@keyframes spin{to{transform:rotate(360deg)}}
+.upload-dropzone{border:2px dashed var(--mid);border-radius:var(--r10);padding:1.75rem 1rem;text-align:center;cursor:pointer;background:var(--off);transition:all var(--t);position:relative}
+.upload-dropzone:hover,.upload-dropzone.drag{border-color:var(--accent);background:var(--accent2)}
+.upload-dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-dropzone-icon{font-size:2rem;margin-bottom:0.5rem;pointer-events:none}
+.upload-dropzone-text{font-size:0.82rem;color:var(--muted);pointer-events:none}
+.upload-dropzone-text strong{color:var(--accent)}
+.upload-dropzone-hint{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;pointer-events:none}
+.upload-preview-wrap{position:relative;border-radius:var(--r10);overflow:hidden;aspect-ratio:4/3;background:var(--off)}
+.upload-preview-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.upload-preview-remove{position:absolute;top:0.5rem;right:0.5rem;background:rgba(0,0,0,0.65);color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:background var(--t)}
+.upload-preview-remove:hover{background:rgba(204,74,40,0.9)}
+.upload-status{display:none;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--accent);margin-top:0.5rem}
+.upload-spinner{width:14px;height:14px;border:2px solid var(--accent3);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.upload-current-img{display:flex;align-items:center;gap:0.6rem;background:var(--accent2);border:1px solid var(--accent3);border-radius:var(--r10);padding:0.6rem 0.85rem;margin-bottom:0.5rem;font-size:0.8rem;color:var(--accent)}
+.upload-current-img img{width:36px;height:36px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.upload-current-img span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 @media(max-width:600px){.admin-form-grid{grid-template-columns:1fr}.admin-body{padding:1.25rem}}
 </style>
 </head>
@@ -698,7 +713,42 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
           <div class="admin-fgroup"><label class="admin-flabel">Neutered/Spayed</label><select class="admin-fselect" id="f_neutered"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
           <div class="admin-fgroup"><label class="admin-flabel">Emoji</label><input type="text" class="admin-finput" id="f_emoji" placeholder="🐕" maxlength="4"></div>
         </div>
-        <div class="admin-fgroup" style="margin-top:1rem"><label class="admin-flabel">Photo URL *</label><input type="text" class="admin-finput" id="f_img" placeholder="https://images.unsplash.com/…"></div>
+
+        <!-- ── PHOTO UPLOAD (replaces old URL input) ── -->
+        <div class="admin-fgroup" style="margin-top:1rem">
+          <label class="admin-flabel">Photo *</label>
+          <input type="hidden" id="f_img">
+
+          <!-- Shows current photo when editing -->
+          <div id="uploadCurrentWrap" style="display:none;margin-bottom:0.5rem">
+            <div class="upload-current-img">
+              <img id="uploadCurrentThumb" src="" alt="Current photo">
+              <span id="uploadCurrentLabel">Current photo — upload a new one to replace it</span>
+            </div>
+          </div>
+
+          <!-- Preview after selecting a new file -->
+          <div class="upload-preview-wrap" id="uploadPreviewWrap" style="display:none;margin-bottom:0.5rem">
+            <img id="uploadPreviewImg" src="" alt="Preview">
+            <button class="upload-preview-remove" onclick="removeUploadedPhoto()" title="Remove">✕</button>
+          </div>
+
+          <!-- Drop zone -->
+          <div class="upload-dropzone" id="uploadDropzone">
+            <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handlePhotoUpload(this)">
+            <div class="upload-dropzone-icon">📷</div>
+            <div class="upload-dropzone-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+            <div class="upload-dropzone-hint">JPG, PNG, WEBP · Max 5 MB</div>
+          </div>
+
+          <!-- Uploading indicator -->
+          <div class="upload-status" id="uploadStatus">
+            <div class="upload-spinner"></div>
+            <span>Uploading photo to storage…</span>
+          </div>
+        </div>
+        <!-- ── END PHOTO UPLOAD ── -->
+
         <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Tags (comma separated) *</label><input type="text" class="admin-finput" id="f_tags" placeholder="e.g. Playful, House-trained, Kid-friendly"></div>
         <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Description *</label><textarea class="admin-ftextarea" id="f_desc" placeholder="Tell adopters about this animal…"></textarea></div>
         <div class="admin-form-actions">
@@ -718,7 +768,6 @@ const SUPABASE_URL = 'https://uiwvmwvzlmfunqarrjqa.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KzNYf1N5ZOuL2DAGFue2kw_QsuWqeV0';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Badge class map
 const BADGE_CLASS = { Friendly:'badge-green', Calm:'badge-blue', New:'badge-gold', Urgent:'badge-red' };
 
 // ═══ STATE ══════════════════════════════════════════════════════
@@ -749,7 +798,6 @@ async function loadAnimals() {
     console.error('Supabase error:', err);
     setDbStatus('err', '● Connection failed');
     toast('error', 'Could not load animals from database. Check your Supabase table.');
-    // Show empty state
     document.getElementById('featuredGrid').innerHTML = emptyState('Database not connected yet', 'Make sure you ran the SQL setup in your Supabase project.');
     document.getElementById('adoptGrid').innerHTML = emptyState('Database not connected yet', 'Run the SQL setup in Supabase and add your first animal via the Admin panel.');
   }
@@ -898,7 +946,7 @@ function renderAdopt() {
     return matchType && matchSearch && matchAge;
   });
 
-  if (sort === 'name')     filtered.sort((a,b) => a.name.localeCompare(b.name));
+  if (sort === 'name')          filtered.sort((a,b) => a.name.localeCompare(b.name));
   else if (sort === 'age-asc')  filtered.sort((a,b) => a.age - b.age);
   else if (sort === 'age-desc') filtered.sort((a,b) => b.age - a.age);
 
@@ -1004,6 +1052,93 @@ function toast(type = 'info', msg) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// PHOTO UPLOAD
+// ═══════════════════════════════════════════════════════════════════
+async function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    toast('error', 'File too large. Max 5 MB allowed.');
+    input.value = '';
+    return;
+  }
+
+  // Show uploading state
+  document.getElementById('uploadStatus').style.display = 'flex';
+  document.getElementById('uploadDropzone').style.pointerEvents = 'none';
+  document.getElementById('uploadDropzone').style.opacity = '0.6';
+
+  try {
+    const ext  = file.name.split('.').pop().toLowerCase();
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error: uploadError } = await sb.storage
+      .from('animal-images')
+      .upload(fileName, file, { upsert: true, contentType: file.type });
+
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = sb.storage.from('animal-images').getPublicUrl(fileName);
+    const publicUrl = urlData.publicUrl;
+
+    // Store in hidden input
+    document.getElementById('f_img').value = publicUrl;
+
+    // Show preview
+    document.getElementById('uploadPreviewImg').src = publicUrl;
+    document.getElementById('uploadPreviewWrap').style.display = 'block';
+    document.getElementById('uploadDropzone').style.display = 'none';
+    document.getElementById('uploadCurrentWrap').style.display = 'none';
+
+    toast('info', '✅ Photo uploaded successfully!');
+  } catch (err) {
+    console.error('Upload error:', err);
+    toast('error', `Upload failed: ${err.message}`);
+    input.value = '';
+  } finally {
+    document.getElementById('uploadStatus').style.display = 'none';
+    document.getElementById('uploadDropzone').style.pointerEvents = '';
+    document.getElementById('uploadDropzone').style.opacity = '';
+  }
+}
+
+function removeUploadedPhoto() {
+  document.getElementById('f_img').value = '';
+  document.getElementById('uploadPreviewWrap').style.display = 'none';
+  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('photoFileInput').value = '';
+  // If editing, show current photo banner again
+  if (editingId) {
+    const a = allAnimals.find(x => x.id === editingId);
+    if (a && a.img) {
+      document.getElementById('uploadCurrentWrap').style.display = 'block';
+      document.getElementById('f_img').value = a.img;
+    }
+  }
+}
+
+// Drag-and-drop support for the drop zone
+(function() {
+  const zone = document.getElementById('uploadDropzone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const input = document.getElementById('photoFileInput');
+      // Create a DataTransfer to set files on the input
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+      handlePhotoUpload(input);
+    }
+  });
+})();
+
+// ═══════════════════════════════════════════════════════════════════
 // ADMIN PANEL
 // ═══════════════════════════════════════════════════════════════════
 function openAdmin() {
@@ -1048,25 +1183,30 @@ function resetForm() {
   editingId = null;
   document.getElementById('editId').value = '';
   document.getElementById('saveBtn').textContent = '💾 Save Animal';
-  ['f_name','f_breed','f_age','f_age_label','f_weight','f_img','f_tags','f_desc','f_emoji'].forEach(id => {
+  ['f_name','f_breed','f_age','f_age_label','f_weight','f_tags','f_desc','f_emoji'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   ['f_type','f_gender','f_size','f_badge','f_vaccinated','f_neutered'].forEach(id => {
     const el = document.getElementById(id); if (el) el.selectedIndex = 0;
   });
+  // Reset photo upload UI
+  document.getElementById('f_img').value = '';
+  document.getElementById('uploadPreviewWrap').style.display = 'none';
+  document.getElementById('uploadCurrentWrap').style.display = 'none';
+  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('photoFileInput').value = '';
 }
 
 function editAnimal(id) {
   const a = allAnimals.find(x => x.id === id);
   if (!a) return;
   editingId = id;
-  document.getElementById('editId').value = id;
+  document.getElementById('editId').value      = id;
   document.getElementById('f_name').value      = a.name;
   document.getElementById('f_breed').value     = a.breed;
   document.getElementById('f_age').value       = a.age;
   document.getElementById('f_age_label').value = a.age_label || a.ageLabel;
   document.getElementById('f_weight').value    = a.weight;
-  document.getElementById('f_img').value       = a.img;
   document.getElementById('f_desc').value      = a.description || a.desc;
   document.getElementById('f_emoji').value     = a.emoji || '';
   document.getElementById('f_tags').value      = Array.isArray(a.tags) ? a.tags.join(', ') : '';
@@ -1077,7 +1217,20 @@ function editAnimal(id) {
   document.getElementById('f_vaccinated').value = a.vaccinated;
   document.getElementById('f_neutered').value  = a.neutered;
   document.getElementById('saveBtn').textContent = '💾 Update Animal';
-  // Switch to add tab
+
+  // Photo UI: show current photo banner, hide drop zone & preview
+  document.getElementById('f_img').value = a.img || '';
+  document.getElementById('uploadPreviewWrap').style.display = 'none';
+  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('photoFileInput').value = '';
+  if (a.img) {
+    document.getElementById('uploadCurrentThumb').src = a.img;
+    document.getElementById('uploadCurrentWrap').style.display = 'block';
+  } else {
+    document.getElementById('uploadCurrentWrap').style.display = 'none';
+  }
+
+  // Switch to add/edit tab
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
   document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.admin-tab')[1].classList.add('on');
@@ -1085,26 +1238,27 @@ function editAnimal(id) {
 }
 
 async function saveAnimal() {
-  const name      = document.getElementById('f_name').value.trim();
-  const breed     = document.getElementById('f_breed').value.trim();
-  const age       = parseFloat(document.getElementById('f_age').value);
-  const age_label = document.getElementById('f_age_label').value.trim();
-  const weight    = document.getElementById('f_weight').value.trim();
-  const img       = document.getElementById('f_img').value.trim();
-  const desc      = document.getElementById('f_desc').value.trim();
-  const emoji     = document.getElementById('f_emoji').value.trim() || '🐾';
-  const tagsRaw   = document.getElementById('f_tags').value.trim();
-  const tags      = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
-  const type      = document.getElementById('f_type').value;
-  const gender    = document.getElementById('f_gender').value;
-  const size      = document.getElementById('f_size').value;
-  const badge     = document.getElementById('f_badge').value;
+  const name       = document.getElementById('f_name').value.trim();
+  const breed      = document.getElementById('f_breed').value.trim();
+  const age        = parseFloat(document.getElementById('f_age').value);
+  const age_label  = document.getElementById('f_age_label').value.trim();
+  const weight     = document.getElementById('f_weight').value.trim();
+  const img        = document.getElementById('f_img').value.trim();
+  const desc       = document.getElementById('f_desc').value.trim();
+  const emoji      = document.getElementById('f_emoji').value.trim() || '🐾';
+  const tagsRaw    = document.getElementById('f_tags').value.trim();
+  const tags       = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const type       = document.getElementById('f_type').value;
+  const gender     = document.getElementById('f_gender').value;
+  const size       = document.getElementById('f_size').value;
+  const badge      = document.getElementById('f_badge').value;
   const vaccinated = document.getElementById('f_vaccinated').value;
-  const neutered  = document.getElementById('f_neutered').value;
+  const neutered   = document.getElementById('f_neutered').value;
   const badge_class = BADGE_CLASS[badge] || 'badge-green';
 
   if (!name || !breed || isNaN(age) || !age_label || !weight || !img || !desc) {
-    toast('error', 'Please fill in all required fields.'); return;
+    toast('error', !img ? 'Please upload a photo first.' : 'Please fill in all required fields.');
+    return;
   }
 
   const payload = { name, breed, age, age_label, weight, img, description: desc, emoji, tags, type, gender, size, badge, badge_class, vaccinated, neutered };
@@ -1124,7 +1278,6 @@ async function saveAnimal() {
     toast('info', `✅ ${name} ${editingId ? 'updated' : 'added'} successfully!`);
     resetForm();
     await loadAnimals();
-    // Switch back to list tab
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
     document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
     document.querySelectorAll('.admin-tab')[0].classList.add('on');
@@ -1150,7 +1303,6 @@ async function deleteAnimal(id, name) {
   }
 }
 
-// Close admin on backdrop click
 document.getElementById('adminOverlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeAdmin();
 });
