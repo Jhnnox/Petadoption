@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PawHaven — Animal Rescue & Adoption</title>
-<meta name="description" content="PawHaven is a no-kill animal rescue shelter in Metro Manila. Find your perfect companion — dogs, cats, rabbits, birds and more.">
+<meta name="description" content="PawHaven is a no-kill animal rescue shelter in Metro Manila.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* ═══ RESET & TOKENS ═══════════════════════════════════════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
   --white:#ffffff;--off:#f8f8f6;--light:#eeedea;--mid:#c8c6be;
@@ -24,7 +25,7 @@
   --t:0.2s cubic-bezier(.4,0,.2,1);
   --nav-h:66px;
 }
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth}
 body{font-family:'Instrument Sans',sans-serif;background:var(--white);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
@@ -32,19 +33,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font-family:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r6)}
 
-/* ═══ PAGES ════════════════════════════════════════════════════ */
+/* PAGES */
 .page{display:none}
 .page.active{display:block;animation:pageIn .3s ease}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ═══ NAV ══════════════════════════════════════════════════════ */
-#navbar{
-  position:sticky;top:0;z-index:300;
-  height:var(--nav-h);display:flex;align-items:center;
-  background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--light);
-  transition:box-shadow var(--t);
-}
+/* NAV */
+#navbar{position:sticky;top:0;z-index:300;height:var(--nav-h);display:flex;align-items:center;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--light);transition:box-shadow var(--t)}
 #navbar.scrolled{box-shadow:var(--sh)}
 .nav-inner{width:100%;max-width:1240px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .nav-logo{display:flex;align-items:center;gap:0.5rem;cursor:pointer;flex-shrink:0}
@@ -59,51 +54,38 @@ input,select,textarea{font-family:inherit}
 .nav-donate{background:var(--accent)!important;color:var(--white)!important;padding:0.5rem 1.2rem!important;border-radius:var(--r10)!important;font-weight:600!important}
 .nav-donate:hover{background:var(--accent-h)!important;transform:translateY(-1px);box-shadow:0 4px 14px rgba(42,99,71,0.3)!important}
 .nav-donate::after{display:none!important}
-/* Mobile hamburger */
+.nav-admin-btn{background:var(--off);border:1.5px solid var(--light);color:var(--ink);padding:0.45rem 0.85rem;border-radius:var(--r6);font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.35rem;transition:all var(--t)}
+.nav-admin-btn:hover{border-color:var(--accent);color:var(--accent)}
 .hamburger{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:var(--r6)}
 .hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all var(--t)}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-/* Mobile drawer */
-.mobile-drawer{
-  display:none;position:fixed;inset:0;z-index:299;
-  padding-top:var(--nav-h);
-}
+.mobile-drawer{display:none;position:fixed;inset:0;z-index:299;padding-top:var(--nav-h)}
 .mobile-drawer.open{display:block}
 .mobile-drawer-bg{position:absolute;inset:0;background:rgba(0,0,0,0.3);backdrop-filter:blur(2px)}
-.mobile-drawer-panel{
-  position:relative;background:var(--white);padding:1.5rem;
-  border-bottom:1px solid var(--light);
-  animation:slideDown .25s ease;
-}
+.mobile-drawer-panel{position:relative;background:var(--white);padding:1.5rem;border-bottom:1px solid var(--light);animation:slideDown .25s ease}
 @keyframes slideDown{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
 .mobile-drawer-panel button{display:block;width:100%;text-align:left;padding:0.85rem 1rem;border-radius:var(--r10);font-size:1rem;font-weight:500;color:var(--ink);transition:background var(--t);margin-bottom:0.25rem}
 .mobile-drawer-panel button:hover{background:var(--off)}
-.mobile-drawer-panel .mob-donate{background:var(--accent);color:var(--white)!important;text-align:center;font-weight:600;margin-top:0.5rem}
+.mob-donate{background:var(--accent);color:var(--white)!important;text-align:center!important;font-weight:600;margin-top:0.5rem}
 
-/* ═══ MOBILE BOTTOM NAV ════════════════════════════════════════ */
-.bottom-nav{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:250;
-  background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);
-  border-top:1px solid var(--light);
-  padding:0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
-}
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:250;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--light);padding:0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom))}
 .bottom-nav-items{display:flex;justify-content:space-around;align-items:center}
-.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0.35rem 0.75rem;border-radius:var(--r10);color:var(--muted);font-size:0.65rem;font-weight:500;transition:all var(--t);min-width:56px}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0.35rem 0.75rem;border-radius:var(--r10);color:var(--muted);font-size:0.65rem;font-weight:500;transition:all var(--t);min-width:52px}
 .bnav-btn svg{width:22px;height:22px;stroke-width:1.8}
 .bnav-btn.active{color:var(--accent)}
 .bnav-btn.active svg{stroke-width:2.3}
 .bnav-donate-mob{background:var(--accent);color:var(--white)!important;border-radius:var(--r10)}
-@media(max-width:750px){
-  .bottom-nav{display:block}
-  body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
-  #navbar{position:sticky}
-  .hamburger{display:flex}
-  .nav-links{display:none}
-}
+@media(max-width:750px){.bottom-nav{display:block}body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}#navbar{position:sticky}.hamburger{display:flex}.nav-links{display:none}}
 
-/* ═══ SHARED ═══════════════════════════════════════════════════ */
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));right:1.25rem;z-index:240;width:42px;height:42px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:all var(--t);transform:translateY(8px)}
+.back-top.visible{opacity:1;pointer-events:all;transform:none}
+@media(min-width:751px){.back-top{bottom:2rem}}
+
+/* SHARED */
 .container{max-width:1240px;margin:0 auto;padding:0 2rem}
 .section{padding:5rem 0}
 .section-sm{padding:3.5rem 0}
@@ -112,65 +94,55 @@ input,select,textarea{font-family:inherit}
 h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .heading-xl{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:800;line-height:1.06;letter-spacing:-0.035em}
 .heading-lg{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-0.025em}
-.heading-md{font-size:clamp(1.25rem,2.5vw,1.7rem);font-weight:700;line-height:1.2;letter-spacing:-0.015em}
+.heading-md{font-size:clamp(1.25rem,2.5vw,1.7rem);font-weight:700;line-height:1.2}
 .body-lg{font-size:1.05rem;line-height:1.75;color:var(--muted);font-weight:300}
 .body-md{font-size:0.93rem;line-height:1.65;color:var(--muted)}
-/* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;padding:0.7rem 1.4rem;border-radius:var(--r10);font-size:0.88rem;font-weight:600;transition:all var(--t);cursor:pointer;border:none;line-height:1}
 .btn-primary{background:var(--accent);color:var(--white)}
 .btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:0 6px 18px rgba(42,99,71,0.25)}
-.btn-primary:active{transform:none;box-shadow:none}
+.btn-primary:disabled{opacity:0.6;pointer-events:none}
 .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--mid)}
 .btn-outline:hover{background:var(--off);border-color:var(--ink)}
-.btn-ghost{display:inline-flex;align-items:center;gap:0.35rem;color:var(--accent);font-weight:600;font-size:0.88rem;transition:gap var(--t),color var(--t)}
-.btn-ghost:hover{gap:0.6rem;color:var(--accent-h)}
+.btn-danger{background:var(--warn);color:var(--white)}
+.btn-danger:hover{background:#b03a20;transform:translateY(-1px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.35rem;color:var(--accent);font-weight:600;font-size:0.88rem;transition:gap var(--t)}
+.btn-ghost:hover{gap:0.6rem}
 .btn-white{background:var(--white);color:var(--accent);border-radius:var(--r10);padding:0.7rem 1.4rem;font-size:0.88rem;font-weight:600;transition:all var(--t);display:inline-flex;align-items:center;gap:0.45rem}
 .btn-white:hover{background:var(--off);transform:translateY(-1px)}
 .btn-ghost-white{border:1.5px solid rgba(255,255,255,0.3);color:var(--white);border-radius:var(--r10);padding:0.7rem 1.4rem;font-size:0.88rem;font-weight:600;transition:all var(--t);display:inline-flex;align-items:center;gap:0.45rem}
 .btn-ghost-white:hover{background:rgba(255,255,255,0.12)}
-/* Badges */
 .badge{display:inline-flex;align-items:center;padding:0.2rem 0.6rem;border-radius:var(--rpill);font-size:0.68rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
 .badge-green{background:var(--accent2);color:var(--accent)}
 .badge-red{background:var(--warn2);color:var(--warn)}
 .badge-blue{background:var(--blue2);color:var(--blue)}
 .badge-gold{background:var(--gold2);color:var(--gold)}
 .chip{display:inline-block;padding:0.2rem 0.6rem;border-radius:var(--rpill);font-size:0.7rem;font-weight:500;background:var(--off);color:var(--muted);border:1px solid var(--light)}
-/* Grids */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
 @media(max-width:1024px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}}
-/* Divider */
-hr.divider{border:none;border-top:1px solid var(--light)}
+@media(max-width:600px){.grid-4,.grid-3{grid-template-columns:1fr}}
 
-/* ═══ HERO ═════════════════════════════════════════════════════ */
+/* HERO */
 .hero{padding:5rem 0 4rem;background:var(--off);position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-150px;right:-150px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(42,99,71,0.06) 0%,transparent 65%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(42,99,71,0.04) 0%,transparent 65%);pointer-events:none}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4rem}
-.hero-eyebrow{margin-bottom:1.25rem}
+.hero-title em{font-style:normal;color:var(--accent)}
 .hero-urgency{display:inline-flex;align-items:center;gap:0.5rem;background:var(--warn2);color:var(--warn);font-size:0.78rem;font-weight:600;padding:0.35rem 0.85rem;border-radius:var(--rpill);margin-bottom:1rem;animation:pulse 2s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.75}}
 .hero-urgency::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--warn);flex-shrink:0}
-.hero-title{margin-bottom:1.25rem}
-.hero-title em{font-style:normal;color:var(--accent)}
-.hero-body{margin-bottom:2rem;max-width:460px}
-.hero-actions{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem;margin-top:1.5rem}
 .hero-trust{display:flex;flex-wrap:wrap;gap:1.25rem}
 .trust-pill{display:flex;align-items:center;gap:0.45rem;font-size:0.8rem;color:var(--muted);background:var(--white);border:1px solid var(--light);border-radius:var(--rpill);padding:0.3rem 0.8rem}
 .trust-pill svg{color:var(--accent);flex-shrink:0}
 .hero-visual{display:grid;grid-template-columns:1.1fr 0.9fr;grid-template-rows:1fr 1fr;gap:0.85rem;height:480px}
 .hv-photo{border-radius:var(--r20);overflow:hidden;position:relative}
-.hv-photo:nth-child(1){grid-row:1/2}
 .hv-photo:nth-child(2){grid-column:2/3;grid-row:1/3}
-.hv-photo:nth-child(3){grid-row:2/3}
 .hv-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;display:block}
 .hv-photo:hover img{transform:scale(1.04)}
 .hv-tag{position:absolute;bottom:0.75rem;left:0.75rem;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);padding:0.28rem 0.75rem;border-radius:var(--rpill);font-size:0.72rem;font-weight:600}
 @media(max-width:960px){.hero-grid{grid-template-columns:1fr}.hero-visual{display:none}}
 
-/* ═══ STATS BAR ════════════════════════════════════════════════ */
+/* STATS BAR */
 .stats-bar{background:var(--ink);padding:2.5rem 0}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
 .stat-box{text-align:center;padding:0.75rem 0.5rem}
@@ -179,22 +151,20 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .stat-lbl{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.4rem;text-transform:uppercase;letter-spacing:0.07em}
 @media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr}}
 
-/* ═══ ANIMAL CARDS ══════════════════════════════════════════════ */
-.animal-card{background:var(--white);border:1px solid var(--light);border-radius:var(--r20);overflow:hidden;transition:all var(--t);cursor:pointer;position:relative}
+/* ANIMAL CARDS */
+.animal-card{background:var(--white);border:1px solid var(--light);border-radius:var(--r20);overflow:hidden;transition:all var(--t);cursor:pointer}
 .animal-card:hover{transform:translateY(-5px);box-shadow:var(--sh-card);border-color:var(--mid)}
-.animal-card:focus-within{box-shadow:0 0 0 2px var(--accent)}
 .card-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--off)}
 .card-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease;display:block;position:relative;z-index:1}
 .animal-card:hover .card-img-wrap img{transform:scale(1.07)}
 .card-img-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4rem;z-index:0;background:linear-gradient(135deg,var(--off),var(--light))}
-.card-badges{position:absolute;top:0.7rem;left:0.7rem;z-index:3;display:flex;gap:0.35rem;flex-wrap:wrap}
-.card-fav{position:absolute;top:0.65rem;right:0.65rem;z-index:3;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:0.95rem;transition:all var(--t);border:1px solid rgba(255,255,255,0.5)}
+.card-badges{position:absolute;top:0.7rem;left:0.7rem;z-index:3;display:flex;gap:0.35rem}
+.card-fav{position:absolute;top:0.65rem;right:0.65rem;z-index:3;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:0.95rem;transition:all var(--t)}
 .card-fav:hover{transform:scale(1.15);background:var(--white)}
 .card-fav.faved{background:#fde8e8}
-/* Hover overlay */
 .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(25,24,22,0.7) 0%,transparent 50%);z-index:2;opacity:0;transition:opacity var(--t);display:flex;align-items:flex-end;padding:1rem}
 .animal-card:hover .card-overlay{opacity:1}
-.card-overlay-text{color:var(--white);font-size:0.8rem;line-height:1.5}
+.card-overlay-text{color:var(--white);font-size:0.78rem;line-height:1.5}
 .card-body{padding:1rem 1.1rem 1.15rem}
 .card-name{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.15rem}
 .card-breed{font-size:0.79rem;color:var(--muted);margin-bottom:0.65rem}
@@ -202,20 +172,18 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:0.7rem;border-top:1px solid var(--light)}
 .card-meta{font-size:0.78rem;color:var(--muted)}
 .card-meta strong{color:var(--ink);font-weight:600}
-/* Skeleton loader */
-.skeleton{background:linear-gradient(90deg,var(--off) 25%,var(--light) 50%,var(--off) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r6)}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* SKELETON */
 .skeleton-card{background:var(--white);border:1px solid var(--light);border-radius:var(--r20);overflow:hidden}
 .skeleton-img{aspect-ratio:4/3;background:linear-gradient(90deg,var(--off) 25%,var(--light) 50%,var(--off) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
 .skeleton-body{padding:1rem 1.1rem 1.15rem}
 .skeleton-line{height:12px;border-radius:4px;margin-bottom:8px;background:linear-gradient(90deg,var(--off) 25%,var(--light) 50%,var(--off) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
-.skeleton-line.wide{width:80%}
-.skeleton-line.medium{width:55%}
-.skeleton-line.narrow{width:35%}
+.skeleton-line.wide{width:80%}.skeleton-line.medium{width:55%}.skeleton-line.narrow{width:35%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* ═══ PROCESS ══════════════════════════════════════════════════ */
+/* PROCESS */
 .process-bg{background:var(--off)}
-.process-track{display:grid;grid-template-columns:repeat(4,1fr);position:relative;gap:0}
+.process-track{display:grid;grid-template-columns:repeat(4,1fr);position:relative}
 .process-track::before{content:'';position:absolute;top:27px;left:12%;right:12%;height:1.5px;background:linear-gradient(90deg,var(--accent3) 0%,var(--light) 100%);z-index:0}
 .proc-step{padding:0 1.25rem;text-align:center}
 .proc-num{width:56px;height:56px;border-radius:50%;background:var(--white);border:2px solid var(--light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ink);position:relative;z-index:1;transition:all var(--t)}
@@ -224,7 +192,7 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .proc-desc{font-size:0.8rem;color:var(--muted);line-height:1.65}
 @media(max-width:600px){.process-track{grid-template-columns:1fr 1fr}.process-track::before{display:none}.proc-step{margin-bottom:1.5rem}}
 
-/* ═══ TESTIMONIALS ══════════════════════════════════════════════ */
+/* TESTIMONIALS */
 .tcard{background:var(--white);border:1px solid var(--light);border-radius:var(--r20);padding:1.6rem;transition:all var(--t)}
 .tcard:hover{box-shadow:var(--sh-card);transform:translateY(-3px)}
 .tcard-stars{color:#f59e0b;font-size:0.85rem;letter-spacing:2px;margin-bottom:0.75rem}
@@ -234,17 +202,15 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .tcard-name{font-size:0.85rem;font-weight:600}
 .tcard-pet{font-size:0.75rem;color:var(--muted)}
 
-/* ═══ CTA BAND ═════════════════════════════════════════════════ */
+/* CTA BAND */
 .cta-band{background:var(--accent);padding:5rem 0;text-align:center;position:relative;overflow:hidden}
-.cta-band::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none}
-.cta-band::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none}
+.cta-band::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05)}
 .cta-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-0.02em;color:var(--white);margin-bottom:1rem}
 .cta-sub{font-size:1.05rem;line-height:1.7;color:rgba(255,255,255,0.7);margin-bottom:2.25rem;max-width:500px;margin-left:auto;margin-right:auto;font-weight:300}
 .cta-btns{display:flex;justify-content:center;gap:0.85rem;flex-wrap:wrap}
 
-/* ═══ ADOPT PAGE ═══════════════════════════════════════════════ */
+/* ADOPT PAGE */
 .adopt-header{background:var(--off);padding:3rem 0 0;border-bottom:1px solid var(--light)}
-.adopt-header-inner{padding-bottom:1.5rem}
 .sticky-filters{position:sticky;top:var(--nav-h);z-index:100;background:rgba(248,248,246,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--light);padding:1rem 0;transition:box-shadow var(--t)}
 .sticky-filters.stuck{box-shadow:var(--sh)}
 .filter-row{display:flex;gap:0.85rem;align-items:center;flex-wrap:wrap}
@@ -258,23 +224,17 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .fchip{padding:0.42rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--rpill);font-size:0.8rem;font-weight:500;color:var(--muted);background:var(--white);cursor:pointer;transition:all var(--t)}
 .fchip:hover{border-color:var(--accent);color:var(--accent)}
 .fchip.on{background:var(--accent);color:var(--white);border-color:var(--accent)}
-.age-select{padding:0.55rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--r10);background:var(--white);font-size:0.85rem;color:var(--ink);cursor:pointer;outline:none;transition:border-color var(--t)}
-.age-select:focus{border-color:var(--accent)}
+.age-select,.adopt-sort{padding:0.55rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--r10);background:var(--white);font-size:0.85rem;color:var(--ink);cursor:pointer;outline:none;transition:border-color var(--t)}
+.age-select:focus,.adopt-sort:focus{border-color:var(--accent)}
 .adopt-count-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem}
 .adopt-count{font-size:0.85rem;color:var(--muted)}
 .adopt-count strong{color:var(--ink);font-weight:600}
-.adopt-sort{padding:0.5rem 0.85rem;border:1.5px solid var(--light);border-radius:var(--r10);background:var(--white);font-size:0.82rem;color:var(--ink);cursor:pointer;outline:none}
 .adopt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.25rem}
 .empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)}
-.empty-icon{font-size:3.5rem;margin-bottom:1rem;filter:grayscale(0.3)}
+.empty-icon{font-size:3.5rem;margin-bottom:1rem}
 .empty-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem}
-.empty-desc{font-size:0.9rem;margin-bottom:1.5rem}
-/* back to top */
-.back-top{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));right:1.25rem;z-index:240;width:42px;height:42px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:all var(--t);transform:translateY(8px)}
-.back-top.visible{opacity:1;pointer-events:all;transform:none}
-@media(min-width:751px){.back-top{bottom:2rem}}
 
-/* ═══ MODAL ════════════════════════════════════════════════════ */
+/* MODAL */
 .modal-bg{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-bg::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px)}
 .modal-bg.open{opacity:1;pointer-events:all}
@@ -287,11 +247,10 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .modal-photo-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5.5rem;z-index:0}
 .modal-photo-badges{position:absolute;top:0.85rem;left:0.85rem;z-index:2;display:flex;gap:0.4rem}
 .modal-body{padding:1.75rem 2rem 2rem}
-.modal-name-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem;gap:1rem}
-.modal-name{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;letter-spacing:-0.02em}
+.modal-name{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.25rem}
 .modal-breed{color:var(--muted);font-size:0.88rem;margin-bottom:1rem}
 .modal-desc{font-size:0.9rem;line-height:1.75;color:var(--ink);margin-bottom:1.5rem}
-.modal-facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.65rem;margin-bottom:1.5rem}
+.modal-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-bottom:1.5rem}
 .modal-fact{background:var(--off);border-radius:var(--r10);padding:0.7rem 0.85rem}
 .modal-fact-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.2rem;font-weight:600}
 .modal-fact-val{font-size:0.9rem;font-weight:600;color:var(--ink)}
@@ -299,11 +258,10 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .modal-actions .btn{flex:1;padding:0.8rem}
 @media(max-width:480px){.modal-facts{grid-template-columns:1fr 1fr}.modal-actions{flex-direction:column}}
 
-/* ═══ ABOUT PAGE ═══════════════════════════════════════════════ */
+/* ABOUT */
 .about-hero{background:var(--ink);color:var(--white);padding:5rem 0;position:relative;overflow:hidden}
 .about-hero::after{content:'';position:absolute;bottom:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(42,99,71,0.35),transparent 65%)}
 .about-hero .heading-xl{color:var(--white);margin-bottom:1.25rem}
-.about-hero .body-lg{color:rgba(255,255,255,0.55);max-width:540px}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .img-stack{position:relative;height:480px}
 .img-main{width:70%;border-radius:var(--r20);overflow:hidden;position:absolute;top:0;left:0;box-shadow:var(--sh-lg)}
@@ -325,7 +283,7 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .team-role{font-size:0.78rem;color:var(--muted);margin-top:0.2rem}
 @media(max-width:900px){.mission-grid{grid-template-columns:1fr}.img-stack{height:280px}}
 
-/* ═══ CONTACT PAGE ═════════════════════════════════════════════ */
+/* CONTACT */
 .contact-header{background:var(--off);padding:3.5rem 0;border-bottom:1px solid var(--light)}
 .contact-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;align-items:start}
 .info-card{background:var(--off);border-radius:var(--r20);padding:1.75rem;margin-bottom:1.25rem}
@@ -340,33 +298,29 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .flabel{display:block;font-size:0.79rem;font-weight:600;color:var(--ink);margin-bottom:0.4rem}
 .finput,.ftextarea,.fselect{width:100%;padding:0.68rem 1rem;border:1.5px solid var(--light);border-radius:var(--r10);font-size:0.9rem;color:var(--ink);background:var(--white);outline:none;transition:border-color var(--t),box-shadow var(--t)}
 .finput:focus,.ftextarea:focus,.fselect:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
-.finput.error,.ftextarea.error{border-color:var(--warn);box-shadow:0 0 0 3px rgba(204,74,40,0.08)}
+.finput.error,.ftextarea.error{border-color:var(--warn)}
 .ferror{font-size:0.75rem;color:var(--warn);margin-top:0.3rem;display:none}
 .ferror.show{display:block}
 .ftextarea{resize:vertical;min-height:120px;line-height:1.6}
 .fsubmit{width:100%;justify-content:center;padding:0.85rem;font-size:0.95rem}
 @media(max-width:900px){.contact-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
 
-/* ═══ DONATE PAGE ══════════════════════════════════════════════ */
+/* DONATE */
 .donate-hero{background:var(--ink);color:var(--white);padding:4.5rem 0;text-align:center;position:relative;overflow:hidden}
 .donate-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(42,99,71,0.25),transparent 65%)}
 .donate-hero .heading-xl{color:var(--white);margin-bottom:1rem}
-.donate-hero .body-lg{color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto}
 .impact-card{background:var(--white);border:1px solid var(--light);border-radius:var(--r20);padding:1.6rem;text-align:center;transition:all var(--t)}
 .impact-card:hover{transform:translateY(-4px);box-shadow:var(--sh-card)}
 .impact-icon{font-size:2rem;margin-bottom:0.75rem}
 .impact-amt{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:0.35rem}
 .impact-desc{font-size:0.8rem;color:var(--muted);line-height:1.65}
-/* Donate form */
 .donate-form-wrap{background:var(--off);padding:4rem 0}
 .donate-card{background:var(--white);border:1.5px solid var(--light);border-radius:var(--r28);padding:2.5rem;max-width:540px;margin:0 auto;box-shadow:var(--sh-lg)}
 .donate-card-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.4rem}
 .donate-card-sub{font-size:0.85rem;color:var(--muted);margin-bottom:1.75rem}
-/* Frequency toggle */
 .freq-wrap{display:flex;background:var(--off);border-radius:var(--r10);padding:4px;gap:4px;margin-bottom:1.5rem}
 .freq-btn{flex:1;padding:0.5rem;border-radius:var(--r6);font-size:0.82rem;font-weight:500;color:var(--muted);transition:all var(--t);text-align:center}
 .freq-btn.on{background:var(--white);color:var(--accent);font-weight:700;box-shadow:var(--sh)}
-/* Amount grid */
 .amt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-bottom:1.1rem}
 .amt-btn{padding:0.85rem 0.5rem;border:2px solid var(--light);border-radius:var(--r10);font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);background:var(--white);transition:all var(--t)}
 .amt-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -375,14 +329,12 @@ hr.divider{border:none;border-top:1px solid var(--light)}
 .custom-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
 .donate-cta{width:100%;justify-content:center;padding:0.9rem;font-size:1rem;border-radius:var(--r10)}
 .secure-note{display:flex;align-items:center;justify-content:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);margin-top:0.75rem}
-/* Progress bar */
 .progress-wrap{margin-bottom:1.5rem}
 .progress-labels{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:0.5rem}
 .progress-bar-bg{height:8px;border-radius:4px;background:var(--off);overflow:hidden}
 .progress-bar-fill{height:100%;width:68%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
-.progress-goal{font-size:0.78rem;color:var(--muted);text-align:right;margin-top:0.3rem}
 
-/* ═══ FOOTER ═══════════════════════════════════════════════════ */
+/* FOOTER */
 footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .footer-top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.07)}
 .footer-brand p{font-size:0.83rem;color:rgba(255,255,255,0.4);line-height:1.7;max-width:260px;margin-top:0.85rem}
@@ -398,40 +350,74 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 @media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr}}
 @media(max-width:580px){.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
 
-/* ═══ TOAST ════════════════════════════════════════════════════ */
+/* TOAST */
 .toast-wrap{position:fixed;bottom:calc(80px + 1rem + env(safe-area-inset-bottom));right:1.25rem;z-index:700;display:flex;flex-direction:column;gap:0.6rem;pointer-events:none}
 @media(min-width:751px){.toast-wrap{bottom:2rem}}
 .toast{display:flex;align-items:flex-start;gap:0.75rem;background:var(--ink);color:var(--white);border-radius:var(--r14);padding:0.9rem 1.25rem;font-size:0.87rem;box-shadow:var(--sh-lg);max-width:300px;transform:translateX(20px);opacity:0;transition:all .3s;pointer-events:all}
 .toast.show{transform:none;opacity:1}
-.toast-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.05rem}
 .toast-close{margin-left:auto;padding:0 0 0 0.5rem;opacity:0.5;flex-shrink:0;font-size:1rem;transition:opacity var(--t)}
 .toast-close:hover{opacity:1}
-.toast.success .toast-icon::before{content:'✅'}
-.toast.error .toast-icon::before{content:'❌'}
-.toast.info .toast-icon::before{content:'🐾'}
 
-/* ═══ SCROLL REVEAL ════════════════════════════════════════════ */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
-.reveal.visible{opacity:1;transform:none}
-.reveal-delay-1{transition-delay:.08s}
-.reveal-delay-2{transition-delay:.16s}
-.reveal-delay-3{transition-delay:.24s}
-.reveal-delay-4{transition-delay:.32s}
-
-@media(max-width:600px){
-  .section{padding:3.5rem 0}
-  .container{padding:0 1.25rem}
-  .btn{padding:0.65rem 1.2rem;font-size:0.85rem}
-}
+/* ════ ADMIN PANEL ════════════════════════════════════════════ */
+.admin-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.admin-overlay.open{display:flex}
+.admin-panel{background:var(--white);border-radius:var(--r28);width:100%;max-width:900px;overflow:hidden;box-shadow:var(--sh-lg);animation:pageIn .3s ease}
+.admin-header{background:var(--ink);color:var(--white);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.admin-header h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
+.admin-header p{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-top:0.15rem}
+.admin-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--white);transition:all var(--t)}
+.admin-close:hover{background:rgba(255,255,255,0.2)}
+.admin-body{padding:2rem}
+/* Admin tabs */
+.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;border-bottom:1px solid var(--light);padding-bottom:0}
+.admin-tab{padding:0.6rem 1.1rem;font-size:0.88rem;font-weight:600;color:var(--muted);border-radius:var(--r6) var(--r6) 0 0;transition:all var(--t);position:relative;bottom:-1px}
+.admin-tab:hover{color:var(--ink);background:var(--off)}
+.admin-tab.on{color:var(--accent);background:var(--white);border:1px solid var(--light);border-bottom:1px solid var(--white)}
+.admin-pane{display:none}
+.admin-pane.on{display:block}
+/* Animal list in admin */
+.admin-animal-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;max-height:400px;overflow-y:auto}
+.admin-animal-row{display:flex;align-items:center;gap:1rem;background:var(--off);border-radius:var(--r10);padding:0.75rem 1rem;transition:all var(--t)}
+.admin-animal-row:hover{background:var(--light)}
+.admin-animal-emoji{font-size:1.5rem;flex-shrink:0}
+.admin-animal-info{flex:1;min-width:0}
+.admin-animal-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700}
+.admin-animal-meta{font-size:0.78rem;color:var(--muted)}
+.admin-animal-actions{display:flex;gap:0.5rem;flex-shrink:0}
+.admin-icon-btn{width:32px;height:32px;border-radius:var(--r6);display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:all var(--t)}
+.admin-icon-btn.edit{background:var(--blue2);color:var(--blue)}
+.admin-icon-btn.edit:hover{background:var(--blue);color:var(--white)}
+.admin-icon-btn.del{background:var(--warn2);color:var(--warn)}
+.admin-icon-btn.del:hover{background:var(--warn);color:var(--white)}
+/* Add/Edit form */
+.admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.admin-fgroup{margin-bottom:0}
+.admin-flabel{display:block;font-size:0.78rem;font-weight:600;color:var(--ink);margin-bottom:0.35rem}
+.admin-finput,.admin-fselect,.admin-ftextarea{width:100%;padding:0.62rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--r10);font-size:0.88rem;color:var(--ink);background:var(--white);outline:none;transition:border-color var(--t)}
+.admin-finput:focus,.admin-fselect:focus,.admin-ftextarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
+.admin-ftextarea{resize:vertical;min-height:80px;line-height:1.5}
+.admin-form-actions{display:flex;gap:0.65rem;margin-top:1.25rem}
+/* Loading indicator */
+.admin-loading{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem}
+.admin-loading::before{content:'⏳ '}
+/* Connection status */
+.db-status{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:var(--rpill);font-weight:600}
+.db-status.ok{background:var(--accent2);color:var(--accent)}
+.db-status.ok::before{content:'●';font-size:0.6rem}
+.db-status.err{background:var(--warn2);color:var(--warn)}
+.db-status.err::before{content:'●';font-size:0.6rem}
+.db-status.loading{background:var(--gold2);color:var(--gold)}
+.db-status.loading::before{content:'●';font-size:0.6rem}
+@media(max-width:600px){.admin-form-grid{grid-template-columns:1fr}.admin-body{padding:1.25rem}}
 </style>
 </head>
 <body>
 
-<!-- ══════════ NAVBAR ════════════════════════════════════════════ -->
+<!-- ══ NAVBAR ════════════════════════════════════════════════════ -->
 <nav id="navbar">
   <div class="nav-inner">
-    <div class="nav-logo" onclick="navigate('home')" role="button" tabindex="0" aria-label="PawHaven Home">
-      <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <div class="nav-logo" onclick="navigate('home')">
+      <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none">
         <circle cx="19" cy="19" r="19" fill="#2a6347"/>
         <ellipse cx="19" cy="23" rx="7.2" ry="5.6" fill="white" opacity="0.95"/>
         <ellipse cx="11.5" cy="15.5" rx="2.9" ry="3.3" fill="white" opacity="0.95"/>
@@ -441,81 +427,69 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
       </svg>
       <div class="nav-logo-text">Paw<span>Haven</span></div>
     </div>
-    <div class="nav-links" role="navigation" aria-label="Main navigation">
+    <div class="nav-links">
       <button onclick="navigate('home')" data-page="home" class="active">Home</button>
       <button onclick="navigate('adopt')" data-page="adopt">Adopt</button>
       <button onclick="navigate('about')" data-page="about">About</button>
       <button onclick="navigate('contact')" data-page="contact">Contact</button>
+      <button onclick="openAdmin()" class="nav-admin-btn">⚙️ Admin</button>
       <button onclick="navigate('donate')" data-page="donate" class="nav-donate">Donate</button>
     </div>
-    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Toggle menu" aria-expanded="false">
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Mobile Drawer -->
-<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Navigation menu">
+<div class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-bg" onclick="toggleDrawer()"></div>
   <div class="mobile-drawer-panel">
     <button onclick="navigate('home');toggleDrawer()">🏠 Home</button>
     <button onclick="navigate('adopt');toggleDrawer()">🐾 Adopt an Animal</button>
     <button onclick="navigate('about');toggleDrawer()">❤️ About Us</button>
     <button onclick="navigate('contact');toggleDrawer()">✉️ Contact</button>
+    <button onclick="openAdmin();toggleDrawer()">⚙️ Admin Panel</button>
     <button onclick="navigate('donate');toggleDrawer()" class="mob-donate">💚 Donate</button>
   </div>
 </div>
 
-<!-- Mobile Bottom Nav -->
-<nav class="bottom-nav" aria-label="Mobile navigation">
+<nav class="bottom-nav">
   <div class="bottom-nav-items">
     <button class="bnav-btn active" onclick="navigate('home')" data-bpage="home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
     </button>
     <button class="bnav-btn" onclick="navigate('adopt')" data-bpage="adopt">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Adopt
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Adopt
     </button>
     <button class="bnav-btn" onclick="navigate('about')" data-bpage="about">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      About
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>About
     </button>
     <button class="bnav-btn" onclick="navigate('contact')" data-bpage="contact">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      Contact
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact
     </button>
     <button class="bnav-btn bnav-donate-mob" onclick="navigate('donate')" data-bpage="donate">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Donate
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate
     </button>
   </div>
 </nav>
 
-<!-- Back to Top -->
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
+<div class="toast-wrap" id="toastWrap"></div>
 
-<!-- Toast Container -->
-<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
-
-<!-- ══════════ PAGE: HOME ══════════════════════════════════════════ -->
+<!-- ══ HOME ══════════════════════════════════════════════════════ -->
 <div class="page active" id="page-home">
-
-  <!-- HERO -->
   <section class="hero">
     <div class="container">
       <div class="hero-grid">
         <div>
-          <div class="hero-eyebrow"><span class="label">Open for Adoptions</span></div>
-          <div class="hero-urgency" id="heroUrgency">Loading available animals…</div>
-          <h1 class="heading-xl hero-title" style="margin-bottom:1.25rem">Find your<br><em>perfect</em><br>companion.</h1>
-          <p class="body-lg hero-body">Every animal at PawHaven deserves a loving forever home. Browse dogs, cats, rabbits, birds and more — each one waiting for someone like you.</p>
+          <div style="margin-bottom:1.25rem"><span class="label">Open for Adoptions</span></div>
+          <div class="hero-urgency" id="heroUrgency">Loading…</div>
+          <h1 class="heading-xl" style="margin-bottom:1.25rem">Find your<br><em>perfect</em><br>companion.</h1>
+          <p class="body-lg" style="max-width:460px">Every animal at PawHaven deserves a loving forever home. Browse dogs, cats, rabbits, birds and more — each one waiting for you.</p>
           <div class="hero-actions">
-            <button class="btn btn-primary" onclick="navigate('adopt')">Browse Animals
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
+            <button class="btn btn-primary" onclick="navigate('adopt')">Browse Animals <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
             <button class="btn btn-outline" onclick="navigate('about')">Our Mission</button>
           </div>
           <div class="hero-trust">
@@ -525,105 +499,74 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
           </div>
         </div>
         <div class="hero-visual">
-          <div class="hv-photo"><img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=500&h=300&fit=crop" alt="Golden retriever" loading="eager"><div class="hv-tag">🐕 Dogs</div></div>
+          <div class="hv-photo"><img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=500&h=300&fit=crop" alt="Dog" loading="eager"><div class="hv-tag">🐕 Dogs</div></div>
           <div class="hv-photo"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&h=620&fit=crop" alt="Cat" loading="eager"><div class="hv-tag">🐈 Cats</div></div>
           <div class="hv-photo"><img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=500&h=300&fit=crop" alt="Rabbit" loading="lazy"><div class="hv-tag">🐰 Rabbits</div></div>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- STATS -->
   <div class="stats-bar">
     <div class="container">
       <div class="stats-grid">
-        <div class="stat-box reveal"><div class="stat-num">2,<span class="stat-accent">400</span>+</div><div class="stat-lbl">Animals Rehomed</div></div>
-        <div class="stat-box reveal reveal-delay-1"><div class="stat-num" id="availableCount">—</div><div class="stat-lbl">Currently Available</div></div>
-        <div class="stat-box reveal reveal-delay-2"><div class="stat-num">12</div><div class="stat-lbl">Years Operating</div></div>
-        <div class="stat-box reveal reveal-delay-3"><div class="stat-num">98<span class="stat-accent">%</span></div><div class="stat-lbl">Adopter Satisfaction</div></div>
+        <div class="stat-box"><div class="stat-num">2,<span class="stat-accent">400</span>+</div><div class="stat-lbl">Animals Rehomed</div></div>
+        <div class="stat-box"><div class="stat-num" id="availableCount">—</div><div class="stat-lbl">Currently Available</div></div>
+        <div class="stat-box"><div class="stat-num">12</div><div class="stat-lbl">Years Operating</div></div>
+        <div class="stat-box"><div class="stat-num">98<span class="stat-accent">%</span></div><div class="stat-lbl">Adopter Satisfaction</div></div>
       </div>
     </div>
   </div>
-
-  <!-- FEATURED ANIMALS -->
   <section class="section">
     <div class="container">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.25rem;flex-wrap:wrap;gap:1rem">
-        <div class="reveal">
-          <span class="label">Available Now</span>
-          <h2 class="heading-lg">Meet some of our animals</h2>
-        </div>
-        <button class="btn-ghost reveal" onclick="navigate('adopt')">View all animals <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        <div><span class="label">Available Now</span><h2 class="heading-lg">Meet some of our animals</h2></div>
+        <button class="btn-ghost" onclick="navigate('adopt')">View all <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
       </div>
-      <div class="grid-4" id="featuredGrid"></div>
+      <div class="grid-4" id="featuredGrid"><div class="admin-loading">Loading animals from database…</div></div>
     </div>
   </section>
-
-  <!-- PROCESS -->
   <section class="section process-bg">
     <div class="container">
-      <div style="text-align:center;margin-bottom:3rem" class="reveal">
-        <span class="label">Simple Process</span>
-        <h2 class="heading-lg">How adoption works</h2>
-        <p class="body-md" style="max-width:480px;margin:0.75rem auto 0">We've made it easy to find and welcome a new companion into your home.</p>
-      </div>
+      <div style="text-align:center;margin-bottom:3rem"><span class="label">Simple Process</span><h2 class="heading-lg">How adoption works</h2></div>
       <div class="process-track">
-        <div class="proc-step reveal"><div class="proc-num">1</div><div class="proc-title">Browse & Discover</div><div class="proc-desc">Filter by species, age, size and personality to find your ideal match.</div></div>
-        <div class="proc-step reveal reveal-delay-1"><div class="proc-num">2</div><div class="proc-title">Meet & Bond</div><div class="proc-desc">Book a free meet-and-greet at our shelter to spend quality time together.</div></div>
-        <div class="proc-step reveal reveal-delay-2"><div class="proc-num">3</div><div class="proc-title">Apply Online</div><div class="proc-desc">Submit a simple application. We review within 24 hours and follow up personally.</div></div>
-        <div class="proc-step reveal reveal-delay-3"><div class="proc-num">4</div><div class="proc-title">Welcome Home</div><div class="proc-desc">Take your companion home with our full starter kit and ongoing support.</div></div>
+        <div class="proc-step"><div class="proc-num">1</div><div class="proc-title">Browse & Discover</div><div class="proc-desc">Filter by species, age, size and personality.</div></div>
+        <div class="proc-step"><div class="proc-num">2</div><div class="proc-title">Meet & Bond</div><div class="proc-desc">Book a free meet-and-greet at our shelter.</div></div>
+        <div class="proc-step"><div class="proc-num">3</div><div class="proc-title">Apply Online</div><div class="proc-desc">We review within 24 hours and follow up personally.</div></div>
+        <div class="proc-step"><div class="proc-num">4</div><div class="proc-title">Welcome Home</div><div class="proc-desc">Take your companion home with full support.</div></div>
       </div>
     </div>
   </section>
-
-  <!-- TESTIMONIALS -->
   <section class="section">
     <div class="container">
-      <div style="margin-bottom:2.25rem" class="reveal">
-        <span class="label">Success Stories</span>
-        <h2 class="heading-lg">Happy families</h2>
-      </div>
+      <div style="margin-bottom:2.25rem"><span class="label">Success Stories</span><h2 class="heading-lg">Happy families</h2></div>
       <div class="grid-3">
-        <div class="tcard reveal"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"The whole process was seamless. Within a week, Biscuit was home and transformed our lives completely. The team's support after adoption was exceptional."</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Maria Santos</div><div class="tcard-pet">Adopted Biscuit the Beagle</div></div></div></div>
-        <div class="tcard reveal reveal-delay-1"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"I was nervous about adopting a senior cat, but PawHaven guided us every step. Luna is now the queen of our apartment and we couldn't be happier."</p><div class="tcard-author"><div class="tcard-avatar">👨</div><div><div class="tcard-name">James Reyes</div><div class="tcard-pet">Adopted Luna the Cat</div></div></div></div>
-        <div class="tcard reveal reveal-delay-2"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"We adopted two rabbits and PawHaven provided everything we needed. Their post-adoption check-ins showed they genuinely care about the animals."</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Ana Cruz</div><div class="tcard-pet">Adopted Pebble & Bun</div></div></div></div>
+        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"The whole process was seamless. Within a week, Biscuit was home and transformed our lives completely."</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Maria Santos</div><div class="tcard-pet">Adopted Biscuit the Beagle</div></div></div></div>
+        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"I was nervous about adopting a senior cat, but PawHaven guided us every step. Luna is now the queen of our apartment."</p><div class="tcard-author"><div class="tcard-avatar">👨</div><div><div class="tcard-name">James Reyes</div><div class="tcard-pet">Adopted Luna the Cat</div></div></div></div>
+        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Their post-adoption check-ins showed they genuinely care about the animals. Highly recommend PawHaven!"</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Ana Cruz</div><div class="tcard-pet">Adopted Pebble & Bun</div></div></div></div>
       </div>
     </div>
   </section>
-
-  <!-- CTA BAND -->
   <div class="cta-band">
     <div class="container">
       <h2 class="cta-title">Ready to change a life?</h2>
       <p class="cta-sub">Every adoption gives an animal a second chance — and gives you a companion for life.</p>
-      <div class="cta-btns">
-        <button class="btn-white" onclick="navigate('adopt')">Browse Available Animals</button>
-        <button class="btn-ghost-white" onclick="navigate('donate')">Support Our Mission</button>
-      </div>
+      <div class="cta-btns"><button class="btn-white" onclick="navigate('adopt')">Browse Animals</button><button class="btn-ghost-white" onclick="navigate('donate')">Support Our Mission</button></div>
     </div>
   </div>
+</div>
 
-</div><!-- /home -->
-
-<!-- ══════════ PAGE: ADOPT ════════════════════════════════════════ -->
+<!-- ══ ADOPT ══════════════════════════════════════════════════════ -->
 <div class="page" id="page-adopt">
-  <div class="adopt-header">
-    <div class="container adopt-header-inner">
-      <span class="label">Find Your Match</span>
-      <h1 class="heading-lg" style="margin-bottom:0.4rem">Adopt an Animal</h1>
-      <p class="body-md">All animals are vaccinated, health-checked, and ready for a loving home.</p>
-    </div>
-  </div>
-
+  <div class="adopt-header"><div class="container" style="padding-bottom:1.5rem"><span class="label">Find Your Match</span><h1 class="heading-lg" style="margin-bottom:0.4rem">Adopt an Animal</h1><p class="body-md">All animals are vaccinated, health-checked, and ready for a loving home.</p></div></div>
   <div class="sticky-filters" id="stickyFilters">
     <div class="container">
       <div class="filter-row">
         <div class="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="adoptSearch" placeholder="Search by name, breed, or trait…" oninput="handleSearch()" aria-label="Search animals">
-          <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">✕</button>
+          <input type="text" id="adoptSearch" placeholder="Search by name, breed, or trait…" oninput="handleSearch()">
+          <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
         </div>
-        <div class="filter-chips" id="typeChips" role="group" aria-label="Filter by type">
+        <div class="filter-chips" id="typeChips">
           <button class="fchip on" data-type="all">All</button>
           <button class="fchip" data-type="dog">🐕 Dogs</button>
           <button class="fchip" data-type="cat">🐈 Cats</button>
@@ -631,233 +574,61 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
           <button class="fchip" data-type="bird">🐦 Birds</button>
           <button class="fchip" data-type="other">🐾 Others</button>
         </div>
-        <select class="age-select" id="ageFilter" onchange="renderAdopt()" aria-label="Filter by age">
+        <select class="age-select" id="ageFilter" onchange="renderAdopt()">
           <option value="all">Any Age</option>
-          <option value="young">Young (under 2)</option>
+          <option value="young">Young (&lt;2)</option>
           <option value="adult">Adult (2–7)</option>
           <option value="senior">Senior (7+)</option>
         </select>
-      </div>
-    </div>
-  </div>
-
-  <section class="section-sm">
-    <div class="container">
-      <div class="adopt-count-bar">
-        <div class="adopt-count" id="adoptCount" aria-live="polite"></div>
-        <select class="adopt-sort" id="adoptSort" onchange="renderAdopt()" aria-label="Sort animals">
+        <select class="adopt-sort" id="adoptSort" onchange="renderAdopt()">
           <option value="default">Sort: Default</option>
-          <option value="name">Sort: A–Z</option>
-          <option value="age-asc">Sort: Youngest</option>
-          <option value="age-desc">Sort: Oldest</option>
+          <option value="name">A – Z</option>
+          <option value="age-asc">Youngest</option>
+          <option value="age-desc">Oldest</option>
         </select>
       </div>
-      <div class="adopt-grid" id="adoptGrid" role="list"></div>
-    </div>
-  </section>
-</div><!-- /adopt -->
-
-<!-- ══════════ PAGE: ABOUT ════════════════════════════════════════ -->
-<div class="page" id="page-about">
-  <div class="about-hero">
-    <div class="container">
-      <span class="label" style="color:rgba(255,255,255,0.4)">Our Story</span>
-      <h1 class="heading-xl">Rescuing animals,<br>one home at a time.</h1>
-      <p class="body-lg" style="margin-top:1.25rem">Founded in 2013, PawHaven is a no-kill shelter dedicated to finding loving homes for every animal — regardless of age, breed, or background.</p>
-    </div>
-  </div>
-  <section class="section">
-    <div class="container">
-      <div class="mission-grid">
-        <div class="img-stack reveal">
-          <div class="img-main"><img src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=600&h=660&fit=crop" alt="Volunteer with dog" loading="lazy"></div>
-          <div class="img-secondary"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=420&fit=crop" alt="Two dogs playing" loading="lazy"></div>
-          <div class="img-stat"><div class="img-stat-num">2,400+</div><div class="img-stat-lbl">Animals rescued</div></div>
-        </div>
-        <div class="reveal">
-          <span class="label">Our Mission</span>
-          <h2 class="heading-lg" style="margin-bottom:1.25rem">We believe every animal deserves a second chance.</h2>
-          <p class="body-lg" style="margin-bottom:1.25rem">PawHaven operates as a fully no-kill facility. We accept animals from all circumstances — surrendered, stray, or transferred from overcrowded shelters — and give them the care, rehabilitation, and love they need to thrive.</p>
-          <p class="body-md" style="margin-bottom:2rem">Our team of 24 full-time staff and over 80 active volunteers works 365 days a year to ensure every animal is healthy, socialised, and ready for their forever family.</p>
-          <div style="display:flex;gap:2rem;flex-wrap:wrap">
-            <div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1">12</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Years Operating</div></div>
-            <div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1">80+</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Active Volunteers</div></div>
-            <div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1">5★</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Community Rating</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section" style="background:var(--off);padding-top:4rem;padding-bottom:4rem">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:2.25rem" class="reveal"><span class="label">What We Stand For</span><h2 class="heading-lg">Our core values</h2></div>
-      <div class="grid-4">
-        <div class="value-card reveal"><div class="value-icon">🛡️</div><div class="value-title">No-Kill Promise</div><div class="value-desc">We have never and will never euthanise a healthy, treatable animal. Every life matters.</div></div>
-        <div class="value-card reveal reveal-delay-1"><div class="value-icon">❤️</div><div class="value-title">Animal Welfare First</div><div class="value-desc">Medical care, nutrition, enrichment, and socialisation are non-negotiable for every resident.</div></div>
-        <div class="value-card reveal reveal-delay-2"><div class="value-icon">🤝</div><div class="value-title">Community Rooted</div><div class="value-desc">We partner with local vets, schools, and businesses to build a compassionate community.</div></div>
-        <div class="value-card reveal reveal-delay-3"><div class="value-icon">🌱</div><div class="value-title">Sustainable Ops</div><div class="value-desc">Environmentally responsible practices across our facilities, food sourcing, and daily operations.</div></div>
-      </div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      <div style="margin-bottom:2.25rem" class="reveal"><span class="label">The People</span><h2 class="heading-lg">Meet our team</h2></div>
-      <div class="grid-4">
-        <div class="team-card reveal"><div class="team-photo"><img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=300&h=300&fit=crop&crop=face" alt="Dr Clara Mendoza" loading="lazy"></div><div class="team-name">Dr. Clara Mendoza</div><div class="team-role">Executive Director & Head Vet</div></div>
-        <div class="team-card reveal reveal-delay-1"><div class="team-photo"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face" alt="Marco Villanueva" loading="lazy"></div><div class="team-name">Marco Villanueva</div><div class="team-role">Operations Manager</div></div>
-        <div class="team-card reveal reveal-delay-2"><div class="team-photo"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=300&fit=crop&crop=face" alt="Priya Nair" loading="lazy"></div><div class="team-name">Priya Nair</div><div class="team-role">Adoptions Coordinator</div></div>
-        <div class="team-card reveal reveal-delay-3"><div class="team-photo"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&crop=face" alt="Ben Castillo" loading="lazy"></div><div class="team-name">Ben Castillo</div><div class="team-role">Community Outreach Lead</div></div>
-      </div>
-    </div>
-  </section>
-  <div class="cta-band">
-    <div class="container">
-      <h2 class="cta-title">Join our mission</h2>
-      <p class="cta-sub">Volunteer, foster, adopt, or donate — every contribution makes a real difference.</p>
-      <div class="cta-btns">
-        <button class="btn-white" onclick="navigate('adopt')">Adopt an Animal</button>
-        <button class="btn-ghost-white" onclick="navigate('donate')">Make a Donation</button>
-      </div>
-    </div>
-  </div>
-</div><!-- /about -->
-
-<!-- ══════════ PAGE: CONTACT ══════════════════════════════════════ -->
-<div class="page" id="page-contact">
-  <div class="contact-header">
-    <div class="container">
-      <span class="label">Get in Touch</span>
-      <h1 class="heading-lg" style="margin-bottom:0.4rem">We'd love to hear from you</h1>
-      <p class="body-md">Questions about adoption, volunteering, or anything else — we're here to help.</p>
     </div>
   </div>
   <section class="section-sm">
     <div class="container">
-      <div class="contact-grid">
-        <div>
-          <div class="info-card">
-            <div class="info-row"><div class="info-icon">📍</div><div><div class="info-lbl">Address</div><div class="info-val">123 Shelter Lane, Quezon City, Metro Manila</div></div></div>
-            <div class="info-row"><div class="info-icon">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+63 2 8123 4567</div></div></div>
-            <div class="info-row"><div class="info-icon">✉️</div><div><div class="info-lbl">Email</div><div class="info-val">hello@pawhaven.org</div></div></div>
-            <div class="info-row"><div class="info-icon">🕐</div><div><div class="info-lbl">Hours</div><div class="info-val">Mon–Sat &nbsp;8:00 AM – 6:00 PM<br>Sunday &nbsp;&nbsp;9:00 AM – 4:00 PM</div></div></div>
-          </div>
-          <div style="background:var(--accent2);border-radius:var(--r14);padding:1.5rem">
-            <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.45rem;color:var(--accent)">Volunteer with us 🤲</h4>
-            <p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:1rem">We're always looking for passionate people to help with animal care, events, and outreach.</p>
-            <button class="btn btn-primary" style="font-size:0.83rem;padding:0.55rem 1.1rem" onclick="toast('info','Volunteer application submitted! We\'ll be in touch within 2 business days.')">Apply to Volunteer</button>
-          </div>
-        </div>
-        <div class="form-card">
-          <h3 class="heading-md" style="margin-bottom:0.35rem">Send a Message</h3>
-          <p class="body-md" style="margin-bottom:1.75rem">We typically respond within 1 business day.</p>
-          <div class="form-row">
-            <div class="fgroup"><label class="flabel" for="firstName">First Name *</label><input type="text" class="finput" id="firstName" placeholder="Juan" autocomplete="given-name"></div>
-            <div class="fgroup"><label class="flabel" for="lastName">Last Name *</label><input type="text" class="finput" id="lastName" placeholder="dela Cruz" autocomplete="family-name"></div>
-          </div>
-          <div class="fgroup"><label class="flabel" for="email">Email Address *</label><input type="email" class="finput" id="email" placeholder="juan@email.com" autocomplete="email"><div class="ferror" id="emailErr">Please enter a valid email address.</div></div>
-          <div class="fgroup"><label class="flabel" for="topic">Topic</label><select class="fselect" id="topic"><option>Adoption Inquiry</option><option>Volunteering</option><option>Donation / Sponsorship</option><option>Surrender an Animal</option><option>General Question</option></select></div>
-          <div class="fgroup"><label class="flabel" for="message">Message *</label><textarea class="ftextarea" id="message" placeholder="Tell us how we can help…"></textarea><div class="ferror" id="msgErr">Please write a message.</div></div>
-          <button class="btn btn-primary fsubmit" onclick="submitForm()">Send Message
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
+      <div class="adopt-count-bar"><div class="adopt-count" id="adoptCount"></div></div>
+      <div class="adopt-grid" id="adoptGrid"><div class="admin-loading">Loading animals from database…</div></div>
     </div>
   </section>
-</div><!-- /contact -->
+</div>
 
-<!-- ══════════ PAGE: DONATE ═══════════════════════════════════════ -->
+<!-- ══ ABOUT ══════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-hero"><div class="container"><span class="label" style="color:rgba(255,255,255,0.4)">Our Story</span><h1 class="heading-xl">Rescuing animals,<br>one home at a time.</h1><p class="body-lg" style="margin-top:1.25rem;color:rgba(255,255,255,0.55);max-width:540px">Founded in 2013, PawHaven is a no-kill shelter dedicated to finding loving homes for every animal.</p></div></div>
+  <section class="section"><div class="container"><div class="mission-grid"><div class="img-stack"><div class="img-main"><img src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=600&h=660&fit=crop" alt="Volunteer" loading="lazy"></div><div class="img-secondary"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=420&fit=crop" alt="Dogs" loading="lazy"></div><div class="img-stat"><div class="img-stat-num">2,400+</div><div class="img-stat-lbl">Animals rescued</div></div></div><div><span class="label">Our Mission</span><h2 class="heading-lg" style="margin-bottom:1.25rem">Every animal deserves a second chance.</h2><p class="body-lg" style="margin-bottom:1.25rem">PawHaven operates as a fully no-kill facility. We accept animals from all circumstances and give them the care, rehabilitation, and love they need to thrive.</p><p class="body-md" style="margin-bottom:2rem">Our team of 24 full-time staff and over 80 volunteers works 365 days a year.</p><div style="display:flex;gap:2rem;flex-wrap:wrap"><div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent)">12</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Years Operating</div></div><div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent)">80+</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Volunteers</div></div><div><div style="font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent)">5★</div><div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem">Community Rating</div></div></div></div></div></div></section>
+  <section class="section" style="background:var(--off);padding-top:4rem;padding-bottom:4rem"><div class="container"><div style="text-align:center;margin-bottom:2.25rem"><span class="label">What We Stand For</span><h2 class="heading-lg">Our core values</h2></div><div class="grid-4"><div class="value-card"><div class="value-icon">🛡️</div><div class="value-title">No-Kill Promise</div><div class="value-desc">We never euthanise a healthy, treatable animal. Every life matters.</div></div><div class="value-card"><div class="value-icon">❤️</div><div class="value-title">Animal Welfare First</div><div class="value-desc">Medical care, nutrition, enrichment — non-negotiable for every resident.</div></div><div class="value-card"><div class="value-icon">🤝</div><div class="value-title">Community Rooted</div><div class="value-desc">We partner with local vets, schools, and businesses.</div></div><div class="value-card"><div class="value-icon">🌱</div><div class="value-title">Sustainable Ops</div><div class="value-desc">Environmentally responsible practices across all facilities.</div></div></div></div></section>
+  <section class="section"><div class="container"><div style="margin-bottom:2.25rem"><span class="label">The People</span><h2 class="heading-lg">Meet our team</h2></div><div class="grid-4"><div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=300&h=300&fit=crop&crop=face" alt="" loading="lazy"></div><div class="team-name">Dr. Clara Mendoza</div><div class="team-role">Executive Director & Head Vet</div></div><div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face" alt="" loading="lazy"></div><div class="team-name">Marco Villanueva</div><div class="team-role">Operations Manager</div></div><div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=300&fit=crop&crop=face" alt="" loading="lazy"></div><div class="team-name">Priya Nair</div><div class="team-role">Adoptions Coordinator</div></div><div class="team-card"><div class="team-photo"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&crop=face" alt="" loading="lazy"></div><div class="team-name">Ben Castillo</div><div class="team-role">Community Outreach Lead</div></div></div></div></section>
+  <div class="cta-band"><div class="container"><h2 class="cta-title">Join our mission</h2><p class="cta-sub">Volunteer, foster, adopt, or donate.</p><div class="cta-btns"><button class="btn-white" onclick="navigate('adopt')">Adopt an Animal</button><button class="btn-ghost-white" onclick="navigate('donate')">Make a Donation</button></div></div></div>
+</div>
+
+<!-- ══ CONTACT ════════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-header"><div class="container"><span class="label">Get in Touch</span><h1 class="heading-lg" style="margin-bottom:0.4rem">We'd love to hear from you</h1><p class="body-md">Questions about adoption, volunteering, or anything else.</p></div></div>
+  <section class="section-sm"><div class="container"><div class="contact-grid"><div><div class="info-card"><div class="info-row"><div class="info-icon">📍</div><div><div class="info-lbl">Address</div><div class="info-val">123 Shelter Lane, Quezon City</div></div></div><div class="info-row"><div class="info-icon">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+63 2 8123 4567</div></div></div><div class="info-row"><div class="info-icon">✉️</div><div><div class="info-lbl">Email</div><div class="info-val">hello@pawhaven.org</div></div></div><div class="info-row"><div class="info-icon">🕐</div><div><div class="info-lbl">Hours</div><div class="info-val">Mon–Sat 8AM–6PM<br>Sun 9AM–4PM</div></div></div></div><div style="background:var(--accent2);border-radius:var(--r14);padding:1.5rem"><h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.45rem;color:var(--accent)">Volunteer with us 🤲</h4><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:1rem">Always looking for passionate people to help with animal care, events, and outreach.</p><button class="btn btn-primary" style="font-size:0.83rem;padding:0.55rem 1.1rem" onclick="toast('info','Volunteer application submitted! We\'ll be in touch within 2 business days.')">Apply to Volunteer</button></div></div><div class="form-card"><h3 class="heading-md" style="margin-bottom:0.35rem">Send a Message</h3><p class="body-md" style="margin-bottom:1.75rem">We typically respond within 1 business day.</p><div class="form-row"><div class="fgroup"><label class="flabel">First Name *</label><input type="text" class="finput" id="firstName" placeholder="Juan"></div><div class="fgroup"><label class="flabel">Last Name *</label><input type="text" class="finput" id="lastName" placeholder="dela Cruz"></div></div><div class="fgroup"><label class="flabel">Email *</label><input type="email" class="finput" id="email" placeholder="juan@email.com"><div class="ferror" id="emailErr">Please enter a valid email.</div></div><div class="fgroup"><label class="flabel">Topic</label><select class="fselect" id="topic"><option>Adoption Inquiry</option><option>Volunteering</option><option>Donation / Sponsorship</option><option>Surrender an Animal</option><option>General Question</option></select></div><div class="fgroup"><label class="flabel">Message *</label><textarea class="ftextarea" id="message" placeholder="Tell us how we can help…"></textarea><div class="ferror" id="msgErr">Please write a message.</div></div><button class="btn btn-primary fsubmit" onclick="submitForm()">Send Message <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></div></div></section>
+</div>
+
+<!-- ══ DONATE ══════════════════════════════════════════════════════ -->
 <div class="page" id="page-donate">
-  <div class="donate-hero">
-    <div class="container">
-      <span class="label" style="color:rgba(255,255,255,0.45)">Make a Difference</span>
-      <h1 class="heading-xl">Support PawHaven</h1>
-      <p class="body-lg" style="margin-top:1rem">Your donation directly funds food, medical care, shelter improvements, and rescue operations.</p>
-    </div>
-  </div>
-  <section class="section">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:2.5rem" class="reveal"><span class="label">Your Impact</span><h2 class="heading-lg">Every peso counts</h2></div>
-      <div class="grid-4">
-        <div class="impact-card reveal"><div class="impact-icon">🍖</div><div class="impact-amt">₱500</div><div class="impact-desc">Feeds one animal for a full month with nutritious, species-appropriate meals.</div></div>
-        <div class="impact-card reveal reveal-delay-1"><div class="impact-icon">💉</div><div class="impact-amt">₱1,500</div><div class="impact-desc">Covers a complete vaccination course to protect against common diseases.</div></div>
-        <div class="impact-card reveal reveal-delay-2"><div class="impact-icon">🏥</div><div class="impact-amt">₱5,000</div><div class="impact-desc">Funds a medical procedure for an injured or ill animal in our care.</div></div>
-        <div class="impact-card reveal reveal-delay-3"><div class="impact-icon">🏡</div><div class="impact-amt">₱10,000</div><div class="impact-desc">Sponsors a full rescue operation and covers all costs until adoption.</div></div>
-      </div>
-    </div>
-  </section>
-  <div class="donate-form-wrap">
-    <div class="container">
-      <div class="donate-card">
-        <h3 class="donate-card-title">Make a Donation</h3>
-        <p class="donate-card-sub">100% of your donation goes directly to animal care.</p>
-        <!-- Progress bar -->
-        <div class="progress-wrap">
-          <div class="progress-labels"><span>Monthly goal</span><span style="color:var(--accent);font-weight:600">68% reached</span></div>
-          <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-          <div class="progress-goal">₱34,000 of ₱50,000</div>
-        </div>
-        <!-- Frequency -->
-        <div class="freq-wrap" role="group" aria-label="Donation frequency">
-          <button class="freq-btn on" data-freq="one" onclick="setFreq(this)">One-time</button>
-          <button class="freq-btn" data-freq="monthly" onclick="setFreq(this)">Monthly</button>
-          <button class="freq-btn" data-freq="annual" onclick="setFreq(this)">Annual</button>
-        </div>
-        <!-- Amounts -->
-        <div class="amt-grid" id="amtGrid">
-          <button class="amt-btn" data-amt="500" onclick="setAmt(this)">₱500</button>
-          <button class="amt-btn on" data-amt="1500" onclick="setAmt(this)">₱1,500</button>
-          <button class="amt-btn" data-amt="5000" onclick="setAmt(this)">₱5,000</button>
-          <button class="amt-btn" data-amt="10000" onclick="setAmt(this)">₱10,000</button>
-          <button class="amt-btn" data-amt="25000" onclick="setAmt(this)">₱25,000</button>
-          <button class="amt-btn" data-amt="custom" onclick="setAmt(this)">Custom</button>
-        </div>
-        <input type="number" class="custom-input" id="customAmt" placeholder="Enter amount in ₱" oninput="updateDonateBtn()">
-        <div class="fgroup"><label class="flabel">Full Name</label><input type="text" class="finput" placeholder="Your name" autocomplete="name"></div>
-        <div class="fgroup" style="margin-bottom:1.5rem"><label class="flabel">Email Address</label><input type="email" class="finput" placeholder="For your donation receipt" autocomplete="email"></div>
-        <button class="btn btn-primary donate-cta" id="donateCta" onclick="submitDonate()">
-          Donate ₱1,500
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <div class="secure-note">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Secure, encrypted payment processing
-        </div>
-      </div>
-    </div>
-  </div>
-  <section class="section">
-    <div class="container" style="text-align:center">
-      <span class="label">Trusted Partners</span>
-      <h2 class="heading-md" style="margin-bottom:2.25rem">Our sponsors & supporters</h2>
-      <div style="display:flex;justify-content:center;align-items:center;gap:3rem;flex-wrap:wrap">
-        <div style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--mid)">PetCare PH</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--mid)">VetClinics Co.</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--mid)">AnimalWell</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--mid)">NutriPet</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--mid)">Rescue Net</div>
-      </div>
-    </div>
-  </section>
-</div><!-- /donate -->
+  <div class="donate-hero"><div class="container"><span class="label" style="color:rgba(255,255,255,0.45)">Make a Difference</span><h1 class="heading-xl">Support PawHaven</h1><p class="body-lg" style="margin-top:1rem;color:rgba(255,255,255,0.6);max-width:500px;margin-left:auto;margin-right:auto">Your donation directly funds food, medical care, and rescue operations.</p></div></div>
+  <section class="section"><div class="container"><div style="text-align:center;margin-bottom:2.5rem"><span class="label">Your Impact</span><h2 class="heading-lg">Every peso counts</h2></div><div class="grid-4"><div class="impact-card"><div class="impact-icon">🍖</div><div class="impact-amt">₱500</div><div class="impact-desc">Feeds one animal for a full month.</div></div><div class="impact-card"><div class="impact-icon">💉</div><div class="impact-amt">₱1,500</div><div class="impact-desc">Covers a complete vaccination course.</div></div><div class="impact-card"><div class="impact-icon">🏥</div><div class="impact-amt">₱5,000</div><div class="impact-desc">Funds a medical procedure for an ill animal.</div></div><div class="impact-card"><div class="impact-icon">🏡</div><div class="impact-amt">₱10,000</div><div class="impact-desc">Sponsors a full rescue operation until adoption.</div></div></div></div></section>
+  <div class="donate-form-wrap"><div class="container"><div class="donate-card"><h3 class="donate-card-title">Make a Donation</h3><p class="donate-card-sub">100% goes directly to animal care.</p><div class="progress-wrap"><div class="progress-labels"><span>Monthly goal</span><span style="color:var(--accent);font-weight:600">68% reached</span></div><div class="progress-bar-bg"><div class="progress-bar-fill"></div></div><div style="font-size:0.78rem;color:var(--muted);text-align:right;margin-top:0.3rem">₱34,000 of ₱50,000</div></div><div class="freq-wrap"><button class="freq-btn on" onclick="setFreq(this)">One-time</button><button class="freq-btn" onclick="setFreq(this)">Monthly</button><button class="freq-btn" onclick="setFreq(this)">Annual</button></div><div class="amt-grid"><button class="amt-btn" data-amt="500" onclick="setAmt(this)">₱500</button><button class="amt-btn on" data-amt="1500" onclick="setAmt(this)">₱1,500</button><button class="amt-btn" data-amt="5000" onclick="setAmt(this)">₱5,000</button><button class="amt-btn" data-amt="10000" onclick="setAmt(this)">₱10,000</button><button class="amt-btn" data-amt="25000" onclick="setAmt(this)">₱25,000</button><button class="amt-btn" data-amt="custom" onclick="setAmt(this)">Custom</button></div><input type="number" class="custom-input" id="customAmt" placeholder="Enter amount in ₱" oninput="updateDonateBtn()"><div class="fgroup"><label class="flabel">Full Name</label><input type="text" class="finput" placeholder="Your name"></div><div class="fgroup" style="margin-bottom:1.5rem"><label class="flabel">Email Address</label><input type="email" class="finput" placeholder="For your receipt"></div><button class="btn btn-primary donate-cta" id="donateCta" onclick="submitDonate()">Donate ₱1,500 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><div class="secure-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure, encrypted payment</div></div></div></div>
+</div>
 
-<!-- ══════════ FOOTER ═════════════════════════════════════════════ -->
+<!-- ══ FOOTER ══════════════════════════════════════════════════════ -->
 <footer>
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
         <div class="nav-logo" onclick="navigate('home')" style="cursor:pointer">
-          <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" aria-hidden="true">
-            <circle cx="19" cy="19" r="19" fill="rgba(255,255,255,0.1)"/>
-            <ellipse cx="19" cy="23" rx="7.2" ry="5.6" fill="rgba(255,255,255,0.7)"/>
-            <ellipse cx="11.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/>
-            <ellipse cx="17.2" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/>
-            <ellipse cx="22.8" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/>
-            <ellipse cx="27.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/>
-          </svg>
+          <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="rgba(255,255,255,0.1)"/><ellipse cx="19" cy="23" rx="7.2" ry="5.6" fill="rgba(255,255,255,0.7)"/><ellipse cx="11.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/><ellipse cx="17.2" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="22.8" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="27.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/></svg>
           <div class="nav-logo-text" style="color:white">Paw<span style="color:#7ecfaa">Haven</span></div>
         </div>
-        <p>A no-kill animal rescue and adoption shelter serving Metro Manila and surrounding areas since 2013.</p>
+        <p>A no-kill animal rescue and adoption shelter serving Metro Manila since 2013.</p>
       </div>
       <div class="footer-col"><h4>Explore</h4><ul><li onclick="navigate('home')">Home</li><li onclick="navigate('adopt')">Adopt an Animal</li><li onclick="navigate('about')">About Us</li><li onclick="navigate('donate')">Donate</li></ul></div>
       <div class="footer-col"><h4>Support</h4><ul><li onclick="navigate('contact')">Contact Us</li><li>FAQ</li><li>Volunteer</li><li>Foster Program</li></ul></div>
@@ -865,34 +636,75 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
     </div>
     <div class="footer-bottom">
       <p>© 2025 PawHaven Animal Rescue. All rights reserved.</p>
-      <div class="social-row">
-        <div class="social-btn" role="button" tabindex="0" aria-label="Facebook">f</div>
-        <div class="social-btn" role="button" tabindex="0" aria-label="Instagram">in</div>
-        <div class="social-btn" role="button" tabindex="0" aria-label="Twitter / X">𝕏</div>
-      </div>
+      <div class="social-row"><div class="social-btn">f</div><div class="social-btn">in</div><div class="social-btn">𝕏</div></div>
     </div>
   </div>
 </footer>
 
-<!-- ══════════ ANIMAL MODAL ════════════════════════════════════════ -->
-<div class="modal-bg" id="animalModal" role="dialog" aria-modal="true" aria-label="Animal profile">
+<!-- ══ ANIMAL MODAL ════════════════════════════════════════════════ -->
+<div class="modal-bg" id="animalModal">
   <div class="modal-box" id="modalBox">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-photo" id="modalPhoto"></div>
     <div class="modal-body">
-      <div class="modal-name-row">
-        <h2 class="modal-name" id="modalName"></h2>
-        <div id="modalBadge"></div>
-      </div>
+      <h2 class="modal-name" id="modalName"></h2>
       <div class="modal-breed" id="modalBreed"></div>
       <div class="card-chips" id="modalTags" style="margin-bottom:1rem"></div>
       <p class="modal-desc" id="modalDesc"></p>
       <div class="modal-facts" id="modalFacts"></div>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="modalAdoptBtn">Apply to Adopt
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
+        <button class="btn btn-primary" id="modalAdoptBtn">Apply to Adopt <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         <button class="btn btn-outline" onclick="closeModal()">Back to Browse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN PANEL ═════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <div>
+        <h2>⚙️ Admin Panel</h2>
+        <p>Manage your animal listings · <span id="dbStatusBadge" class="db-status loading">Connecting…</span></p>
+      </div>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-tabs">
+        <button class="admin-tab on" onclick="switchTab('list',this)">📋 All Animals</button>
+        <button class="admin-tab" onclick="switchTab('add',this)">➕ Add Animal</button>
+      </div>
+
+      <!-- LIST TAB -->
+      <div class="admin-pane on" id="tab-list">
+        <div id="adminAnimalList"><div class="admin-loading">Loading from Supabase…</div></div>
+      </div>
+
+      <!-- ADD/EDIT TAB -->
+      <div class="admin-pane" id="tab-add">
+        <input type="hidden" id="editId">
+        <div class="admin-form-grid">
+          <div class="admin-fgroup"><label class="admin-flabel">Name *</label><input type="text" class="admin-finput" id="f_name" placeholder="e.g. Mango"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Breed *</label><input type="text" class="admin-finput" id="f_breed" placeholder="e.g. Golden Retriever Mix"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Type *</label><select class="admin-fselect" id="f_type"><option value="dog">🐕 Dog</option><option value="cat">🐈 Cat</option><option value="rabbit">🐰 Rabbit</option><option value="bird">🐦 Bird</option><option value="other">🐾 Other</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Gender *</label><select class="admin-fselect" id="f_gender"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Age (years) *</label><input type="number" class="admin-finput" id="f_age" placeholder="e.g. 2" min="0" step="0.5"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Age Label *</label><input type="text" class="admin-finput" id="f_age_label" placeholder="e.g. 2 years"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Size *</label><select class="admin-fselect" id="f_size"><option value="Small">Small</option><option value="Medium">Medium</option><option value="Large">Large</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Weight *</label><input type="text" class="admin-finput" id="f_weight" placeholder="e.g. 28 kg"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Status Badge *</label><select class="admin-fselect" id="f_badge"><option value="Friendly">🟢 Friendly</option><option value="Calm">🔵 Calm</option><option value="New">🟡 New</option><option value="Urgent">🔴 Urgent</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Vaccinated</label><select class="admin-fselect" id="f_vaccinated"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Neutered/Spayed</label><select class="admin-fselect" id="f_neutered"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Emoji</label><input type="text" class="admin-finput" id="f_emoji" placeholder="🐕" maxlength="4"></div>
+        </div>
+        <div class="admin-fgroup" style="margin-top:1rem"><label class="admin-flabel">Photo URL *</label><input type="text" class="admin-finput" id="f_img" placeholder="https://images.unsplash.com/…"></div>
+        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Tags (comma separated) *</label><input type="text" class="admin-finput" id="f_tags" placeholder="e.g. Playful, House-trained, Kid-friendly"></div>
+        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Description *</label><textarea class="admin-ftextarea" id="f_desc" placeholder="Tell adopters about this animal…"></textarea></div>
+        <div class="admin-form-actions">
+          <button class="btn btn-primary" id="saveBtn" onclick="saveAnimal()">💾 Save Animal</button>
+          <button class="btn btn-outline" onclick="resetForm()">Clear Form</button>
+        </div>
       </div>
     </div>
   </div>
@@ -900,123 +712,148 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 
 <script>
 'use strict';
-// ═══ DATA ══════════════════════════════════════════════════════
-const animals = [
-  {id:1,name:"Mango",type:"dog",breed:"Golden Retriever Mix",age:2,ageLabel:"2 years",gender:"Male",img:"https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=600&h=450&fit=crop",emoji:"🐕",badge:"Friendly",badgeClass:"badge-green",tags:["Playful","House-trained","Kid-friendly"],desc:"Mango is a sunshine-filled boy who loves fetch, belly rubs, and long walks. He was found as a stray and has blossomed into one of the most affectionate dogs you'll ever meet. Does great with other dogs and is fully vaccinated.",weight:"28 kg",vaccinated:"Yes",neutered:"Yes",size:"Large"},
-  {id:2,name:"Luna",type:"cat",breed:"Domestic Shorthair",age:3,ageLabel:"3 years",gender:"Female",img:"https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=450&fit=crop",emoji:"🐈",badge:"Calm",badgeClass:"badge-blue",tags:["Indoor","Quiet","Lap cat"],desc:"Luna is a serene and elegant cat who loves curling up on warm laps and watching birds from windows. Perfect for apartment living. She bonds deeply with her chosen person. Spayed and microchipped.",weight:"4 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:3,name:"Biscuit",type:"rabbit",breed:"Holland Lop",age:1,ageLabel:"1 year",gender:"Male",img:"https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=450&fit=crop",emoji:"🐰",badge:"New",badgeClass:"badge-gold",tags:["Gentle","Litter-trained","Curious"],desc:"Biscuit is a sweet lop-eared rabbit who enjoys exploring and gentle pets. He's litter-trained and loves to binky when happy. Great for families ready for a social and interactive bunny.",weight:"1.8 kg",vaccinated:"Yes",neutered:"No",size:"Small"},
-  {id:4,name:"Coco",type:"dog",breed:"Beagle",age:4,ageLabel:"4 years",gender:"Female",img:"https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=600&h=450&fit=crop",emoji:"🐕",badge:"Urgent",badgeClass:"badge-red",tags:["Energetic","Loyal","Outdoor"],desc:"Coco is a spirited Beagle with a nose for adventure and a heart full of love. Needs a yard and an active family. Despite her energy, she's very cuddly at the end of the day.",weight:"11 kg",vaccinated:"Yes",neutered:"Yes",size:"Medium"},
-  {id:5,name:"Kiwi",type:"bird",breed:"Lovebird",age:1,ageLabel:"8 months",gender:"Female",img:"https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&h=450&fit=crop",emoji:"🦜",badge:"New",badgeClass:"badge-gold",tags:["Sociable","Colourful","Talkative"],desc:"Kiwi is a vivid, chirpy lovebird who thrives on interaction. She can learn words with training and loves music. Ideal for someone who can offer daily bonding time.",weight:"55 g",vaccinated:"N/A",neutered:"N/A",size:"Small"},
-  {id:6,name:"Tofu",type:"cat",breed:"Ragdoll Mix",age:5,ageLabel:"5 years",gender:"Male",img:"https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=600&h=450&fit=crop",emoji:"🐱",badge:"Calm",badgeClass:"badge-blue",tags:["Fluffy","Gentle","Senior-friendly"],desc:"Tofu is the definition of a gentle giant. This fluffy ragdoll mix adores slow mornings and quiet evenings. Perfect for a peaceful home or an older adopter.",weight:"6 kg",vaccinated:"Yes",neutered:"Yes",size:"Medium"},
-  {id:7,name:"Ginger",type:"dog",breed:"Shih Tzu",age:3,ageLabel:"3 years",gender:"Female",img:"https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=600&h=450&fit=crop",emoji:"🐶",badge:"Friendly",badgeClass:"badge-green",tags:["Lap dog","Low-shed","Good with cats"],desc:"Ginger is a charming little lady with a big personality. She loves short walks and napping in sunny spots. Gets along wonderfully with cats and children.",weight:"6 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:8,name:"Pebble",type:"rabbit",breed:"Angora Mix",age:2,ageLabel:"2 years",gender:"Female",img:"https://images.unsplash.com/photo-1611601680554-9c6ca3f77d51?w=600&h=450&fit=crop",emoji:"🐇",badge:"Calm",badgeClass:"badge-blue",tags:["Fluffy","Gentle","Bonded pair ok"],desc:"Pebble is a cloud of soft fur and sweet temperament. She loves being brushed and will sit quietly for hours. Looking for a home that provides daily grooming and plenty of fresh hay.",weight:"2.1 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:9,name:"Sunny",type:"dog",breed:"Labrador Mix",age:1,ageLabel:"1 year",gender:"Male",img:"https://images.unsplash.com/photo-1558788353-f76d92427f16?w=600&h=450&fit=crop",emoji:"🦮",badge:"New",badgeClass:"badge-gold",tags:["High energy","Trainable","Loves water"],desc:"Sunny is a joyful young lab mix eager to please and quick to learn. Completed basic obedience and loves swimming. Looking for an active family.",weight:"22 kg",vaccinated:"Yes",neutered:"No",size:"Large"},
-  {id:10,name:"Mochi",type:"cat",breed:"Scottish Fold Mix",age:2,ageLabel:"2 years",gender:"Female",img:"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&h=450&fit=crop",emoji:"😺",badge:"Friendly",badgeClass:"badge-green",tags:["Playful","Inquisitive","Toy-lover"],desc:"Mochi has the most expressive round eyes and insatiable curiosity. She loves interactive toys, puzzle feeders, and claiming the highest spot in any room. Best as indoor-only.",weight:"3.5 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:11,name:"Hazel",type:"bird",breed:"Cockatiel",age:2,ageLabel:"1.5 years",gender:"Male",img:"https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?w=600&h=450&fit=crop",emoji:"🐤",badge:"Friendly",badgeClass:"badge-green",tags:["Hand-tame","Whistles","Affectionate"],desc:"Hazel is a hand-tame cockatiel who loves to whistle songs and ride on shoulders. Gentle enough for older children and thrives with daily out-of-cage time.",weight:"90 g",vaccinated:"N/A",neutered:"N/A",size:"Small"},
-  {id:12,name:"Rusty",type:"other",breed:"Guinea Pig",age:1,ageLabel:"1 year",gender:"Male",img:"https://images.unsplash.com/photo-1548767797-d8c844163c4a?w=600&h=450&fit=crop",emoji:"🐾",badge:"New",badgeClass:"badge-gold",tags:["Social","Chatty","Starter pet"],desc:"Rusty is a sociable guinea pig who loves to wheek at feeding time. Does best with a companion guinea pig. A wonderful starter pet for responsible families.",weight:"950 g",vaccinated:"N/A",neutered:"No",size:"Small"},
-  {id:13,name:"Shadow",type:"dog",breed:"German Shepherd Mix",age:3,ageLabel:"3 years",gender:"Male",img:"https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&h=450&fit=crop",emoji:"🐕",badge:"Friendly",badgeClass:"badge-green",tags:["Loyal","Intelligent","Athletic"],desc:"Shadow is a strong, intelligent German Shepherd who loves working and training. Excellent with confident owners and enjoys agility activities. Fully trained and vaccinated.",weight:"34 kg",vaccinated:"Yes",neutered:"Yes",size:"Large"},
-  {id:14,name:"Whiskers",type:"cat",breed:"Maine Coon Mix",age:2,ageLabel:"2 years",gender:"Male",img:"https://images.unsplash.com/photo-1508194634382-02c74d4c4a71?w=600&h=450&fit=crop",emoji:"🐈",badge:"Friendly",badgeClass:"badge-green",tags:["Fluffy","Playful","Large breed"],desc:"Whiskers is a magnificent Maine Coon mix with a huge personality. Affectionate, loves interactive play, and has adorable paws. Perfect for families who want a cat that acts like a dog.",weight:"7.5 kg",vaccinated:"Yes",neutered:"Yes",size:"Medium"},
-  {id:15,name:"Daisy",type:"dog",breed:"Cocker Spaniel",age:4,ageLabel:"4 years",gender:"Female",img:"https://images.unsplash.com/photo-1583511655857-d19db992cb74?w=600&h=450&fit=crop",emoji:"🐶",badge:"Calm",badgeClass:"badge-blue",tags:["Gentle","Intelligent","Kid-friendly"],desc:"Daisy is a sweet, gentle spaniel who loves nothing more than a good cuddle. Wonderful with children and other pets. Requires regular grooming but her love knows no bounds.",weight:"18 kg",vaccinated:"Yes",neutered:"Yes",size:"Medium"},
-  {id:16,name:"Oliver",type:"bird",breed:"Canary",age:1,ageLabel:"1 year",gender:"Male",img:"https://images.unsplash.com/photo-1549608276-5786777e6587?w=600&h=450&fit=crop",emoji:"🐦",badge:"New",badgeClass:"badge-gold",tags:["Cheerful","Singer","Low maintenance"],desc:"Oliver is a bright yellow canary with a beautiful, cheerful song. Perfect for someone looking for a lovely songbird companion. Minimal interaction but maximum joy!",weight:"20 g",vaccinated:"N/A",neutered:"N/A",size:"Small"},
-  {id:17,name:"Bailey",type:"dog",breed:"Australian Shepherd",age:5,ageLabel:"5 years",gender:"Female",img:"https://images.unsplash.com/photo-1615751072497-5f5169febe17?w=600&h=450&fit=crop",emoji:"🐕",badge:"Urgent",badgeClass:"badge-red",tags:["High energy","Herding","Active family"],desc:"Bailey is an incredibly smart Australian Shepherd who needs an active family. Excels at dog sports and thrives with mental stimulation. Loves agility and outdoor adventures.",weight:"25 kg",vaccinated:"Yes",neutered:"Yes",size:"Large"},
-  {id:18,name:"Smokey",type:"cat",breed:"British Shorthair",age:6,ageLabel:"6 years",gender:"Male",img:"https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=600&h=450&fit=crop",emoji:"🐱",badge:"Calm",badgeClass:"badge-blue",tags:["Senior","Dignified","Quiet"],desc:"Smokey is a distinguished gentleman cat with a soft gray coat. Content to lounge in sunbeams and enjoy the company of calm adults. Perfect senior cat for a peaceful home.",weight:"5.2 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:19,name:"Charlie",type:"dog",breed:"Dachshund Mix",age:2,ageLabel:"2 years",gender:"Male",img:"https://images.unsplash.com/photo-1552053831-71594a27c62d?w=600&h=450&fit=crop",emoji:"🐶",badge:"Friendly",badgeClass:"badge-green",tags:["Playful","Social","Apartment-friendly"],desc:"Charlie is an adorable little dachshund mix with a big personality. Loves playing with other dogs and is perfect for apartment living. Fully house-trained.",weight:"8 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:20,name:"Melody",type:"bird",breed:"Parakeet",age:1,ageLabel:"8 months",gender:"Female",img:"https://images.unsplash.com/photo-1612024782955-49fae79e42bb?w=600&h=450&fit=crop",emoji:"🐦",badge:"New",badgeClass:"badge-gold",tags:["Interactive","Social","Playful"],desc:"Melody is a vibrant green parakeet who loves interaction and can learn simple phrases. Enjoys toys and mirrors. A wonderful starter bird for patient families.",weight:"35 g",vaccinated:"N/A",neutered:"N/A",size:"Small"},
-  {id:21,name:"Hunter",type:"dog",breed:"English Pointer",age:4,ageLabel:"4 years",gender:"Male",img:"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=450&fit=crop",emoji:"🦮",badge:"Friendly",badgeClass:"badge-green",tags:["Energetic","Hunting-bred","Field dog"],desc:"Hunter is a sleek English Pointer bred for sport now looking for his forever family. Excellent runner and loves open spaces. Perfect for active outdoorsy families.",weight:"32 kg",vaccinated:"Yes",neutered:"Yes",size:"Large"},
-  {id:22,name:"Jasper",type:"other",breed:"Dwarf Hamster",age:1,ageLabel:"8 months",gender:"Male",img:"https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=450&fit=crop",emoji:"🐹",badge:"New",badgeClass:"badge-gold",tags:["Curious","Nocturnal","Low maintenance"],desc:"Jasper is a tiny dwarf hamster with endless energy. Loves his wheel and exploring tunnels. Perfect for children learning pet responsibility. Minimal care required.",weight:"40 g",vaccinated:"N/A",neutered:"No",size:"Small"},
-  {id:23,name:"Bella",type:"cat",breed:"Bengal Mix",age:3,ageLabel:"3 years",gender:"Female",img:"https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&h=450&fit=crop",emoji:"🐈",badge:"Friendly",badgeClass:"badge-green",tags:["Active","Playful","Athletic"],desc:"Bella is a stunning Bengal mix with wild spots and an athletic build. Intelligent, loves vertical spaces, and enjoys interactive play. Not for couch potatoes!",weight:"4.8 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-  {id:24,name:"Duchess",type:"dog",breed:"Cavalier King Charles",age:7,ageLabel:"7 years",gender:"Female",img:"https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=600&h=450&fit=crop",emoji:"🐶",badge:"Calm",badgeClass:"badge-blue",tags:["Senior","Affectionate","Good with kids"],desc:"Duchess is a gentle senior Cavalier with the sweetest disposition. Content with gentle walks and lots of cuddles. Perfect for seniors or anyone wanting a calm, loving companion.",weight:"12 kg",vaccinated:"Yes",neutered:"Yes",size:"Small"},
-];
 
-// ═══ STATE ═════════════════════════════════════════════════════
+// ═══ SUPABASE INIT ══════════════════════════════════════════════
+const SUPABASE_URL = 'https://uiwvmwvzlmfunqarrjqa.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_KzNYf1N5ZOuL2DAGFue2kw_QsuWqeV0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Badge class map
+const BADGE_CLASS = { Friendly:'badge-green', Calm:'badge-blue', New:'badge-gold', Urgent:'badge-red' };
+
+// ═══ STATE ══════════════════════════════════════════════════════
+let allAnimals = [];
 let adoptFilter = 'all';
 let currentPage = 'home';
 let modalOpen = false;
+let selectedAmt = 1500;
+let editingId = null;
 
-// ═══ NAVIGATION ════════════════════════════════════════════════
+// ═══ LOAD FROM SUPABASE ═════════════════════════════════════════
+async function loadAnimals() {
+  try {
+    const { data, error } = await sb.from('animals').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    allAnimals = data.map(row => ({
+      ...row,
+      badgeClass: BADGE_CLASS[row.badge] || 'badge-green',
+      desc: row.description,
+      ageLabel: row.age_label,
+    }));
+    updateHeroStats();
+    renderFeatured();
+    renderAdopt();
+    setDbStatus('ok', '● Connected to Supabase');
+    renderAdminList();
+  } catch (err) {
+    console.error('Supabase error:', err);
+    setDbStatus('err', '● Connection failed');
+    toast('error', 'Could not load animals from database. Check your Supabase table.');
+    // Show empty state
+    document.getElementById('featuredGrid').innerHTML = emptyState('Database not connected yet', 'Make sure you ran the SQL setup in your Supabase project.');
+    document.getElementById('adoptGrid').innerHTML = emptyState('Database not connected yet', 'Run the SQL setup in Supabase and add your first animal via the Admin panel.');
+  }
+}
+
+function setDbStatus(type, text) {
+  const el = document.getElementById('dbStatusBadge');
+  if (!el) return;
+  el.className = `db-status ${type}`;
+  el.textContent = text;
+}
+
+// ═══ NAVIGATION ═════════════════════════════════════════════════
 function navigate(page) {
   if (currentPage === page) { window.scrollTo({top:0,behavior:'smooth'}); return; }
   currentPage = page;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  // Nav buttons
   document.querySelectorAll('[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   document.querySelectorAll('[data-bpage]').forEach(b => b.classList.toggle('active', b.dataset.bpage === page));
   window.scrollTo({top:0,behavior:'instant'});
-  if (page === 'adopt') { renderSkeletons(); setTimeout(renderAdopt, 150); }
-  initReveal();
+  if (page === 'adopt') { renderSkeletons(); setTimeout(renderAdopt, 100); }
 }
 
 function toggleDrawer() {
-  const drawer = document.getElementById('mobileDrawer');
-  const burger = document.getElementById('hamburger');
-  const isOpen = drawer.classList.toggle('open');
-  burger.classList.toggle('open', isOpen);
-  burger.setAttribute('aria-expanded', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  const d = document.getElementById('mobileDrawer');
+  const b = document.getElementById('hamburger');
+  const open = d.classList.toggle('open');
+  b.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
 }
 
-// ═══ NAVBAR SCROLL ══════════════════════════════════════════════
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
   document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
-  // Sticky filter detection
   const sf = document.getElementById('stickyFilters');
   if (sf) sf.classList.toggle('stuck', window.scrollY > 200);
 }, {passive:true});
 
-// ═══ HERO URGENCY ════════════════════════════════════════════════
-function updateUrgency() {
-  const urgent = animals.filter(a => a.badge === 'Urgent').length;
-  const newOnes = animals.filter(a => a.badge === 'New').length;
-  document.getElementById('heroUrgency').textContent = `${urgent} animals need urgent rehoming • ${newOnes} new arrivals this week`;
-  document.getElementById('availableCount').textContent = animals.length;
+// ═══ HERO STATS ══════════════════════════════════════════════════
+function updateHeroStats() {
+  const urgent = allAnimals.filter(a => a.badge === 'Urgent').length;
+  const newOnes = allAnimals.filter(a => a.badge === 'New').length;
+  document.getElementById('heroUrgency').textContent =
+    `${urgent} animals need urgent rehoming · ${newOnes} new arrivals`;
+  document.getElementById('availableCount').textContent = allAnimals.length;
 }
 
 // ═══ CARD HTML ═══════════════════════════════════════════════════
 function cardHTML(a) {
-  const shortDesc = a.desc.split(' ').slice(0,12).join(' ') + '…';
+  const shortDesc = a.desc.split(' ').slice(0,10).join(' ') + '…';
+  const tags = Array.isArray(a.tags) ? a.tags : [];
   return `
-  <div class="animal-card" onclick="openModal(${a.id})" role="listitem" tabindex="0"
-       onkeydown="if(event.key==='Enter')openModal(${a.id})" aria-label="Meet ${a.name}">
+  <div class="animal-card" onclick="openModal(${a.id})">
     <div class="card-img-wrap">
-      <div class="card-img-placeholder">${a.emoji}</div>
-      <img src="${a.img}" alt="${a.name} — ${a.breed}" loading="lazy" onerror="this.style.opacity=0">
+      <div class="card-img-placeholder">${a.emoji || '🐾'}</div>
+      <img src="${a.img}" alt="${a.name}" loading="lazy" onerror="this.style.opacity=0">
       <div class="card-badges"><span class="badge ${a.badgeClass}">${a.badge}</span></div>
-      <button class="card-fav" onclick="event.stopPropagation();toggleFav(this,${a.id})" aria-label="Save ${a.name}">🤍</button>
+      <button class="card-fav" onclick="event.stopPropagation();toggleFav(this,${a.id})" aria-label="Save">🤍</button>
       <div class="card-overlay"><div class="card-overlay-text">${shortDesc}</div></div>
     </div>
     <div class="card-body">
       <div class="card-name">${a.name}</div>
       <div class="card-breed">${a.breed}</div>
-      <div class="card-chips">${a.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
+      <div class="card-chips">${tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
       <div class="card-foot">
-        <div class="card-meta"><strong>${a.ageLabel}</strong> · ${a.gender} · ${a.size}</div>
-        <button class="btn btn-primary" style="padding:0.38rem 0.85rem;font-size:0.78rem;border-radius:var(--r6)"
+        <div class="card-meta"><strong>${a.ageLabel || a.age_label}</strong> · ${a.gender}</div>
+        <button class="btn btn-primary" style="padding:0.38rem 0.85rem;font-size:0.78rem;border-radius:6px"
           onclick="event.stopPropagation();openModal(${a.id})">Meet me</button>
       </div>
     </div>
   </div>`;
 }
 
-// ═══ SKELETONS ══════════════════════════════════════════════════
+function emptyState(title, desc, showClear = false) {
+  return `<div class="empty-state" style="grid-column:1/-1">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">${title}</div>
+    <p class="body-md" style="margin-bottom:1.25rem">${desc}</p>
+    ${showClear ? `<button class="btn btn-primary" onclick="clearAllFilters()">Clear all filters</button>` : ''}
+  </div>`;
+}
+
+function clearAllFilters() {
+  clearSearch();
+  document.querySelectorAll('#typeChips .fchip').forEach(c => c.classList.remove('on'));
+  document.querySelector('#typeChips .fchip').classList.add('on');
+  adoptFilter = 'all';
+  document.getElementById('ageFilter').value = 'all';
+  renderAdopt();
+}
+
+// ═══ SKELETONS ═══════════════════════════════════════════════════
 function renderSkeletons() {
-  const grid = document.getElementById('adoptGrid');
-  if (!grid) return;
-  grid.innerHTML = Array(8).fill(`
-    <div class="skeleton-card">
-      <div class="skeleton-img"></div>
-      <div class="skeleton-body">
-        <div class="skeleton-line wide"></div>
-        <div class="skeleton-line medium"></div>
-        <div class="skeleton-line narrow" style="margin-top:1rem"></div>
-      </div>
-    </div>`).join('');
+  const g = document.getElementById('adoptGrid');
+  if (g) g.innerHTML = Array(6).fill(`<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line wide"></div><div class="skeleton-line medium"></div><div class="skeleton-line narrow" style="margin-top:0.75rem"></div></div></div>`).join('');
 }
 
 // ═══ FEATURED ════════════════════════════════════════════════════
 function renderFeatured() {
-  document.getElementById('featuredGrid').innerHTML = animals.slice(0, 4).map(a => cardHTML(a)).join('');
+  const g = document.getElementById('featuredGrid');
+  if (!g) return;
+  const featured = allAnimals.slice(0, 4);
+  g.innerHTML = featured.length ? featured.map(a => cardHTML(a)).join('') : emptyState('No animals yet', 'Add your first animal using the Admin panel.');
 }
 
 // ═══ ADOPT PAGE ══════════════════════════════════════════════════
@@ -1030,8 +867,8 @@ document.querySelectorAll('#typeChips .fchip').forEach(chip => {
 });
 
 function handleSearch() {
-  const val = document.getElementById('adoptSearch').value;
-  document.getElementById('searchClear').style.display = val ? 'block' : 'none';
+  const v = document.getElementById('adoptSearch').value;
+  document.getElementById('searchClear').style.display = v ? 'block' : 'none';
   renderAdopt();
 }
 
@@ -1042,26 +879,26 @@ function clearSearch() {
 }
 
 function renderAdopt() {
-  const search = document.getElementById('adoptSearch')?.value.toLowerCase().trim() || '';
+  const search = (document.getElementById('adoptSearch')?.value || '').toLowerCase().trim();
   const age    = document.getElementById('ageFilter')?.value || 'all';
   const sort   = document.getElementById('adoptSort')?.value || 'default';
 
-  let filtered = animals.filter(a => {
+  let filtered = allAnimals.filter(a => {
+    const tags = Array.isArray(a.tags) ? a.tags : [];
     const matchType   = adoptFilter === 'all' || a.type === adoptFilter;
     const matchSearch = !search ||
       a.name.toLowerCase().includes(search) ||
       a.breed.toLowerCase().includes(search) ||
-      a.tags.some(t => t.toLowerCase().includes(search)) ||
+      tags.some(t => t.toLowerCase().includes(search)) ||
       a.desc.toLowerCase().includes(search);
     const matchAge = age === 'all' ||
-      (age === 'young'  && a.age < 2)  ||
+      (age === 'young'  && a.age < 2) ||
       (age === 'adult'  && a.age >= 2 && a.age <= 7) ||
       (age === 'senior' && a.age > 7);
     return matchType && matchSearch && matchAge;
   });
 
-  // Sort
-  if      (sort === 'name')     filtered.sort((a,b) => a.name.localeCompare(b.name));
+  if (sort === 'name')     filtered.sort((a,b) => a.name.localeCompare(b.name));
   else if (sort === 'age-asc')  filtered.sort((a,b) => a.age - b.age);
   else if (sort === 'age-desc') filtered.sort((a,b) => b.age - a.age);
 
@@ -1070,96 +907,61 @@ function renderAdopt() {
 
   const grid = document.getElementById('adoptGrid');
   if (!grid) return;
-
-  if (!filtered.length) {
-    const searchTerm = search || (adoptFilter !== 'all' ? adoptFilter : '');
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-title">No animals found</div>
-        <div class="empty-desc">We couldn't find animals matching "${searchTerm}". Try different keywords or filters.</div>
-        <button class="btn btn-primary" onclick="clearSearch();document.querySelectorAll('#typeChips .fchip').forEach(c=>c.classList.remove('on'));document.querySelector('#typeChips .fchip').classList.add('on');adoptFilter='all';document.getElementById('ageFilter').value='all';renderAdopt()">
-          Clear all filters
-        </button>
-      </div>`;
-    return;
-  }
-  grid.innerHTML = filtered.map(a => cardHTML(a)).join('');
+  grid.innerHTML = filtered.length
+    ? filtered.map(a => cardHTML(a)).join('')
+    : emptyState('No animals found', `We couldn't find animals matching your filters. Try adjusting them.`, true);
 }
 
-// ═══ MODAL ══════════════════════════════════════════════════════
-let lastFocus = null;
-
+// ═══ MODAL ═══════════════════════════════════════════════════════
 function openModal(id) {
-  const a = animals.find(x => x.id === id);
+  const a = allAnimals.find(x => x.id === id);
   if (!a) return;
-  lastFocus = document.activeElement;
-
+  const tags = Array.isArray(a.tags) ? a.tags : [];
   document.getElementById('modalPhoto').innerHTML = `
-    <div class="modal-photo-emoji">${a.emoji}</div>
+    <div class="modal-photo-emoji">${a.emoji || '🐾'}</div>
     <img src="${a.img}" alt="${a.name}" onerror="this.style.opacity=0" style="position:relative;z-index:1">
     <div class="modal-photo-badges"><span class="badge ${a.badgeClass}">${a.badge}</span></div>`;
   document.getElementById('modalName').textContent  = a.name;
   document.getElementById('modalBreed').textContent = `${a.breed} · ${a.gender}`;
-  document.getElementById('modalBadge').innerHTML   = '';
-  document.getElementById('modalTags').innerHTML    = a.tags.map(t => `<span class="chip">${t}</span>`).join('');
+  document.getElementById('modalTags').innerHTML    = tags.map(t => `<span class="chip">${t}</span>`).join('');
   document.getElementById('modalDesc').textContent  = a.desc;
   document.getElementById('modalFacts').innerHTML   = [
-    ['Age', a.ageLabel], ['Weight', a.weight], ['Size', a.size],
+    ['Age', a.ageLabel || a.age_label], ['Weight', a.weight], ['Size', a.size],
     ['Vaccinated', a.vaccinated], ['Neutered', a.neutered], ['Gender', a.gender],
   ].map(([l,v]) => `<div class="modal-fact"><div class="modal-fact-label">${l}</div><div class="modal-fact-val">${v}</div></div>`).join('');
-
   document.getElementById('modalAdoptBtn').onclick = () => {
     closeModal();
-    toast('success', `🐾 Thank you for your interest in ${a.name}! We'll contact you within 24 hours.`);
+    toast('info', `🐾 Thank you for your interest in ${a.name}! We'll contact you within 24 hours.`);
   };
-
-  const modal = document.getElementById('animalModal');
-  modal.classList.add('open');
+  document.getElementById('animalModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   modalOpen = true;
-  // Focus first focusable element
-  setTimeout(() => { document.querySelector('.modal-close')?.focus(); }, 100);
 }
 
 function closeModal() {
   document.getElementById('animalModal').classList.remove('open');
   document.body.style.overflow = '';
   modalOpen = false;
-  lastFocus?.focus();
 }
 
-// Click backdrop to close
 document.getElementById('animalModal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeModal();
 });
 
-// Keyboard: Escape closes modal, Tab traps focus
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && modalOpen) { closeModal(); return; }
-  if (e.key === 'Tab' && modalOpen) {
-    const focusable = document.getElementById('modalBox').querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
-    const first = focusable[0], last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  }
+  if (e.key === 'Escape') { if (modalOpen) closeModal(); }
 });
 
-// ═══ FAV ════════════════════════════════════════════════════════
+// ═══ FAV ═════════════════════════════════════════════════════════
 const favSet = new Set();
 function toggleFav(btn, id) {
+  const a = allAnimals.find(x => x.id === id);
   if (favSet.has(id)) { favSet.delete(id); btn.textContent = '🤍'; btn.classList.remove('faved'); }
-  else { favSet.add(id); btn.textContent = '❤️'; btn.classList.add('faved'); toast('info', `${animals.find(a=>a.id===id)?.name} saved to favourites!`); }
+  else { favSet.add(id); btn.textContent = '❤️'; btn.classList.add('faved'); toast('info', `${a?.name || 'Animal'} saved to favourites!`); }
 }
 
-// ═══ DONATE ════════════════════════════════════════════════════
-let selectedAmt = 1500;
-
-function setFreq(btn) {
-  document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-}
-
+// ═══ DONATE ══════════════════════════════════════════════════════
+function setFreq(btn) { document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
 function setAmt(btn) {
   document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -1167,71 +969,194 @@ function setAmt(btn) {
   if (btn.dataset.amt === 'custom') { ci.style.display = 'block'; ci.focus(); selectedAmt = null; }
   else { ci.style.display = 'none'; selectedAmt = parseInt(btn.dataset.amt); updateDonateBtn(); }
 }
-
 function updateDonateBtn() {
   const ci = document.getElementById('customAmt');
-  if (ci && ci.style.display !== 'none') selectedAmt = parseInt(ci.value.replace(/\D/g,'')) || null;
+  if (ci && ci.style.display !== 'none') selectedAmt = parseInt(ci.value) || null;
   const btn = document.getElementById('donateCta');
   if (!btn) return;
-  btn.innerHTML = selectedAmt
-    ? `Donate ₱${selectedAmt.toLocaleString()} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`
-    : `Donate <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+  btn.innerHTML = `Donate ${selectedAmt ? '₱'+selectedAmt.toLocaleString() : ''} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
 }
+function submitDonate() { toast('info', `🙏 Thank you${selectedAmt ? ' for ₱'+selectedAmt.toLocaleString() : ''}! You'll receive a receipt shortly.`); }
 
-function submitDonate() {
-  toast('success', `🙏 Thank you${selectedAmt ? ' for ₱'+selectedAmt.toLocaleString() : ''}! You'll receive a receipt shortly.`);
-}
-
-// ═══ CONTACT FORM ═══════════════════════════════════════════════
+// ═══ CONTACT FORM ════════════════════════════════════════════════
 function submitForm() {
   let valid = true;
-  const firstName = document.getElementById('firstName');
-  const email     = document.getElementById('email');
-  const message   = document.getElementById('message');
-  const emailErr  = document.getElementById('emailErr');
-  const msgErr    = document.getElementById('msgErr');
-
-  // Reset errors
-  [firstName, email, message].forEach(el => el.classList.remove('error'));
-  [emailErr, msgErr].forEach(el => el.classList.remove('show'));
-
-  // Validate
-  if (!firstName.value.trim()) { firstName.classList.add('error'); valid = false; }
-  if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { email.classList.add('error'); emailErr.classList.add('show'); valid = false; }
-  if (!message.value.trim()) { message.classList.add('error'); msgErr.classList.add('show'); valid = false; }
-
-  if (!valid) { toast('error', 'Please fill in all required fields correctly.'); return; }
-  toast('success', "✅ Message sent! We'll get back to you within 1 business day.");
-  // Reset
-  [firstName, email, message, document.getElementById('lastName')].forEach(el => el && (el.value = ''));
+  const fn = document.getElementById('firstName'), em = document.getElementById('email'), ms = document.getElementById('message');
+  [fn,em,ms].forEach(el => el.classList.remove('error'));
+  ['emailErr','msgErr'].forEach(id => document.getElementById(id).classList.remove('show'));
+  if (!fn.value.trim()) { fn.classList.add('error'); valid = false; }
+  if (!em.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { em.classList.add('error'); document.getElementById('emailErr').classList.add('show'); valid = false; }
+  if (!ms.value.trim()) { ms.classList.add('error'); document.getElementById('msgErr').classList.add('show'); valid = false; }
+  if (!valid) { toast('error', 'Please fill in all required fields.'); return; }
+  toast('info', "✅ Message sent! We'll get back to you within 1 business day.");
+  [fn, em, ms, document.getElementById('lastName')].forEach(el => { if(el) el.value = ''; });
 }
 
-// ═══ TOAST ══════════════════════════════════════════════════════
+// ═══ TOAST ═══════════════════════════════════════════════════════
 function toast(type = 'info', msg) {
   const wrap = document.getElementById('toastWrap');
   const el = document.createElement('div');
   el.className = `toast ${type}`;
-  el.innerHTML = `<span class="toast-icon"></span><span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+  el.innerHTML = `<span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
   wrap.appendChild(el);
-  requestAnimationFrame(() => { requestAnimationFrame(() => el.classList.add('show')); });
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
   setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 4500);
 }
 
-// ═══ SCROLL REVEAL ══════════════════════════════════════════════
-function initReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, {threshold: 0.12});
-  document.querySelectorAll('.reveal').forEach(el => {
-    el.classList.remove('visible');
-    obs.observe(el);
+// ═══════════════════════════════════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════════════════════════════════
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderAdminList();
+}
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tab-' + tab).classList.add('on');
+  if (tab === 'add' && !editingId) resetForm();
+}
+
+function renderAdminList() {
+  const el = document.getElementById('adminAnimalList');
+  if (!allAnimals.length) {
+    el.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">No animals in database yet.<br>Use the <strong>➕ Add Animal</strong> tab to add your first one!</div>`;
+    return;
+  }
+  el.innerHTML = allAnimals.map(a => `
+    <div class="admin-animal-row">
+      <div class="admin-animal-emoji">${a.emoji || '🐾'}</div>
+      <div class="admin-animal-info">
+        <div class="admin-animal-name">${a.name}</div>
+        <div class="admin-animal-meta">${a.breed} · ${a.type} · ${a.gender} · <span class="badge ${a.badgeClass}" style="font-size:0.65rem">${a.badge}</span></div>
+      </div>
+      <div class="admin-animal-actions">
+        <button class="admin-icon-btn edit" onclick="editAnimal(${a.id})" title="Edit">✏️</button>
+        <button class="admin-icon-btn del" onclick="deleteAnimal(${a.id},'${a.name}')" title="Delete">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function resetForm() {
+  editingId = null;
+  document.getElementById('editId').value = '';
+  document.getElementById('saveBtn').textContent = '💾 Save Animal';
+  ['f_name','f_breed','f_age','f_age_label','f_weight','f_img','f_tags','f_desc','f_emoji'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  ['f_type','f_gender','f_size','f_badge','f_vaccinated','f_neutered'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.selectedIndex = 0;
   });
 }
 
+function editAnimal(id) {
+  const a = allAnimals.find(x => x.id === id);
+  if (!a) return;
+  editingId = id;
+  document.getElementById('editId').value = id;
+  document.getElementById('f_name').value      = a.name;
+  document.getElementById('f_breed').value     = a.breed;
+  document.getElementById('f_age').value       = a.age;
+  document.getElementById('f_age_label').value = a.age_label || a.ageLabel;
+  document.getElementById('f_weight').value    = a.weight;
+  document.getElementById('f_img').value       = a.img;
+  document.getElementById('f_desc').value      = a.description || a.desc;
+  document.getElementById('f_emoji').value     = a.emoji || '';
+  document.getElementById('f_tags').value      = Array.isArray(a.tags) ? a.tags.join(', ') : '';
+  document.getElementById('f_type').value      = a.type;
+  document.getElementById('f_gender').value    = a.gender;
+  document.getElementById('f_size').value      = a.size;
+  document.getElementById('f_badge').value     = a.badge;
+  document.getElementById('f_vaccinated').value = a.vaccinated;
+  document.getElementById('f_neutered').value  = a.neutered;
+  document.getElementById('saveBtn').textContent = '💾 Update Animal';
+  // Switch to add tab
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.admin-tab')[1].classList.add('on');
+  document.getElementById('tab-add').classList.add('on');
+}
+
+async function saveAnimal() {
+  const name      = document.getElementById('f_name').value.trim();
+  const breed     = document.getElementById('f_breed').value.trim();
+  const age       = parseFloat(document.getElementById('f_age').value);
+  const age_label = document.getElementById('f_age_label').value.trim();
+  const weight    = document.getElementById('f_weight').value.trim();
+  const img       = document.getElementById('f_img').value.trim();
+  const desc      = document.getElementById('f_desc').value.trim();
+  const emoji     = document.getElementById('f_emoji').value.trim() || '🐾';
+  const tagsRaw   = document.getElementById('f_tags').value.trim();
+  const tags      = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const type      = document.getElementById('f_type').value;
+  const gender    = document.getElementById('f_gender').value;
+  const size      = document.getElementById('f_size').value;
+  const badge     = document.getElementById('f_badge').value;
+  const vaccinated = document.getElementById('f_vaccinated').value;
+  const neutered  = document.getElementById('f_neutered').value;
+  const badge_class = BADGE_CLASS[badge] || 'badge-green';
+
+  if (!name || !breed || isNaN(age) || !age_label || !weight || !img || !desc) {
+    toast('error', 'Please fill in all required fields.'); return;
+  }
+
+  const payload = { name, breed, age, age_label, weight, img, description: desc, emoji, tags, type, gender, size, badge, badge_class, vaccinated, neutered };
+
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = '⏳ Saving…';
+
+  try {
+    let error;
+    if (editingId) {
+      ({ error } = await sb.from('animals').update(payload).eq('id', editingId));
+    } else {
+      ({ error } = await sb.from('animals').insert([payload]));
+    }
+    if (error) throw error;
+    toast('info', `✅ ${name} ${editingId ? 'updated' : 'added'} successfully!`);
+    resetForm();
+    await loadAnimals();
+    // Switch back to list tab
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
+    document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.admin-tab')[0].classList.add('on');
+    document.getElementById('tab-list').classList.add('on');
+  } catch (err) {
+    console.error(err);
+    toast('error', `Error saving: ${err.message}`);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = editingId ? '💾 Update Animal' : '💾 Save Animal';
+  }
+}
+
+async function deleteAnimal(id, name) {
+  if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) return;
+  try {
+    const { error } = await sb.from('animals').delete().eq('id', id);
+    if (error) throw error;
+    toast('info', `🗑️ ${name} removed from database.`);
+    await loadAnimals();
+  } catch (err) {
+    toast('error', `Error deleting: ${err.message}`);
+  }
+}
+
+// Close admin on backdrop click
+document.getElementById('adminOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeAdmin();
+});
+
 // ═══ INIT ════════════════════════════════════════════════════════
-updateUrgency();
-renderFeatured();
-initReveal();
+loadAnimals();
 </script>
 </body>
 </html>
