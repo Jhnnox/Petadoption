@@ -729,7 +729,7 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
       <p class="modal-desc" id="modalDesc"></p>
       <div class="modal-facts" id="modalFacts"></div>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="modalAdoptBtn" onclick="handleAdoptClick()">Apply to Adopt <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        <button class="btn btn-primary" id="modalAdoptBtn">Apply to Adopt <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         <button class="btn btn-outline" onclick="closeModal()">Back to Browse</button>
       </div>
     </div>
@@ -1184,7 +1184,14 @@ function openModal(id) {
     ['Age', a.ageLabel || a.age_label], ['Weight', a.weight], ['Size', a.size],
     ['Vaccinated', a.vaccinated], ['Neutered', a.neutered], ['Gender', a.gender],
   ].map(([l,v]) => `<div class="modal-fact"><div class="modal-fact-label">${l}</div><div class="modal-fact-val">${v}</div></div>`).join('');
-  document.getElementById('modalAdoptBtn').dataset.animalId = a.id;
+  document.getElementById('modalAdoptBtn').onclick = function(e) {
+    e.stopPropagation();
+    var aid = a.id;
+    document.getElementById('animalModal').classList.remove('open');
+    document.body.style.overflow = '';
+    modalOpen = false;
+    _doOpenAdoptModal(aid);
+  };
   document.getElementById('animalModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   modalOpen = true;
@@ -1583,35 +1590,39 @@ async function deleteApp(id) {
 // ===============================================================
 let adoptingAnimalId = null;
 
-function handleAdoptClick() {
-  const btn = document.getElementById('modalAdoptBtn');
-  const animalId = parseInt(btn.dataset.animalId);
-  closeModal();
-  setTimeout(function() { _doOpenAdoptModal(animalId); }, 300);
-}
-
 function openAdoptModal(animalId) {
-  setTimeout(function() { _doOpenAdoptModal(animalId); }, 300);
+  _doOpenAdoptModal(animalId);
 }
 
 function _doOpenAdoptModal(animalId) {
   adoptingAnimalId = animalId;
+
+  // Restore form if it was replaced by success screen
+  var body = document.getElementById('adoptModalBody');
+  if (!document.getElementById('a_firstname')) {
+    body.innerHTML = window._adoptFormHTML;
+  }
+
   const a = allAnimals.find(x => x.id === animalId);
   const banner = document.getElementById('adoptModalBanner');
   if (a) {
-    banner.innerHTML = '<div class="adopt-modal-animal-emoji">'+( a.emoji||'🐾')+'</div><div class="adopt-modal-animal-info"><strong>'+a.name+'</strong><span>'+a.breed+' · '+a.gender+' · '+(a.ageLabel||a.age_label)+'</span></div>';
+    banner.innerHTML = '<div class="adopt-modal-animal-emoji">'+(a.emoji||'🐾')+'</div><div class="adopt-modal-animal-info"><strong>'+a.name+'</strong><span>'+a.breed+' · '+a.gender+' · '+(a.ageLabel||a.age_label)+'</span></div>';
   }
-  ['a_firstname','a_lastname','a_email','a_phone','a_address','a_household_size','a_children','a_other_pets','a_reason','a_notes'].forEach(function(id){
-    var el=document.getElementById(id); if(el){el.value='';el.classList.remove('err');}
-  });
-  document.querySelectorAll('#adoptAppModal input[type=radio]').forEach(function(r){r.checked=false;});
-  var ag=document.getElementById('a_agree'); if(ag) ag.checked=false;
-  var body=document.getElementById('adoptModalBody');
-  body.style.display='';
-  document.getElementById('adoptAppModal').classList.add('open');
-  document.body.style.overflow='hidden';
-}
 
+  ['a_firstname','a_lastname','a_email','a_phone','a_address','a_household_size','a_children','a_other_pets','a_reason','a_notes'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.value = ''; el.classList.remove('err'); }
+  });
+  document.querySelectorAll('#adoptAppModal input[type=radio]').forEach(function(r) { r.checked = false; });
+  var ag = document.getElementById('a_agree');
+  if (ag) ag.checked = false;
+
+  var btn = document.getElementById('adoptSubmitBtn');
+  if (btn) { btn.disabled = false; btn.innerHTML = 'Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; }
+
+  document.getElementById('adoptAppModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 function closeAdoptModal() {
   document.getElementById('adoptAppModal').classList.remove('open');
   document.body.style.overflow='';
@@ -1684,6 +1695,13 @@ async function submitAdoptionApp() {
     btn.innerHTML='Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
 }
+
+
+// Save original adoption form HTML for reuse
+window.addEventListener('load', function() {
+  var b = document.getElementById('adoptModalBody');
+  if (b) window._adoptFormHTML = b.innerHTML;
+});
 
 loadAnimals();
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
