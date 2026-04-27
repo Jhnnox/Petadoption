@@ -7,7 +7,6 @@
 <meta name="description" content="PawHaven is a no-kill animal rescue shelter in Metro Manila.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<!-- Supabase JS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -33,7 +32,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font-family:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r6)}
 
-/* PAGES */
 .page{display:none}
 .page.active{display:block;animation:pageIn .3s ease}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -69,8 +67,6 @@ input,select,textarea{font-family:inherit}
 .mobile-drawer-panel button{display:block;width:100%;text-align:left;padding:0.85rem 1rem;border-radius:var(--r10);font-size:1rem;font-weight:500;color:var(--ink);transition:background var(--t);margin-bottom:0.25rem}
 .mobile-drawer-panel button:hover{background:var(--off)}
 .mob-donate{background:var(--accent);color:var(--white)!important;text-align:center!important;font-weight:600;margin-top:0.5rem}
-
-/* BOTTOM NAV */
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:250;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--light);padding:0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom))}
 .bottom-nav-items{display:flex;justify-content:space-around;align-items:center}
 .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0.35rem 0.75rem;border-radius:var(--r10);color:var(--muted);font-size:0.65rem;font-weight:500;transition:all var(--t);min-width:52px}
@@ -79,8 +75,6 @@ input,select,textarea{font-family:inherit}
 .bnav-btn.active svg{stroke-width:2.3}
 .bnav-donate-mob{background:var(--accent);color:var(--white)!important;border-radius:var(--r10)}
 @media(max-width:750px){.bottom-nav{display:block}body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}#navbar{position:sticky}.hamburger{display:flex}.nav-links{display:none}}
-
-/* BACK TO TOP */
 .back-top{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));right:1.25rem;z-index:240;width:42px;height:42px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:all var(--t);transform:translateY(8px)}
 .back-top.visible{opacity:1;pointer-events:all;transform:none}
 @media(min-width:751px){.back-top{bottom:2rem}}
@@ -234,7 +228,7 @@ h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .empty-icon{font-size:3.5rem;margin-bottom:1rem}
 .empty-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem}
 
-/* MODAL */
+/* ANIMAL MODAL */
 .modal-bg{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-bg::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px)}
 .modal-bg.open{opacity:1;pointer-events:all}
@@ -351,30 +345,30 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 @media(max-width:580px){.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
 
 /* TOAST */
-.toast-wrap{position:fixed;bottom:calc(80px + 1rem + env(safe-area-inset-bottom));right:1.25rem;z-index:700;display:flex;flex-direction:column;gap:0.6rem;pointer-events:none}
+.toast-wrap{position:fixed;bottom:calc(80px + 1rem + env(safe-area-inset-bottom));right:1.25rem;z-index:900;display:flex;flex-direction:column;gap:0.6rem;pointer-events:none}
 @media(min-width:751px){.toast-wrap{bottom:2rem}}
-.toast{display:flex;align-items:flex-start;gap:0.75rem;background:var(--ink);color:var(--white);border-radius:var(--r14);padding:0.9rem 1.25rem;font-size:0.87rem;box-shadow:var(--sh-lg);max-width:300px;transform:translateX(20px);opacity:0;transition:all .3s;pointer-events:all}
+.toast{display:flex;align-items:flex-start;gap:0.75rem;background:var(--ink);color:var(--white);border-radius:var(--r14);padding:0.9rem 1.25rem;font-size:0.87rem;box-shadow:var(--sh-lg);max-width:320px;transform:translateX(20px);opacity:0;transition:all .3s;pointer-events:all}
 .toast.show{transform:none;opacity:1}
 .toast-close{margin-left:auto;padding:0 0 0 0.5rem;opacity:0.5;flex-shrink:0;font-size:1rem;transition:opacity var(--t)}
 .toast-close:hover{opacity:1}
 
-/* ════ ADMIN PANEL ════════════════════════════════════════════ */
+/* ADMIN */
 .admin-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
 .admin-overlay.open{display:flex}
-.admin-panel{background:var(--white);border-radius:var(--r28);width:100%;max-width:900px;overflow:hidden;box-shadow:var(--sh-lg);animation:pageIn .3s ease}
+.admin-panel{background:var(--white);border-radius:var(--r28);width:100%;max-width:920px;overflow:hidden;box-shadow:var(--sh-lg);animation:pageIn .3s ease}
 .admin-header{background:var(--ink);color:var(--white);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between}
 .admin-header h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
 .admin-header p{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-top:0.15rem}
 .admin-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--white);transition:all var(--t)}
 .admin-close:hover{background:rgba(255,255,255,0.2)}
 .admin-body{padding:2rem}
-.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;border-bottom:1px solid var(--light);padding-bottom:0}
+.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;border-bottom:1px solid var(--light);padding-bottom:0;flex-wrap:wrap}
 .admin-tab{padding:0.6rem 1.1rem;font-size:0.88rem;font-weight:600;color:var(--muted);border-radius:var(--r6) var(--r6) 0 0;transition:all var(--t);position:relative;bottom:-1px}
 .admin-tab:hover{color:var(--ink);background:var(--off)}
 .admin-tab.on{color:var(--accent);background:var(--white);border:1px solid var(--light);border-bottom:1px solid var(--white)}
 .admin-pane{display:none}
 .admin-pane.on{display:block}
-.admin-animal-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;max-height:400px;overflow-y:auto}
+.admin-animal-list{display:flex;flex-direction:column;gap:0.75rem;max-height:420px;overflow-y:auto}
 .admin-animal-row{display:flex;align-items:center;gap:1rem;background:var(--off);border-radius:var(--r10);padding:0.75rem 1rem;transition:all var(--t)}
 .admin-animal-row:hover{background:var(--light)}
 .admin-animal-emoji{font-size:1.5rem;flex-shrink:0}
@@ -398,13 +392,10 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .admin-loading::before{content:'⏳ '}
 .db-status{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:var(--rpill);font-weight:600}
 .db-status.ok{background:var(--accent2);color:var(--accent)}
-.db-status.ok::before{content:'●';font-size:0.6rem}
 .db-status.err{background:var(--warn2);color:var(--warn)}
-.db-status.err::before{content:'●';font-size:0.6rem}
 .db-status.loading{background:var(--gold2);color:var(--gold)}
-.db-status.loading::before{content:'●';font-size:0.6rem}
 
-/* ── PHOTO UPLOAD ── */
+/* PHOTO UPLOAD */
 @keyframes spin{to{transform:rotate(360deg)}}
 .upload-dropzone{border:2px dashed var(--mid);border-radius:var(--r10);padding:1.75rem 1rem;text-align:center;cursor:pointer;background:var(--off);transition:all var(--t);position:relative}
 .upload-dropzone:hover,.upload-dropzone.drag{border-color:var(--accent);background:var(--accent2)}
@@ -422,58 +413,15 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .upload-current-img{display:flex;align-items:center;gap:0.6rem;background:var(--accent2);border:1px solid var(--accent3);border-radius:var(--r10);padding:0.6rem 0.85rem;margin-bottom:0.5rem;font-size:0.8rem;color:var(--accent)}
 .upload-current-img img{width:36px;height:36px;border-radius:6px;object-fit:cover;flex-shrink:0}
 .upload-current-img span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
 @media(max-width:600px){.admin-form-grid{grid-template-columns:1fr}.admin-body{padding:1.25rem}}
 
-/* ── ADOPTION APPLICATION MODAL ── */
-.adopt-modal-bg{position:fixed;inset:0;z-index:800;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
-.adopt-modal-bg::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px)}
-.adopt-modal-bg.open{opacity:1;pointer-events:all}
-.adopt-modal-box{background:var(--white);border-radius:var(--r28);max-width:640px;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s cubic-bezier(.34,1.4,.64,1);position:relative;z-index:1}
-.adopt-modal-bg.open .adopt-modal-box{transform:none}
-.adopt-modal-header{background:var(--accent);padding:1.75rem 2rem;border-radius:var(--r28) var(--r28) 0 0;position:relative}
-.adopt-modal-header h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.25rem}
-.adopt-modal-header p{font-size:0.82rem;color:rgba(255,255,255,0.65)}
-.adopt-modal-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--white);transition:all var(--t)}
-.adopt-modal-close:hover{background:rgba(255,255,255,0.25)}
-.adopt-modal-animal-banner{display:flex;align-items:center;gap:1rem;background:var(--accent2);border-bottom:1px solid var(--accent3);padding:1rem 2rem}
-.adopt-modal-animal-photo{width:52px;height:52px;border-radius:var(--r10);object-fit:cover;border:2px solid var(--accent3);flex-shrink:0;background:var(--off)}
-.adopt-modal-animal-emoji{width:52px;height:52px;border-radius:var(--r10);background:var(--accent3);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0}
-.adopt-modal-animal-info strong{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);display:block}
-.adopt-modal-animal-info span{font-size:0.78rem;color:var(--muted)}
-.adopt-modal-body{padding:1.75rem 2rem 2rem}
-.adopt-section-title{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.85rem;margin-top:1.5rem;padding-bottom:0.4rem;border-bottom:1.5px solid var(--accent3)}
-.adopt-section-title:first-child{margin-top:0}
-.adopt-form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
-.adopt-fgroup{margin-bottom:0.85rem}
-.adopt-flabel{display:block;font-size:0.79rem;font-weight:600;color:var(--ink);margin-bottom:0.35rem}
-.adopt-flabel .req{color:var(--warn)}
-.adopt-finput,.adopt-fselect,.adopt-ftextarea{width:100%;padding:0.65rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--r10);font-size:0.88rem;color:var(--ink);background:var(--white);outline:none;transition:border-color var(--t),box-shadow var(--t)}
-.adopt-finput:focus,.adopt-fselect:focus,.adopt-ftextarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
-.adopt-finput.err,.adopt-fselect.err,.adopt-ftextarea.err{border-color:var(--warn);box-shadow:0 0 0 3px rgba(204,74,40,0.08)}
-.adopt-ftextarea{resize:vertical;min-height:90px;line-height:1.6}
-.adopt-radio-group{display:flex;gap:0.65rem;flex-wrap:wrap}
-.adopt-radio-opt{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.85rem;border:1.5px solid var(--light);border-radius:var(--rpill);cursor:pointer;font-size:0.82rem;font-weight:500;color:var(--muted);transition:all var(--t)}
-.adopt-radio-opt input{display:none}
-.adopt-radio-opt:has(input:checked){background:var(--accent);color:var(--white);border-color:var(--accent)}
-.adopt-radio-opt:hover:not(:has(input:checked)){border-color:var(--accent);color:var(--accent)}
-.adopt-agree{display:flex;align-items:flex-start;gap:0.65rem;background:var(--off);border-radius:var(--r10);padding:0.85rem;margin-top:1rem}
-.adopt-agree input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
-.adopt-agree label{font-size:0.82rem;color:var(--muted);line-height:1.6;cursor:pointer}
-.adopt-agree label strong{color:var(--ink)}
-.adopt-submit-row{display:flex;gap:0.65rem;margin-top:1.5rem}
-.adopt-submit-row .btn{flex:1;justify-content:center;padding:0.85rem}
-.adopt-success{text-align:center;padding:2rem 1rem}
-.adopt-success-icon{font-size:3.5rem;margin-bottom:1rem}
-.adopt-success h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:0.5rem}
-.adopt-success p{font-size:0.88rem;color:var(--muted);line-height:1.7;max-width:380px;margin:0 auto 1.5rem}
-/* Admin applications tab */
+/* APPLICATIONS */
 .app-card{background:var(--off);border-radius:var(--r14);padding:1rem 1.25rem;margin-bottom:0.75rem;border:1px solid var(--light);transition:all var(--t)}
 .app-card:hover{box-shadow:var(--sh);border-color:var(--mid)}
 .app-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
 .app-card-name{font-family:'Syne',sans-serif;font-size:0.97rem;font-weight:700}
 .app-card-animal{font-size:0.78rem;color:var(--accent);font-weight:600}
-.app-card-meta{font-size:0.75rem;color:var(--muted)}
+.app-card-meta{font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem}
 .app-card-body{font-size:0.82rem;color:var(--ink);line-height:1.65}
 .app-card-body strong{color:var(--muted);font-weight:600}
 .app-status-badge{display:inline-flex;align-items:center;padding:0.2rem 0.65rem;border-radius:var(--rpill);font-size:0.68rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase}
@@ -481,10 +429,118 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .app-status-reviewed{background:var(--blue2);color:var(--blue)}
 .app-status-approved{background:var(--accent2);color:var(--accent)}
 .app-status-rejected{background:var(--warn2);color:var(--warn)}
-.app-actions{display:flex;gap:0.4rem;margin-top:0.75rem;flex-wrap:wrap}
+.app-actions{display:flex;gap:0.4rem;margin-top:0.75rem;flex-wrap:wrap;align-items:center}
 .app-actions select{padding:0.35rem 0.6rem;border:1.5px solid var(--light);border-radius:var(--r6);font-size:0.78rem;color:var(--ink);background:var(--white);outline:none;cursor:pointer}
 .app-actions select:focus{border-color:var(--accent)}
-@media(max-width:560px){.adopt-form-row{grid-template-columns:1fr}.adopt-modal-body{padding:1.25rem 1.25rem 1.5rem}.adopt-modal-header{padding:1.25rem}.adopt-modal-animal-banner{padding:0.85rem 1.25rem}}
+
+/* ══════════════════════════════════════════════════════════════
+   ADOPTION APPLICATION MODAL
+══════════════════════════════════════════════════════════════ */
+.adopt-modal-bg{
+  position:fixed;inset:0;z-index:700;
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.adopt-modal-bg::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);
+}
+.adopt-modal-bg.open{opacity:1;pointer-events:all}
+.adopt-modal-box{
+  background:var(--white);border-radius:var(--r28);
+  max-width:660px;width:100%;max-height:92vh;overflow-y:auto;
+  transform:translateY(24px) scale(.97);
+  transition:transform .3s cubic-bezier(.34,1.4,.64,1);
+  position:relative;z-index:1;
+}
+.adopt-modal-bg.open .adopt-modal-box{transform:none}
+.adopt-modal-header{
+  background:var(--accent);padding:1.75rem 2rem;
+  border-radius:var(--r28) var(--r28) 0 0;position:relative;
+}
+.adopt-modal-header h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.25rem}
+.adopt-modal-header p{font-size:0.82rem;color:rgba(255,255,255,0.65)}
+.adopt-modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.15);display:flex;
+  align-items:center;justify-content:center;
+  font-size:1rem;color:var(--white);transition:all var(--t);
+}
+.adopt-modal-close:hover{background:rgba(255,255,255,0.25)}
+.adopt-modal-banner{
+  display:flex;align-items:center;gap:1rem;
+  background:var(--accent2);border-bottom:1px solid var(--accent3);
+  padding:1rem 2rem;
+}
+.adopt-modal-emoji{
+  width:52px;height:52px;border-radius:var(--r10);
+  background:var(--accent3);display:flex;align-items:center;
+  justify-content:center;font-size:1.75rem;flex-shrink:0;
+}
+.adopt-modal-animal-photo{
+  width:52px;height:52px;border-radius:var(--r10);
+  object-fit:cover;border:2px solid var(--accent3);
+  flex-shrink:0;background:var(--off);
+}
+.adopt-modal-animal-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--accent)}
+.adopt-modal-animal-sub{font-size:0.78rem;color:var(--muted);margin-top:0.15rem}
+.adopt-modal-body{padding:1.75rem 2rem 2rem}
+.adopt-section-title{
+  font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);
+  margin:1.5rem 0 0.85rem;padding-bottom:0.4rem;
+  border-bottom:1.5px solid var(--accent3);
+}
+.adopt-section-title:first-child{margin-top:0}
+.adopt-form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+.adopt-fgroup{margin-bottom:0.85rem}
+.adopt-flabel{display:block;font-size:0.79rem;font-weight:600;color:var(--ink);margin-bottom:0.35rem}
+.adopt-flabel .req{color:var(--warn)}
+.adopt-finput,.adopt-fselect,.adopt-ftextarea{
+  width:100%;padding:0.65rem 0.9rem;
+  border:1.5px solid var(--light);border-radius:var(--r10);
+  font-size:0.88rem;color:var(--ink);background:var(--white);
+  outline:none;transition:border-color var(--t),box-shadow var(--t);
+}
+.adopt-finput:focus,.adopt-fselect:focus,.adopt-ftextarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08);
+}
+.adopt-finput.err,.adopt-fselect.err,.adopt-ftextarea.err{
+  border-color:var(--warn);box-shadow:0 0 0 3px rgba(204,74,40,0.08);
+}
+.adopt-ftextarea{resize:vertical;min-height:90px;line-height:1.6}
+.adopt-radio-group{display:flex;gap:0.65rem;flex-wrap:wrap}
+.adopt-radio-opt{
+  display:flex;align-items:center;gap:0.4rem;
+  padding:0.45rem 0.85rem;border:1.5px solid var(--light);
+  border-radius:var(--rpill);cursor:pointer;font-size:0.82rem;
+  font-weight:500;color:var(--muted);transition:all var(--t);
+}
+.adopt-radio-opt input[type=radio]{display:none}
+.adopt-radio-opt.selected{background:var(--accent);color:var(--white);border-color:var(--accent)}
+.adopt-radio-opt:hover:not(.selected){border-color:var(--accent);color:var(--accent)}
+.adopt-agree{
+  display:flex;align-items:flex-start;gap:0.65rem;
+  background:var(--off);border-radius:var(--r10);padding:0.85rem;margin-top:1rem;
+}
+.adopt-agree input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
+.adopt-agree label{font-size:0.82rem;color:var(--muted);line-height:1.6;cursor:pointer}
+.adopt-agree label strong{color:var(--ink)}
+.adopt-submit-row{display:flex;gap:0.65rem;margin-top:1.5rem}
+.adopt-submit-row .btn{flex:1;justify-content:center;padding:0.85rem}
+.adopt-success{text-align:center;padding:3rem 2rem}
+.adopt-success-icon{font-size:4rem;margin-bottom:1.25rem}
+.adopt-success h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.6rem}
+.adopt-success p{font-size:0.9rem;color:var(--muted);line-height:1.7;max-width:380px;margin:0 auto 1.75rem}
+@media(max-width:560px){
+  .adopt-form-row{grid-template-columns:1fr}
+  .adopt-modal-body{padding:1.25rem}
+  .adopt-modal-header{padding:1.25rem}
+  .adopt-modal-banner{padding:0.85rem 1.25rem}
+}
 </style>
 </head>
 <body>
@@ -582,95 +638,77 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
       </div>
     </div>
   </section>
-  <div class="stats-bar">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-num">2,<span class="stat-accent">400</span>+</div><div class="stat-lbl">Animals Rehomed</div></div>
-        <div class="stat-box"><div class="stat-num" id="availableCount">—</div><div class="stat-lbl">Currently Available</div></div>
-        <div class="stat-box"><div class="stat-num">12</div><div class="stat-lbl">Years Operating</div></div>
-        <div class="stat-box"><div class="stat-num">98<span class="stat-accent">%</span></div><div class="stat-lbl">Adopter Satisfaction</div></div>
-      </div>
+  <div class="stats-bar"><div class="container"><div class="stats-grid">
+    <div class="stat-box"><div class="stat-num">2,<span class="stat-accent">400</span>+</div><div class="stat-lbl">Animals Rehomed</div></div>
+    <div class="stat-box"><div class="stat-num" id="availableCount">—</div><div class="stat-lbl">Currently Available</div></div>
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-lbl">Years Operating</div></div>
+    <div class="stat-box"><div class="stat-num">98<span class="stat-accent">%</span></div><div class="stat-lbl">Adopter Satisfaction</div></div>
+  </div></div></div>
+  <section class="section"><div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.25rem;flex-wrap:wrap;gap:1rem">
+      <div><span class="label">Available Now</span><h2 class="heading-lg">Meet some of our animals</h2></div>
+      <button class="btn-ghost" onclick="navigate('adopt')">View all <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     </div>
-  </div>
-  <section class="section">
-    <div class="container">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.25rem;flex-wrap:wrap;gap:1rem">
-        <div><span class="label">Available Now</span><h2 class="heading-lg">Meet some of our animals</h2></div>
-        <button class="btn-ghost" onclick="navigate('adopt')">View all <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-      <div class="grid-4" id="featuredGrid"><div class="admin-loading">Loading animals from database…</div></div>
+    <div class="grid-4" id="featuredGrid"><div class="admin-loading">Loading animals…</div></div>
+  </div></section>
+  <section class="section process-bg"><div class="container">
+    <div style="text-align:center;margin-bottom:3rem"><span class="label">Simple Process</span><h2 class="heading-lg">How adoption works</h2></div>
+    <div class="process-track">
+      <div class="proc-step"><div class="proc-num">1</div><div class="proc-title">Browse & Discover</div><div class="proc-desc">Filter by species, age, size and personality.</div></div>
+      <div class="proc-step"><div class="proc-num">2</div><div class="proc-title">Meet & Bond</div><div class="proc-desc">Book a free meet-and-greet at our shelter.</div></div>
+      <div class="proc-step"><div class="proc-num">3</div><div class="proc-title">Apply Online</div><div class="proc-desc">We review within 24 hours and follow up personally.</div></div>
+      <div class="proc-step"><div class="proc-num">4</div><div class="proc-title">Welcome Home</div><div class="proc-desc">Take your companion home with full support.</div></div>
     </div>
-  </section>
-  <section class="section process-bg">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:3rem"><span class="label">Simple Process</span><h2 class="heading-lg">How adoption works</h2></div>
-      <div class="process-track">
-        <div class="proc-step"><div class="proc-num">1</div><div class="proc-title">Browse & Discover</div><div class="proc-desc">Filter by species, age, size and personality.</div></div>
-        <div class="proc-step"><div class="proc-num">2</div><div class="proc-title">Meet & Bond</div><div class="proc-desc">Book a free meet-and-greet at our shelter.</div></div>
-        <div class="proc-step"><div class="proc-num">3</div><div class="proc-title">Apply Online</div><div class="proc-desc">We review within 24 hours and follow up personally.</div></div>
-        <div class="proc-step"><div class="proc-num">4</div><div class="proc-title">Welcome Home</div><div class="proc-desc">Take your companion home with full support.</div></div>
-      </div>
+  </div></section>
+  <section class="section"><div class="container">
+    <div style="margin-bottom:2.25rem"><span class="label">Success Stories</span><h2 class="heading-lg">Happy families</h2></div>
+    <div class="grid-3">
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"The whole process was seamless. Within a week, Biscuit was home and transformed our lives completely."</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Maria Santos</div><div class="tcard-pet">Adopted Biscuit the Beagle</div></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"PawHaven guided us every step. Luna is now the queen of our apartment and we couldn't be happier."</p><div class="tcard-author"><div class="tcard-avatar">👨</div><div><div class="tcard-name">James Reyes</div><div class="tcard-pet">Adopted Luna the Cat</div></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Their post-adoption check-ins showed they genuinely care. Highly recommend PawHaven!"</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Ana Cruz</div><div class="tcard-pet">Adopted Pebble & Bun</div></div></div></div>
     </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      <div style="margin-bottom:2.25rem"><span class="label">Success Stories</span><h2 class="heading-lg">Happy families</h2></div>
-      <div class="grid-3">
-        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"The whole process was seamless. Within a week, Biscuit was home and transformed our lives completely."</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Maria Santos</div><div class="tcard-pet">Adopted Biscuit the Beagle</div></div></div></div>
-        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"I was nervous about adopting a senior cat, but PawHaven guided us every step. Luna is now the queen of our apartment."</p><div class="tcard-author"><div class="tcard-avatar">👨</div><div><div class="tcard-name">James Reyes</div><div class="tcard-pet">Adopted Luna the Cat</div></div></div></div>
-        <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Their post-adoption check-ins showed they genuinely care about the animals. Highly recommend PawHaven!"</p><div class="tcard-author"><div class="tcard-avatar">👩</div><div><div class="tcard-name">Ana Cruz</div><div class="tcard-pet">Adopted Pebble & Bun</div></div></div></div>
-      </div>
-    </div>
-  </section>
-  <div class="cta-band">
-    <div class="container">
-      <h2 class="cta-title">Ready to change a life?</h2>
-      <p class="cta-sub">Every adoption gives an animal a second chance — and gives you a companion for life.</p>
-      <div class="cta-btns"><button class="btn-white" onclick="navigate('adopt')">Browse Animals</button><button class="btn-ghost-white" onclick="navigate('donate')">Support Our Mission</button></div>
-    </div>
-  </div>
+  </div></section>
+  <div class="cta-band"><div class="container">
+    <h2 class="cta-title">Ready to change a life?</h2>
+    <p class="cta-sub">Every adoption gives an animal a second chance — and gives you a companion for life.</p>
+    <div class="cta-btns"><button class="btn-white" onclick="navigate('adopt')">Browse Animals</button><button class="btn-ghost-white" onclick="navigate('donate')">Support Our Mission</button></div>
+  </div></div>
 </div>
 
 <!-- ══ ADOPT ══════════════════════════════════════════════════════ -->
 <div class="page" id="page-adopt">
   <div class="adopt-header"><div class="container" style="padding-bottom:1.5rem"><span class="label">Find Your Match</span><h1 class="heading-lg" style="margin-bottom:0.4rem">Adopt an Animal</h1><p class="body-md">All animals are vaccinated, health-checked, and ready for a loving home.</p></div></div>
-  <div class="sticky-filters" id="stickyFilters">
-    <div class="container">
-      <div class="filter-row">
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="adoptSearch" placeholder="Search by name, breed, or trait…" oninput="handleSearch()">
-          <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
-        </div>
-        <div class="filter-chips" id="typeChips">
-          <button class="fchip on" data-type="all">All</button>
-          <button class="fchip" data-type="dog">🐕 Dogs</button>
-          <button class="fchip" data-type="cat">🐈 Cats</button>
-          <button class="fchip" data-type="rabbit">🐰 Rabbits</button>
-          <button class="fchip" data-type="bird">🐦 Birds</button>
-          <button class="fchip" data-type="other">🐾 Others</button>
-        </div>
-        <select class="age-select" id="ageFilter" onchange="renderAdopt()">
-          <option value="all">Any Age</option>
-          <option value="young">Young (&lt;2)</option>
-          <option value="adult">Adult (2–7)</option>
-          <option value="senior">Senior (7+)</option>
-        </select>
-        <select class="adopt-sort" id="adoptSort" onchange="renderAdopt()">
-          <option value="default">Sort: Default</option>
-          <option value="name">A – Z</option>
-          <option value="age-asc">Youngest</option>
-          <option value="age-desc">Oldest</option>
-        </select>
-      </div>
+  <div class="sticky-filters" id="stickyFilters"><div class="container"><div class="filter-row">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="adoptSearch" placeholder="Search by name, breed, or trait…" oninput="handleSearch()">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
     </div>
-  </div>
-  <section class="section-sm">
-    <div class="container">
-      <div class="adopt-count-bar"><div class="adopt-count" id="adoptCount"></div></div>
-      <div class="adopt-grid" id="adoptGrid"><div class="admin-loading">Loading animals from database…</div></div>
+    <div class="filter-chips" id="typeChips">
+      <button class="fchip on" data-type="all">All</button>
+      <button class="fchip" data-type="dog">🐕 Dogs</button>
+      <button class="fchip" data-type="cat">🐈 Cats</button>
+      <button class="fchip" data-type="rabbit">🐰 Rabbits</button>
+      <button class="fchip" data-type="bird">🐦 Birds</button>
+      <button class="fchip" data-type="other">🐾 Others</button>
     </div>
-  </section>
+    <select class="age-select" id="ageFilter" onchange="renderAdopt()">
+      <option value="all">Any Age</option>
+      <option value="young">Young (&lt;2)</option>
+      <option value="adult">Adult (2–7)</option>
+      <option value="senior">Senior (7+)</option>
+    </select>
+    <select class="adopt-sort" id="adoptSort" onchange="renderAdopt()">
+      <option value="default">Sort: Default</option>
+      <option value="name">A – Z</option>
+      <option value="age-asc">Youngest</option>
+      <option value="age-desc">Oldest</option>
+    </select>
+  </div></div></div>
+  <section class="section-sm"><div class="container">
+    <div class="adopt-count-bar"><div class="adopt-count" id="adoptCount"></div></div>
+    <div class="adopt-grid" id="adoptGrid"><div class="admin-loading">Loading animals…</div></div>
+  </div></section>
 </div>
 
 <!-- ══ ABOUT ══════════════════════════════════════════════════════ -->
@@ -685,41 +723,65 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 <!-- ══ CONTACT ════════════════════════════════════════════════════ -->
 <div class="page" id="page-contact">
   <div class="contact-header"><div class="container"><span class="label">Get in Touch</span><h1 class="heading-lg" style="margin-bottom:0.4rem">We'd love to hear from you</h1><p class="body-md">Questions about adoption, volunteering, or anything else.</p></div></div>
-  <section class="section-sm"><div class="container"><div class="contact-grid"><div><div class="info-card"><div class="info-row"><div class="info-icon">📍</div><div><div class="info-lbl">Address</div><div class="info-val">123 Shelter Lane, Quezon City</div></div></div><div class="info-row"><div class="info-icon">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+63 2 8123 4567</div></div></div><div class="info-row"><div class="info-icon">✉️</div><div><div class="info-lbl">Email</div><div class="info-val">hello@pawhaven.org</div></div></div><div class="info-row"><div class="info-icon">🕐</div><div><div class="info-lbl">Hours</div><div class="info-val">Mon–Sat 8AM–6PM<br>Sun 9AM–4PM</div></div></div></div><div style="background:var(--accent2);border-radius:var(--r14);padding:1.5rem"><h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.45rem;color:var(--accent)">Volunteer with us 🤲</h4><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:1rem">Always looking for passionate people to help with animal care, events, and outreach.</p><button class="btn btn-primary" style="font-size:0.83rem;padding:0.55rem 1.1rem" onclick="toast('info','Volunteer application submitted! We\'ll be in touch within 2 business days.')">Apply to Volunteer</button></div></div><div class="form-card"><h3 class="heading-md" style="margin-bottom:0.35rem">Send a Message</h3><p class="body-md" style="margin-bottom:1.75rem">We typically respond within 1 business day.</p><div class="form-row"><div class="fgroup"><label class="flabel">First Name *</label><input type="text" class="finput" id="firstName" placeholder="Juan"></div><div class="fgroup"><label class="flabel">Last Name *</label><input type="text" class="finput" id="lastName" placeholder="dela Cruz"></div></div><div class="fgroup"><label class="flabel">Email *</label><input type="email" class="finput" id="email" placeholder="juan@email.com"><div class="ferror" id="emailErr">Please enter a valid email.</div></div><div class="fgroup"><label class="flabel">Topic</label><select class="fselect" id="topic"><option>Adoption Inquiry</option><option>Volunteering</option><option>Donation / Sponsorship</option><option>Surrender an Animal</option><option>General Question</option></select></div><div class="fgroup"><label class="flabel">Message *</label><textarea class="ftextarea" id="message" placeholder="Tell us how we can help…"></textarea><div class="ferror" id="msgErr">Please write a message.</div></div><button class="btn btn-primary fsubmit" onclick="submitForm()">Send Message <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></div></div></section>
+  <section class="section-sm"><div class="container"><div class="contact-grid">
+    <div>
+      <div class="info-card">
+        <div class="info-row"><div class="info-icon">📍</div><div><div class="info-lbl">Address</div><div class="info-val">123 Shelter Lane, Quezon City</div></div></div>
+        <div class="info-row"><div class="info-icon">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+63 2 8123 4567</div></div></div>
+        <div class="info-row"><div class="info-icon">✉️</div><div><div class="info-lbl">Email</div><div class="info-val">hello@pawhaven.org</div></div></div>
+        <div class="info-row"><div class="info-icon">🕐</div><div><div class="info-lbl">Hours</div><div class="info-val">Mon–Sat 8AM–6PM<br>Sun 9AM–4PM</div></div></div>
+      </div>
+      <div style="background:var(--accent2);border-radius:var(--r14);padding:1.5rem"><h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.45rem;color:var(--accent)">Volunteer with us 🤲</h4><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:1rem">Always looking for passionate people to help.</p><button class="btn btn-primary" style="font-size:0.83rem;padding:0.55rem 1.1rem" onclick="toast('info','Volunteer application submitted! We\'ll be in touch within 2 business days.')">Apply to Volunteer</button></div>
+    </div>
+    <div class="form-card">
+      <h3 class="heading-md" style="margin-bottom:0.35rem">Send a Message</h3>
+      <p class="body-md" style="margin-bottom:1.75rem">We typically respond within 1 business day.</p>
+      <div class="form-row">
+        <div class="fgroup"><label class="flabel">First Name *</label><input type="text" class="finput" id="firstName" placeholder="Juan"></div>
+        <div class="fgroup"><label class="flabel">Last Name *</label><input type="text" class="finput" id="lastName" placeholder="dela Cruz"></div>
+      </div>
+      <div class="fgroup"><label class="flabel">Email *</label><input type="email" class="finput" id="email" placeholder="juan@email.com"><div class="ferror" id="emailErr">Please enter a valid email.</div></div>
+      <div class="fgroup"><label class="flabel">Topic</label><select class="fselect" id="topic"><option>Adoption Inquiry</option><option>Volunteering</option><option>Donation / Sponsorship</option><option>Surrender an Animal</option><option>General Question</option></select></div>
+      <div class="fgroup"><label class="flabel">Message *</label><textarea class="ftextarea" id="message" placeholder="Tell us how we can help…"></textarea><div class="ferror" id="msgErr">Please write a message.</div></div>
+      <button class="btn btn-primary fsubmit" onclick="submitForm()">Send Message <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div></div></section>
 </div>
 
 <!-- ══ DONATE ══════════════════════════════════════════════════════ -->
 <div class="page" id="page-donate">
   <div class="donate-hero"><div class="container"><span class="label" style="color:rgba(255,255,255,0.45)">Make a Difference</span><h1 class="heading-xl">Support PawHaven</h1><p class="body-lg" style="margin-top:1rem;color:rgba(255,255,255,0.6);max-width:500px;margin-left:auto;margin-right:auto">Your donation directly funds food, medical care, and rescue operations.</p></div></div>
   <section class="section"><div class="container"><div style="text-align:center;margin-bottom:2.5rem"><span class="label">Your Impact</span><h2 class="heading-lg">Every peso counts</h2></div><div class="grid-4"><div class="impact-card"><div class="impact-icon">🍖</div><div class="impact-amt">₱500</div><div class="impact-desc">Feeds one animal for a full month.</div></div><div class="impact-card"><div class="impact-icon">💉</div><div class="impact-amt">₱1,500</div><div class="impact-desc">Covers a complete vaccination course.</div></div><div class="impact-card"><div class="impact-icon">🏥</div><div class="impact-amt">₱5,000</div><div class="impact-desc">Funds a medical procedure for an ill animal.</div></div><div class="impact-card"><div class="impact-icon">🏡</div><div class="impact-amt">₱10,000</div><div class="impact-desc">Sponsors a full rescue operation until adoption.</div></div></div></div></section>
-  <div class="donate-form-wrap"><div class="container"><div class="donate-card"><h3 class="donate-card-title">Make a Donation</h3><p class="donate-card-sub">100% goes directly to animal care.</p><div class="progress-wrap"><div class="progress-labels"><span>Monthly goal</span><span style="color:var(--accent);font-weight:600">68% reached</span></div><div class="progress-bar-bg"><div class="progress-bar-fill"></div></div><div style="font-size:0.78rem;color:var(--muted);text-align:right;margin-top:0.3rem">₱34,000 of ₱50,000</div></div><div class="freq-wrap"><button class="freq-btn on" onclick="setFreq(this)">One-time</button><button class="freq-btn" onclick="setFreq(this)">Monthly</button><button class="freq-btn" onclick="setFreq(this)">Annual</button></div><div class="amt-grid"><button class="amt-btn" data-amt="500" onclick="setAmt(this)">₱500</button><button class="amt-btn on" data-amt="1500" onclick="setAmt(this)">₱1,500</button><button class="amt-btn" data-amt="5000" onclick="setAmt(this)">₱5,000</button><button class="amt-btn" data-amt="10000" onclick="setAmt(this)">₱10,000</button><button class="amt-btn" data-amt="25000" onclick="setAmt(this)">₱25,000</button><button class="amt-btn" data-amt="custom" onclick="setAmt(this)">Custom</button></div><input type="number" class="custom-input" id="customAmt" placeholder="Enter amount in ₱" oninput="updateDonateBtn()"><div class="fgroup"><label class="flabel">Full Name</label><input type="text" class="finput" placeholder="Your name"></div><div class="fgroup" style="margin-bottom:1.5rem"><label class="flabel">Email Address</label><input type="email" class="finput" placeholder="For your receipt"></div><button class="btn btn-primary donate-cta" id="donateCta" onclick="submitDonate()">Donate ₱1,500 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><div class="secure-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure, encrypted payment</div></div></div></div>
+  <div class="donate-form-wrap"><div class="container"><div class="donate-card">
+    <h3 class="donate-card-title">Make a Donation</h3><p class="donate-card-sub">100% goes directly to animal care.</p>
+    <div class="progress-wrap"><div class="progress-labels"><span>Monthly goal</span><span style="color:var(--accent);font-weight:600">68% reached</span></div><div class="progress-bar-bg"><div class="progress-bar-fill"></div></div><div style="font-size:0.78rem;color:var(--muted);text-align:right;margin-top:0.3rem">₱34,000 of ₱50,000</div></div>
+    <div class="freq-wrap"><button class="freq-btn on" onclick="setFreq(this)">One-time</button><button class="freq-btn" onclick="setFreq(this)">Monthly</button><button class="freq-btn" onclick="setFreq(this)">Annual</button></div>
+    <div class="amt-grid"><button class="amt-btn" data-amt="500" onclick="setAmt(this)">₱500</button><button class="amt-btn on" data-amt="1500" onclick="setAmt(this)">₱1,500</button><button class="amt-btn" data-amt="5000" onclick="setAmt(this)">₱5,000</button><button class="amt-btn" data-amt="10000" onclick="setAmt(this)">₱10,000</button><button class="amt-btn" data-amt="25000" onclick="setAmt(this)">₱25,000</button><button class="amt-btn" data-amt="custom" onclick="setAmt(this)">Custom</button></div>
+    <input type="number" class="custom-input" id="customAmt" placeholder="Enter amount in ₱" oninput="updateDonateBtn()">
+    <div class="fgroup"><label class="flabel">Full Name</label><input type="text" class="finput" placeholder="Your name"></div>
+    <div class="fgroup" style="margin-bottom:1.5rem"><label class="flabel">Email Address</label><input type="email" class="finput" placeholder="For your receipt"></div>
+    <button class="btn btn-primary donate-cta" id="donateCta" onclick="submitDonate()">Donate ₱1,500 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    <div class="secure-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure, encrypted payment</div>
+  </div></div></div>
 </div>
 
 <!-- ══ FOOTER ══════════════════════════════════════════════════════ -->
-<footer>
-  <div class="container">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="nav-logo" onclick="navigate('home')" style="cursor:pointer">
-          <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="rgba(255,255,255,0.1)"/><ellipse cx="19" cy="23" rx="7.2" ry="5.6" fill="rgba(255,255,255,0.7)"/><ellipse cx="11.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/><ellipse cx="17.2" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="22.8" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="27.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/></svg>
-          <div class="nav-logo-text" style="color:white">Paw<span style="color:#7ecfaa">Haven</span></div>
-        </div>
-        <p>A no-kill animal rescue and adoption shelter serving Metro Manila since 2013.</p>
-      </div>
-      <div class="footer-col"><h4>Explore</h4><ul><li onclick="navigate('home')">Home</li><li onclick="navigate('adopt')">Adopt an Animal</li><li onclick="navigate('about')">About Us</li><li onclick="navigate('donate')">Donate</li></ul></div>
-      <div class="footer-col"><h4>Support</h4><ul><li onclick="navigate('contact')">Contact Us</li><li>FAQ</li><li>Volunteer</li><li>Foster Program</li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul><li>📍 Quezon City, PH</li><li>📞 +63 2 8123 4567</li><li>✉️ hello@pawhaven.org</li><li>🕐 Mon–Sat 8AM–6PM</li></ul></div>
+<footer><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo" onclick="navigate('home')" style="cursor:pointer"><svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="rgba(255,255,255,0.1)"/><ellipse cx="19" cy="23" rx="7.2" ry="5.6" fill="rgba(255,255,255,0.7)"/><ellipse cx="11.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/><ellipse cx="17.2" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="22.8" cy="13" rx="2.6" ry="3.1" fill="rgba(255,255,255,0.7)"/><ellipse cx="27.5" cy="15.5" rx="2.9" ry="3.3" fill="rgba(255,255,255,0.7)"/></svg><div class="nav-logo-text" style="color:white">Paw<span style="color:#7ecfaa">Haven</span></div></div>
+      <p>A no-kill animal rescue shelter serving Metro Manila since 2013.</p>
     </div>
-    <div class="footer-bottom">
-      <p>© 2025 PawHaven Animal Rescue. All rights reserved.</p>
-      <div class="social-row"><div class="social-btn">f</div><div class="social-btn">in</div><div class="social-btn">𝕏</div></div>
-    </div>
+    <div class="footer-col"><h4>Explore</h4><ul><li onclick="navigate('home')">Home</li><li onclick="navigate('adopt')">Adopt an Animal</li><li onclick="navigate('about')">About Us</li><li onclick="navigate('donate')">Donate</li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li onclick="navigate('contact')">Contact Us</li><li>FAQ</li><li>Volunteer</li><li>Foster Program</li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li>📍 Quezon City, PH</li><li>📞 +63 2 8123 4567</li><li>✉️ hello@pawhaven.org</li><li>🕐 Mon–Sat 8AM–6PM</li></ul></div>
   </div>
-</footer>
+  <div class="footer-bottom"><p>© 2025 PawHaven Animal Rescue. All rights reserved.</p><div class="social-row"><div class="social-btn">f</div><div class="social-btn">in</div><div class="social-btn">𝕏</div></div></div>
+</div></footer>
 
-<!-- ══ ANIMAL MODAL ════════════════════════════════════════════════ -->
+<!-- ══ ANIMAL DETAIL MODAL ════════════════════════════════════════ -->
 <div class="modal-bg" id="animalModal">
-  <div class="modal-box" id="modalBox">
+  <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-photo" id="modalPhoto"></div>
     <div class="modal-body">
@@ -736,160 +798,59 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
   </div>
 </div>
 
-<!-- ══ ADMIN PANEL ═════════════════════════════════════════════════ -->
-<div class="admin-overlay" id="adminOverlay">
-  <div class="admin-panel">
-    <div class="admin-header">
-      <div>
-        <h2>⚙️ Admin Panel</h2>
-        <p>Manage your animal listings · <span id="dbStatusBadge" class="db-status loading">Connecting…</span></p>
-      </div>
-      <button class="admin-close" onclick="closeAdmin()">✕</button>
-    </div>
-    <div class="admin-body">
-      <div class="admin-tabs">
-        <button class="admin-tab on" onclick="switchTab('list',this)">📋 All Animals</button>
-        <button class="admin-tab" onclick="switchTab('add',this)">➕ Add Animal</button>
-      </div>
-
-      <!-- LIST TAB -->
-      <div class="admin-pane on" id="tab-list">
-        <div id="adminAnimalList"><div class="admin-loading">Loading from Supabase…</div></div>
-      </div>
-
-      <!-- ADD/EDIT TAB -->
-      <div class="admin-pane" id="tab-add">
-        <input type="hidden" id="editId">
-        <div class="admin-form-grid">
-          <div class="admin-fgroup"><label class="admin-flabel">Name *</label><input type="text" class="admin-finput" id="f_name" placeholder="e.g. Mango"></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Breed *</label><input type="text" class="admin-finput" id="f_breed" placeholder="e.g. Golden Retriever Mix"></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Type *</label><select class="admin-fselect" id="f_type"><option value="dog">🐕 Dog</option><option value="cat">🐈 Cat</option><option value="rabbit">🐰 Rabbit</option><option value="bird">🐦 Bird</option><option value="other">🐾 Other</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Gender *</label><select class="admin-fselect" id="f_gender"><option value="Male">Male</option><option value="Female">Female</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Age (years) *</label><input type="number" class="admin-finput" id="f_age" placeholder="e.g. 2" min="0" step="0.5"></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Age Label *</label><input type="text" class="admin-finput" id="f_age_label" placeholder="e.g. 2 years"></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Size *</label><select class="admin-fselect" id="f_size"><option value="Small">Small</option><option value="Medium">Medium</option><option value="Large">Large</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Weight *</label><input type="text" class="admin-finput" id="f_weight" placeholder="e.g. 28 kg"></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Status Badge *</label><select class="admin-fselect" id="f_badge"><option value="Friendly">🟢 Friendly</option><option value="Calm">🔵 Calm</option><option value="New">🟡 New</option><option value="Urgent">🔴 Urgent</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Vaccinated</label><select class="admin-fselect" id="f_vaccinated"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Neutered/Spayed</label><select class="admin-fselect" id="f_neutered"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
-          <div class="admin-fgroup"><label class="admin-flabel">Emoji</label><input type="text" class="admin-finput" id="f_emoji" placeholder="🐕" maxlength="4"></div>
-        </div>
-
-        <!-- ── PHOTO UPLOAD (replaces old URL input) ── -->
-        <div class="admin-fgroup" style="margin-top:1rem">
-          <label class="admin-flabel">Photo *</label>
-          <input type="hidden" id="f_img">
-
-          <!-- Shows current photo when editing -->
-          <div id="uploadCurrentWrap" style="display:none;margin-bottom:0.5rem">
-            <div class="upload-current-img">
-              <img id="uploadCurrentThumb" src="" alt="Current photo">
-              <span id="uploadCurrentLabel">Current photo — upload a new one to replace it</span>
-            </div>
-          </div>
-
-          <!-- Preview after selecting a new file -->
-          <div class="upload-preview-wrap" id="uploadPreviewWrap" style="display:none;margin-bottom:0.5rem">
-            <img id="uploadPreviewImg" src="" alt="Preview">
-            <button class="upload-preview-remove" onclick="removeUploadedPhoto()" title="Remove">✕</button>
-          </div>
-
-          <!-- Drop zone -->
-          <div class="upload-dropzone" id="uploadDropzone">
-            <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handlePhotoUpload(this)">
-            <div class="upload-dropzone-icon">📷</div>
-            <div class="upload-dropzone-text"><strong>Click to upload</strong> or drag &amp; drop</div>
-            <div class="upload-dropzone-hint">JPG, PNG, WEBP · Max 5 MB</div>
-          </div>
-
-          <!-- Uploading indicator -->
-          <div class="upload-status" id="uploadStatus">
-            <div class="upload-spinner"></div>
-            <span>Uploading photo to storage…</span>
-          </div>
-        </div>
-        <!-- ── END PHOTO UPLOAD ── -->
-
-        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Tags (comma separated) *</label><input type="text" class="admin-finput" id="f_tags" placeholder="e.g. Playful, House-trained, Kid-friendly"></div>
-        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Description *</label><textarea class="admin-ftextarea" id="f_desc" placeholder="Tell adopters about this animal…"></textarea></div>
-        <div class="admin-form-actions">
-          <button class="btn btn-primary" id="saveBtn" onclick="saveAnimal()">💾 Save Animal</button>
-          <button class="btn btn-outline" onclick="resetForm()">Clear Form</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ ADOPTION APPLICATION MODAL ══════════════════════════════ -->
+<!-- ══ ADOPTION APPLICATION MODAL ════════════════════════════════ -->
 <div class="adopt-modal-bg" id="adoptAppModal">
   <div class="adopt-modal-box">
     <div class="adopt-modal-header">
       <button class="adopt-modal-close" onclick="closeAdoptModal()">✕</button>
       <h3>🐾 Adoption Application</h3>
-      <p>Please fill out this form so we can find the best match for you and the animal.</p>
+      <p>Please fill out this form so we can find the best match.</p>
     </div>
-    <div class="adopt-modal-animal-banner" id="adoptModalBanner"></div>
+    <div class="adopt-modal-banner" id="adoptModalBanner"></div>
     <div id="adoptModalBody">
       <div class="adopt-modal-body">
-
         <div class="adopt-section-title">👤 Personal Information</div>
         <div class="adopt-form-row">
-          <div class="adopt-fgroup">
-            <label class="adopt-flabel">First Name <span class="req">*</span></label>
-            <input type="text" class="adopt-finput" id="a_firstname" placeholder="Juan">
-          </div>
-          <div class="adopt-fgroup">
-            <label class="adopt-flabel">Last Name <span class="req">*</span></label>
-            <input type="text" class="adopt-finput" id="a_lastname" placeholder="dela Cruz">
-          </div>
+          <div class="adopt-fgroup"><label class="adopt-flabel">First Name <span class="req">*</span></label><input type="text" class="adopt-finput" id="a_firstname" placeholder="Juan"></div>
+          <div class="adopt-fgroup"><label class="adopt-flabel">Last Name <span class="req">*</span></label><input type="text" class="adopt-finput" id="a_lastname" placeholder="dela Cruz"></div>
         </div>
         <div class="adopt-form-row">
-          <div class="adopt-fgroup">
-            <label class="adopt-flabel">Email Address <span class="req">*</span></label>
-            <input type="email" class="adopt-finput" id="a_email" placeholder="juan@email.com">
-          </div>
-          <div class="adopt-fgroup">
-            <label class="adopt-flabel">Contact Number <span class="req">*</span></label>
-            <input type="tel" class="adopt-finput" id="a_phone" placeholder="09XX XXX XXXX">
-          </div>
+          <div class="adopt-fgroup"><label class="adopt-flabel">Email Address <span class="req">*</span></label><input type="email" class="adopt-finput" id="a_email" placeholder="juan@email.com"></div>
+          <div class="adopt-fgroup"><label class="adopt-flabel">Contact Number <span class="req">*</span></label><input type="tel" class="adopt-finput" id="a_phone" placeholder="09XX XXX XXXX"></div>
         </div>
-        <div class="adopt-fgroup">
-          <label class="adopt-flabel">Home Address <span class="req">*</span></label>
-          <input type="text" class="adopt-finput" id="a_address" placeholder="Barangay, City, Province">
-        </div>
+        <div class="adopt-fgroup"><label class="adopt-flabel">Home Address <span class="req">*</span></label><input type="text" class="adopt-finput" id="a_address" placeholder="Barangay, City, Province"></div>
 
         <div class="adopt-section-title">🏠 Living Situation</div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Type of Home <span class="req">*</span></label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="House"> 🏡 House</label>
-            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Apartment"> 🏢 Apartment</label>
-            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Condo"> 🏙️ Condo</label>
-            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Other"> 🏘️ Other</label>
+          <div class="adopt-radio-group" id="rg_home_type">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_type')"><input type="radio" name="home_type" value="House"> 🏡 House</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_type')"><input type="radio" name="home_type" value="Apartment"> 🏢 Apartment</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_type')"><input type="radio" name="home_type" value="Condo"> 🏙️ Condo</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_type')"><input type="radio" name="home_type" value="Other"> 🏘️ Other</label>
           </div>
         </div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Do you rent or own? <span class="req">*</span></label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="rent_own" value="Own"> 🔑 Own</label>
-            <label class="adopt-radio-opt"><input type="radio" name="rent_own" value="Rent"> 📄 Rent</label>
+          <div class="adopt-radio-group" id="rg_rent_own">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'rent_own')"><input type="radio" name="rent_own" value="Own"> 🔑 Own</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'rent_own')"><input type="radio" name="rent_own" value="Rent"> 📄 Rent</label>
           </div>
         </div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">If renting, does your landlord allow pets?</label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="Yes"> ✅ Yes</label>
-            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="No"> ❌ No</label>
-            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="N/A"> — N/A (I own)</label>
+          <div class="adopt-radio-group" id="rg_landlord_ok">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'landlord_ok')"><input type="radio" name="landlord_ok" value="Yes"> ✅ Yes</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'landlord_ok')"><input type="radio" name="landlord_ok" value="No"> ❌ No</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'landlord_ok')"><input type="radio" name="landlord_ok" value="N/A"> — N/A (I own)</label>
           </div>
         </div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Do you have a yard or outdoor space?</label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="yard" value="Yes - Fenced"> 🌿 Yes, fenced</label>
-            <label class="adopt-radio-opt"><input type="radio" name="yard" value="Yes - Unfenced"> 🌱 Yes, unfenced</label>
-            <label class="adopt-radio-opt"><input type="radio" name="yard" value="No"> 🚫 No</label>
+          <div class="adopt-radio-group" id="rg_yard">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'yard')"><input type="radio" name="yard" value="Yes - Fenced"> 🌿 Yes, fenced</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'yard')"><input type="radio" name="yard" value="Yes - Unfenced"> 🌱 Yes, unfenced</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'yard')"><input type="radio" name="yard" value="No"> 🚫 No</label>
           </div>
         </div>
 
@@ -914,50 +875,40 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
             </select>
           </div>
         </div>
-        <div class="adopt-fgroup">
-          <label class="adopt-flabel">Do you currently have other pets?</label>
-          <textarea class="adopt-ftextarea" id="a_other_pets" placeholder="e.g. 1 male dog (neutered, 3 yrs), or 'None'" style="min-height:65px"></textarea>
-        </div>
+        <div class="adopt-fgroup"><label class="adopt-flabel">Do you currently have other pets?</label><textarea class="adopt-ftextarea" id="a_other_pets" placeholder="e.g. 1 male dog (neutered, 3 yrs), or 'None'" style="min-height:65px"></textarea></div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Hours per day the pet will be alone?</label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="0-2 hrs"> 0–2 hrs</label>
-            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="3-5 hrs"> 3–5 hrs</label>
-            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="6-8 hrs"> 6–8 hrs</label>
-            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="8+ hrs"> 8+ hrs</label>
+          <div class="adopt-radio-group" id="rg_alone_hrs">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'alone_hrs')"><input type="radio" name="alone_hrs" value="0-2 hrs"> 0–2 hrs</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'alone_hrs')"><input type="radio" name="alone_hrs" value="3-5 hrs"> 3–5 hrs</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'alone_hrs')"><input type="radio" name="alone_hrs" value="6-8 hrs"> 6–8 hrs</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'alone_hrs')"><input type="radio" name="alone_hrs" value="8+ hrs"> 8+ hrs</label>
           </div>
         </div>
 
         <div class="adopt-section-title">🐾 Experience &amp; Intentions</div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Pet ownership experience <span class="req">*</span></label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="experience" value="First-time owner"> 🌟 First-time</label>
-            <label class="adopt-radio-opt"><input type="radio" name="experience" value="Some experience"> 🐾 Some experience</label>
-            <label class="adopt-radio-opt"><input type="radio" name="experience" value="Very experienced"> 🏆 Very experienced</label>
+          <div class="adopt-radio-group" id="rg_experience">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'experience')"><input type="radio" name="experience" value="First-time owner"> 🌟 First-time</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'experience')"><input type="radio" name="experience" value="Some experience"> 🐾 Some experience</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'experience')"><input type="radio" name="experience" value="Very experienced"> 🏆 Very experienced</label>
           </div>
         </div>
-        <div class="adopt-fgroup">
-          <label class="adopt-flabel">Why do you want to adopt this animal? <span class="req">*</span></label>
-          <textarea class="adopt-ftextarea" id="a_reason" placeholder="Tell us why you'd like to adopt and what kind of home you can provide…"></textarea>
-        </div>
+        <div class="adopt-fgroup"><label class="adopt-flabel">Why do you want to adopt this animal? <span class="req">*</span></label><textarea class="adopt-ftextarea" id="a_reason" placeholder="Tell us why you'd like to adopt and what kind of home you can provide…"></textarea></div>
         <div class="adopt-fgroup">
           <label class="adopt-flabel">Do you agree to a home visit if required?</label>
-          <div class="adopt-radio-group">
-            <label class="adopt-radio-opt"><input type="radio" name="home_visit" value="Yes"> ✅ Yes</label>
-            <label class="adopt-radio-opt"><input type="radio" name="home_visit" value="No"> ❌ No</label>
+          <div class="adopt-radio-group" id="rg_home_visit">
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_visit')"><input type="radio" name="home_visit" value="Yes"> ✅ Yes</label>
+            <label class="adopt-radio-opt" onclick="selectRadio(this,'home_visit')"><input type="radio" name="home_visit" value="No"> ❌ No</label>
           </div>
         </div>
-        <div class="adopt-fgroup">
-          <label class="adopt-flabel">Anything else we should know?</label>
-          <textarea class="adopt-ftextarea" id="a_notes" placeholder="Any additional info that may help us process your application…" style="min-height:70px"></textarea>
-        </div>
+        <div class="adopt-fgroup"><label class="adopt-flabel">Anything else we should know?</label><textarea class="adopt-ftextarea" id="a_notes" placeholder="Any additional info…" style="min-height:70px"></textarea></div>
 
         <div class="adopt-agree">
           <input type="checkbox" id="a_agree">
-          <label for="a_agree">I confirm that all information provided is <strong>accurate and truthful</strong>. I understand that PawHaven may contact me for a follow-up interview or home visit, and that approval is not guaranteed.</label>
+          <label for="a_agree">I confirm all information is <strong>accurate and truthful</strong>. I understand PawHaven may contact me for a follow-up interview or home visit, and approval is not guaranteed.</label>
         </div>
-
         <div class="adopt-submit-row">
           <button class="btn btn-outline" onclick="closeAdoptModal()">Cancel</button>
           <button class="btn btn-primary" id="adoptSubmitBtn" onclick="submitAdoptionApp()">Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -967,25 +918,104 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
   </div>
 </div>
 
+<!-- ══ ADMIN PANEL ═════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <div><h2>⚙️ Admin Panel</h2><p>Manage your shelter · <span id="dbStatusBadge" class="db-status loading">Connecting…</span></p></div>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-tabs">
+        <button class="admin-tab on" onclick="switchTab('list',this)">📋 All Animals</button>
+        <button class="admin-tab" onclick="switchTab('add',this)">➕ Add Animal</button>
+        <button class="admin-tab" onclick="switchTab('apps',this)">📩 Applications</button>
+      </div>
+
+      <!-- LIST TAB -->
+      <div class="admin-pane on" id="tab-list">
+        <div id="adminAnimalList"><div class="admin-loading">Loading from Supabase…</div></div>
+      </div>
+
+      <!-- ADD/EDIT TAB -->
+      <div class="admin-pane" id="tab-add">
+        <input type="hidden" id="editId">
+        <div class="admin-form-grid">
+          <div class="admin-fgroup"><label class="admin-flabel">Name *</label><input type="text" class="admin-finput" id="f_name" placeholder="e.g. Mango"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Breed *</label><input type="text" class="admin-finput" id="f_breed" placeholder="e.g. Golden Retriever Mix"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Type *</label><select class="admin-fselect" id="f_type"><option value="dog">🐕 Dog</option><option value="cat">🐈 Cat</option><option value="rabbit">🐰 Rabbit</option><option value="bird">🐦 Bird</option><option value="other">🐾 Other</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Gender *</label><select class="admin-fselect" id="f_gender"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Age (years) *</label><input type="number" class="admin-finput" id="f_age" placeholder="e.g. 2" min="0" step="0.5"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Age Label *</label><input type="text" class="admin-finput" id="f_age_label" placeholder="e.g. 2 years"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Size *</label><select class="admin-fselect" id="f_size"><option value="Small">Small</option><option value="Medium">Medium</option><option value="Large">Large</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Weight *</label><input type="text" class="admin-finput" id="f_weight" placeholder="e.g. 28 kg"></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Status Badge *</label><select class="admin-fselect" id="f_badge"><option value="Friendly">🟢 Friendly</option><option value="Calm">🔵 Calm</option><option value="New">🟡 New</option><option value="Urgent">🔴 Urgent</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Vaccinated</label><select class="admin-fselect" id="f_vaccinated"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Neutered/Spayed</label><select class="admin-fselect" id="f_neutered"><option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option></select></div>
+          <div class="admin-fgroup"><label class="admin-flabel">Emoji</label><input type="text" class="admin-finput" id="f_emoji" placeholder="🐕" maxlength="4"></div>
+        </div>
+        <!-- PHOTO UPLOAD -->
+        <div class="admin-fgroup" style="margin-top:1rem">
+          <label class="admin-flabel">Photo *</label>
+          <input type="hidden" id="f_img">
+          <div id="uploadCurrentWrap" style="display:none;margin-bottom:0.5rem">
+            <div class="upload-current-img"><img id="uploadCurrentThumb" src="" alt="Current"><span>Current photo — upload a new one to replace it</span></div>
+          </div>
+          <div class="upload-preview-wrap" id="uploadPreviewWrap" style="display:none;margin-bottom:0.5rem">
+            <img id="uploadPreviewImg" src="" alt="Preview">
+            <button class="upload-preview-remove" onclick="removeUploadedPhoto()">✕</button>
+          </div>
+          <div class="upload-dropzone" id="uploadDropzone">
+            <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handlePhotoUpload(this)">
+            <div class="upload-dropzone-icon">📷</div>
+            <div class="upload-dropzone-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+            <div class="upload-dropzone-hint">JPG, PNG, WEBP · Max 5 MB</div>
+          </div>
+          <div class="upload-status" id="uploadStatus"><div class="upload-spinner"></div><span>Uploading…</span></div>
+        </div>
+        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Tags (comma separated) *</label><input type="text" class="admin-finput" id="f_tags" placeholder="e.g. Playful, House-trained, Kid-friendly"></div>
+        <div class="admin-fgroup" style="margin-top:0.75rem"><label class="admin-flabel">Description *</label><textarea class="admin-ftextarea" id="f_desc" placeholder="Tell adopters about this animal…"></textarea></div>
+        <div class="admin-form-actions">
+          <button class="btn btn-primary" id="saveBtn" onclick="saveAnimal()">💾 Save Animal</button>
+          <button class="btn btn-outline" onclick="resetForm()">Clear Form</button>
+        </div>
+      </div>
+
+      <!-- APPLICATIONS TAB -->
+      <div class="admin-pane" id="tab-apps">
+        <div id="appsListWrap"><div class="admin-loading">Loading applications…</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
 
-// ═══ SUPABASE INIT ══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   SUPABASE
+═══════════════════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://uiwvmwvzlmfunqarrjqa.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KzNYf1N5ZOuL2DAGFue2kw_QsuWqeV0';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const BADGE_CLASS = { Friendly:'badge-green', Calm:'badge-blue', New:'badge-gold', Urgent:'badge-red' };
 
-// ═══ STATE ══════════════════════════════════════════════════════
-let allAnimals = [];
-let adoptFilter = 'all';
-let currentPage = 'home';
-let modalOpen = false;
-let selectedAmt = 1500;
-let editingId = null;
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════ */
+let allAnimals    = [];
+let adoptFilter   = 'all';
+let currentPage   = 'home';
+let modalOpen     = false;
+let adoptModalOpen= false;
+let selectedAmt   = 1500;
+let editingId     = null;
+let adoptingAnimalId = null;
 
-// ═══ LOAD FROM SUPABASE ═════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   LOAD ANIMALS
+═══════════════════════════════════════════════════════════════ */
 async function loadAnimals() {
   try {
     const { data, error } = await sb.from('animals').select('*').order('created_at', { ascending: false });
@@ -993,37 +1023,40 @@ async function loadAnimals() {
     allAnimals = data.map(row => ({
       ...row,
       badgeClass: BADGE_CLASS[row.badge] || 'badge-green',
-      desc: row.description,
-      ageLabel: row.age_label,
+      desc:       row.description,
+      ageLabel:   row.age_label,
     }));
     updateHeroStats();
     renderFeatured();
     renderAdopt();
-    setDbStatus('ok', '● Connected to Supabase');
+    setDbStatus('ok', '● Connected');
     renderAdminList();
   } catch (err) {
     console.error('Supabase error:', err);
     setDbStatus('err', '● Connection failed');
-    toast('error', 'Could not load animals from database. Check your Supabase table.');
-    document.getElementById('featuredGrid').innerHTML = emptyState('Database not connected yet', 'Make sure you ran the SQL setup in your Supabase project.');
-    document.getElementById('adoptGrid').innerHTML = emptyState('Database not connected yet', 'Run the SQL setup in Supabase and add your first animal via the Admin panel.');
+    toast('error', 'Could not load animals. Check your Supabase table setup.');
+    const msg = emptyState('Database not connected', 'Run the SQL setup in your Supabase project, then refresh.');
+    const fg = document.getElementById('featuredGrid');
+    const ag = document.getElementById('adoptGrid');
+    if (fg) fg.innerHTML = msg;
+    if (ag) ag.innerHTML = msg;
   }
 }
 
 function setDbStatus(type, text) {
   const el = document.getElementById('dbStatusBadge');
-  if (!el) return;
-  el.className = `db-status ${type}`;
-  el.textContent = text;
+  if (el) { el.className = `db-status ${type}`; el.textContent = text; }
 }
 
-// ═══ NAVIGATION ═════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
 function navigate(page) {
   if (currentPage === page) { window.scrollTo({top:0,behavior:'smooth'}); return; }
   currentPage = page;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  document.querySelectorAll('[data-page]').forEach(b  => b.classList.toggle('active', b.dataset.page  === page));
   document.querySelectorAll('[data-bpage]').forEach(b => b.classList.toggle('active', b.dataset.bpage === page));
   window.scrollTo({top:0,behavior:'instant'});
   if (page === 'adopt') { renderSkeletons(); setTimeout(renderAdopt, 100); }
@@ -1044,26 +1077,31 @@ window.addEventListener('scroll', () => {
   if (sf) sf.classList.toggle('stuck', window.scrollY > 200);
 }, {passive:true});
 
-// ═══ HERO STATS ══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   HERO STATS
+═══════════════════════════════════════════════════════════════ */
 function updateHeroStats() {
-  const urgent = allAnimals.filter(a => a.badge === 'Urgent').length;
+  const urgent  = allAnimals.filter(a => a.badge === 'Urgent').length;
   const newOnes = allAnimals.filter(a => a.badge === 'New').length;
-  document.getElementById('heroUrgency').textContent =
-    `${urgent} animals need urgent rehoming · ${newOnes} new arrivals`;
-  document.getElementById('availableCount').textContent = allAnimals.length;
+  const hu = document.getElementById('heroUrgency');
+  const ac = document.getElementById('availableCount');
+  if (hu) hu.textContent = `${urgent} need urgent rehoming · ${newOnes} new arrivals`;
+  if (ac) ac.textContent = allAnimals.length;
 }
 
-// ═══ CARD HTML ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   CARD HTML
+═══════════════════════════════════════════════════════════════ */
 function cardHTML(a) {
+  const tags      = Array.isArray(a.tags) ? a.tags : [];
   const shortDesc = a.desc.split(' ').slice(0,10).join(' ') + '…';
-  const tags = Array.isArray(a.tags) ? a.tags : [];
   return `
   <div class="animal-card" onclick="openModal(${a.id})">
     <div class="card-img-wrap">
-      <div class="card-img-placeholder">${a.emoji || '🐾'}</div>
+      <div class="card-img-placeholder">${a.emoji||'🐾'}</div>
       <img src="${a.img}" alt="${a.name}" loading="lazy" onerror="this.style.opacity=0">
       <div class="card-badges"><span class="badge ${a.badgeClass}">${a.badge}</span></div>
-      <button class="card-fav" onclick="event.stopPropagation();toggleFav(this,${a.id})" aria-label="Save">🤍</button>
+      <button class="card-fav" onclick="event.stopPropagation();toggleFav(this,${a.id})">🤍</button>
       <div class="card-overlay"><div class="card-overlay-text">${shortDesc}</div></div>
     </div>
     <div class="card-body">
@@ -1071,7 +1109,7 @@ function cardHTML(a) {
       <div class="card-breed">${a.breed}</div>
       <div class="card-chips">${tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
       <div class="card-foot">
-        <div class="card-meta"><strong>${a.ageLabel || a.age_label}</strong> · ${a.gender}</div>
+        <div class="card-meta"><strong>${a.ageLabel||a.age_label}</strong> · ${a.gender}</div>
         <button class="btn btn-primary" style="padding:0.38rem 0.85rem;font-size:0.78rem;border-radius:6px"
           onclick="event.stopPropagation();openModal(${a.id})">Meet me</button>
       </div>
@@ -1079,12 +1117,12 @@ function cardHTML(a) {
   </div>`;
 }
 
-function emptyState(title, desc, showClear = false) {
+function emptyState(title, desc, showClear=false) {
   return `<div class="empty-state" style="grid-column:1/-1">
     <div class="empty-icon">🔍</div>
     <div class="empty-title">${title}</div>
     <p class="body-md" style="margin-bottom:1.25rem">${desc}</p>
-    ${showClear ? `<button class="btn btn-primary" onclick="clearAllFilters()">Clear all filters</button>` : ''}
+    ${showClear?`<button class="btn btn-primary" onclick="clearAllFilters()">Clear all filters</button>`:''}
   </div>`;
 }
 
@@ -1097,21 +1135,27 @@ function clearAllFilters() {
   renderAdopt();
 }
 
-// ═══ SKELETONS ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   SKELETONS
+═══════════════════════════════════════════════════════════════ */
 function renderSkeletons() {
   const g = document.getElementById('adoptGrid');
-  if (g) g.innerHTML = Array(6).fill(`<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line wide"></div><div class="skeleton-line medium"></div><div class="skeleton-line narrow" style="margin-top:0.75rem"></div></div></div>`).join('');
+  if (g) g.innerHTML = Array(6).fill(`<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line wide"></div><div class="skeleton-line medium"></div><div class="skeleton-line narrow" style="margin-top:.75rem"></div></div></div>`).join('');
 }
 
-// ═══ FEATURED ════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   FEATURED
+═══════════════════════════════════════════════════════════════ */
 function renderFeatured() {
   const g = document.getElementById('featuredGrid');
   if (!g) return;
-  const featured = allAnimals.slice(0, 4);
-  g.innerHTML = featured.length ? featured.map(a => cardHTML(a)).join('') : emptyState('No animals yet', 'Add your first animal using the Admin panel.');
+  const f = allAnimals.slice(0,4);
+  g.innerHTML = f.length ? f.map(a=>cardHTML(a)).join('') : emptyState('No animals yet','Add your first animal in the Admin panel.');
 }
 
-// ═══ ADOPT PAGE ══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   ADOPT PAGE
+═══════════════════════════════════════════════════════════════ */
 document.querySelectorAll('#typeChips .fchip').forEach(chip => {
   chip.addEventListener('click', () => {
     document.querySelectorAll('#typeChips .fchip').forEach(c => c.classList.remove('on'));
@@ -1134,64 +1178,57 @@ function clearSearch() {
 }
 
 function renderAdopt() {
-  const search = (document.getElementById('adoptSearch')?.value || '').toLowerCase().trim();
-  const age    = document.getElementById('ageFilter')?.value || 'all';
-  const sort   = document.getElementById('adoptSort')?.value || 'default';
+  const search = (document.getElementById('adoptSearch')?.value||'').toLowerCase().trim();
+  const age    =  document.getElementById('ageFilter')?.value  || 'all';
+  const sort   =  document.getElementById('adoptSort')?.value  || 'default';
 
   let filtered = allAnimals.filter(a => {
-    const tags = Array.isArray(a.tags) ? a.tags : [];
-    const matchType   = adoptFilter === 'all' || a.type === adoptFilter;
-    const matchSearch = !search ||
-      a.name.toLowerCase().includes(search) ||
-      a.breed.toLowerCase().includes(search) ||
-      tags.some(t => t.toLowerCase().includes(search)) ||
-      a.desc.toLowerCase().includes(search);
-    const matchAge = age === 'all' ||
-      (age === 'young'  && a.age < 2) ||
-      (age === 'adult'  && a.age >= 2 && a.age <= 7) ||
-      (age === 'senior' && a.age > 7);
-    return matchType && matchSearch && matchAge;
+    const tags = Array.isArray(a.tags)?a.tags:[];
+    const mt = adoptFilter==='all' || a.type===adoptFilter;
+    const ms = !search || a.name.toLowerCase().includes(search)||a.breed.toLowerCase().includes(search)||tags.some(t=>t.toLowerCase().includes(search))||a.desc.toLowerCase().includes(search);
+    const ma = age==='all'||(age==='young'&&a.age<2)||(age==='adult'&&a.age>=2&&a.age<=7)||(age==='senior'&&a.age>7);
+    return mt&&ms&&ma;
   });
 
-  if (sort === 'name')          filtered.sort((a,b) => a.name.localeCompare(b.name));
-  else if (sort === 'age-asc')  filtered.sort((a,b) => a.age - b.age);
-  else if (sort === 'age-desc') filtered.sort((a,b) => b.age - a.age);
+  if (sort==='name')       filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sort==='age-asc')  filtered.sort((a,b)=>a.age-b.age);
+  else if(sort==='age-desc') filtered.sort((a,b)=>b.age-a.age);
 
-  const countEl = document.getElementById('adoptCount');
-  if (countEl) countEl.innerHTML = `<strong>${filtered.length}</strong> animal${filtered.length !== 1 ? 's' : ''} available`;
+  const cnt = document.getElementById('adoptCount');
+  if(cnt) cnt.innerHTML=`<strong>${filtered.length}</strong> animal${filtered.length!==1?'s':''} available`;
 
   const grid = document.getElementById('adoptGrid');
-  if (!grid) return;
-  grid.innerHTML = filtered.length
-    ? filtered.map(a => cardHTML(a)).join('')
-    : emptyState('No animals found', `We couldn't find animals matching your filters. Try adjusting them.`, true);
+  if(!grid) return;
+  grid.innerHTML = filtered.length ? filtered.map(a=>cardHTML(a)).join('') : emptyState('No animals found',"We couldn't find animals matching your filters.",true);
 }
 
-// ═══ MODAL ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   ANIMAL DETAIL MODAL
+═══════════════════════════════════════════════════════════════ */
 function openModal(id) {
-  const a = allAnimals.find(x => x.id === id);
+  const a = allAnimals.find(x=>x.id===id);
   if (!a) return;
-  const tags = Array.isArray(a.tags) ? a.tags : [];
+  const tags = Array.isArray(a.tags)?a.tags:[];
+
   document.getElementById('modalPhoto').innerHTML = `
-    <div class="modal-photo-emoji">${a.emoji || '🐾'}</div>
+    <div class="modal-photo-emoji">${a.emoji||'🐾'}</div>
     <img src="${a.img}" alt="${a.name}" onerror="this.style.opacity=0" style="position:relative;z-index:1">
     <div class="modal-photo-badges"><span class="badge ${a.badgeClass}">${a.badge}</span></div>`;
   document.getElementById('modalName').textContent  = a.name;
   document.getElementById('modalBreed').textContent = `${a.breed} · ${a.gender}`;
-  document.getElementById('modalTags').innerHTML    = tags.map(t => `<span class="chip">${t}</span>`).join('');
+  document.getElementById('modalTags').innerHTML    = tags.map(t=>`<span class="chip">${t}</span>`).join('');
   document.getElementById('modalDesc').textContent  = a.desc;
   document.getElementById('modalFacts').innerHTML   = [
-    ['Age', a.ageLabel || a.age_label], ['Weight', a.weight], ['Size', a.size],
-    ['Vaccinated', a.vaccinated], ['Neutered', a.neutered], ['Gender', a.gender],
-  ].map(([l,v]) => `<div class="modal-fact"><div class="modal-fact-label">${l}</div><div class="modal-fact-val">${v}</div></div>`).join('');
-  document.getElementById('modalAdoptBtn').onclick = function(e) {
-    e.stopPropagation();
-    var aid = a.id;
-    document.getElementById('animalModal').classList.remove('open');
-    document.body.style.overflow = '';
-    modalOpen = false;
-    _doOpenAdoptModal(aid);
+    ['Age',a.ageLabel||a.age_label],['Weight',a.weight],['Size',a.size],
+    ['Vaccinated',a.vaccinated],['Neutered',a.neutered],['Gender',a.gender],
+  ].map(([l,v])=>`<div class="modal-fact"><div class="modal-fact-label">${l}</div><div class="modal-fact-val">${v}</div></div>`).join('');
+
+  // ── This is the critical fix: wire "Apply to Adopt" to open the application modal ──
+  document.getElementById('modalAdoptBtn').onclick = function() {
+    closeModal();
+    openAdoptModal(id);
   };
+
   document.getElementById('animalModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   modalOpen = true;
@@ -1208,150 +1245,301 @@ document.getElementById('animalModal').addEventListener('click', e => {
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { if (modalOpen) closeModal(); }
+  if (e.key === 'Escape') {
+    if (adoptModalOpen) { closeAdoptModal(); return; }
+    if (modalOpen) closeModal();
+  }
 });
 
-// ═══ FAV ═════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   FAV
+═══════════════════════════════════════════════════════════════ */
 const favSet = new Set();
 function toggleFav(btn, id) {
-  const a = allAnimals.find(x => x.id === id);
-  if (favSet.has(id)) { favSet.delete(id); btn.textContent = '🤍'; btn.classList.remove('faved'); }
-  else { favSet.add(id); btn.textContent = '❤️'; btn.classList.add('faved'); toast('info', `${a?.name || 'Animal'} saved to favourites!`); }
+  const a = allAnimals.find(x=>x.id===id);
+  if (favSet.has(id)) { favSet.delete(id); btn.textContent='🤍'; btn.classList.remove('faved'); }
+  else { favSet.add(id); btn.textContent='❤️'; btn.classList.add('faved'); toast('info',`${a?.name||'Animal'} saved to favourites!`); }
 }
 
-// ═══ DONATE ══════════════════════════════════════════════════════
-function setFreq(btn) { document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
-function setAmt(btn) {
-  document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on'));
+/* ═══════════════════════════════════════════════════════════════
+   DONATE
+═══════════════════════════════════════════════════════════════ */
+function setFreq(btn){ document.querySelectorAll('.freq-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+function setAmt(btn){
+  document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  const ci = document.getElementById('customAmt');
-  if (btn.dataset.amt === 'custom') { ci.style.display = 'block'; ci.focus(); selectedAmt = null; }
-  else { ci.style.display = 'none'; selectedAmt = parseInt(btn.dataset.amt); updateDonateBtn(); }
+  const ci=document.getElementById('customAmt');
+  if(btn.dataset.amt==='custom'){ci.style.display='block';ci.focus();selectedAmt=null;}
+  else{ci.style.display='none';selectedAmt=parseInt(btn.dataset.amt);updateDonateBtn();}
 }
-function updateDonateBtn() {
-  const ci = document.getElementById('customAmt');
-  if (ci && ci.style.display !== 'none') selectedAmt = parseInt(ci.value) || null;
-  const btn = document.getElementById('donateCta');
-  if (!btn) return;
-  btn.innerHTML = `Donate ${selectedAmt ? '₱'+selectedAmt.toLocaleString() : ''} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+function updateDonateBtn(){
+  const ci=document.getElementById('customAmt');
+  if(ci&&ci.style.display!=='none') selectedAmt=parseInt(ci.value)||null;
+  const btn=document.getElementById('donateCta');
+  if(!btn) return;
+  btn.innerHTML=`Donate ${selectedAmt?'₱'+selectedAmt.toLocaleString():''} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
 }
-function submitDonate() { toast('info', `🙏 Thank you${selectedAmt ? ' for ₱'+selectedAmt.toLocaleString() : ''}! You'll receive a receipt shortly.`); }
+function submitDonate(){ toast('info',`🙏 Thank you${selectedAmt?' for ₱'+selectedAmt.toLocaleString():''}! You'll receive a receipt shortly.`); }
 
-// ═══ CONTACT FORM ════════════════════════════════════════════════
-function submitForm() {
-  let valid = true;
-  const fn = document.getElementById('firstName'), em = document.getElementById('email'), ms = document.getElementById('message');
-  [fn,em,ms].forEach(el => el.classList.remove('error'));
-  ['emailErr','msgErr'].forEach(id => document.getElementById(id).classList.remove('show'));
-  if (!fn.value.trim()) { fn.classList.add('error'); valid = false; }
-  if (!em.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { em.classList.add('error'); document.getElementById('emailErr').classList.add('show'); valid = false; }
-  if (!ms.value.trim()) { ms.classList.add('error'); document.getElementById('msgErr').classList.add('show'); valid = false; }
-  if (!valid) { toast('error', 'Please fill in all required fields.'); return; }
-  toast('info', "✅ Message sent! We'll get back to you within 1 business day.");
-  [fn, em, ms, document.getElementById('lastName')].forEach(el => { if(el) el.value = ''; });
+/* ═══════════════════════════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════════════════════════ */
+function submitForm(){
+  let valid=true;
+  const fn=document.getElementById('firstName'),em=document.getElementById('email'),ms=document.getElementById('message');
+  [fn,em,ms].forEach(el=>el.classList.remove('error'));
+  ['emailErr','msgErr'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  if(!fn.value.trim()){fn.classList.add('error');valid=false;}
+  if(!em.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){em.classList.add('error');document.getElementById('emailErr').classList.add('show');valid=false;}
+  if(!ms.value.trim()){ms.classList.add('error');document.getElementById('msgErr').classList.add('show');valid=false;}
+  if(!valid){toast('error','Please fill in all required fields.');return;}
+  toast('info',"✅ Message sent! We'll get back to you within 1 business day.");
+  [fn,em,ms,document.getElementById('lastName')].forEach(el=>{if(el)el.value='';});
 }
 
-// ═══ TOAST ═══════════════════════════════════════════════════════
-function toast(type = 'info', msg) {
-  const wrap = document.getElementById('toastWrap');
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.innerHTML = `<span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+/* ═══════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════ */
+function toast(type='info', msg){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
   wrap.appendChild(el);
-  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
-  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 4500);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),350);},4500);
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// PHOTO UPLOAD
-// ═══════════════════════════════════════════════════════════════════
-async function handlePhotoUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
+/* ═══════════════════════════════════════════════════════════════
+   ADOPTION APPLICATION MODAL  ← FULLY FIXED & CLEAN
+═══════════════════════════════════════════════════════════════ */
 
-  if (file.size > 5 * 1024 * 1024) {
-    toast('error', 'File too large. Max 5 MB allowed.');
-    input.value = '';
+// Helper: visually select a radio option
+function selectRadio(label, groupName) {
+  // Deselect all in group
+  document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
+    r.closest('.adopt-radio-opt').classList.remove('selected');
+  });
+  // Select clicked
+  label.classList.add('selected');
+  label.querySelector('input[type=radio]').checked = true;
+}
+
+// Helper: get checked radio value by name
+function getRadioVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+
+// Reset all form fields
+function resetAdoptForm() {
+  ['a_firstname','a_lastname','a_email','a_phone','a_address',
+   'a_household_size','a_children','a_other_pets','a_reason','a_notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; el.classList.remove('err'); }
+  });
+  // Deselect all radio groups
+  document.querySelectorAll('#adoptAppModal input[type=radio]').forEach(r => r.checked = false);
+  document.querySelectorAll('#adoptAppModal .adopt-radio-opt').forEach(opt => opt.classList.remove('selected'));
+  const ag = document.getElementById('a_agree');
+  if (ag) ag.checked = false;
+}
+
+function openAdoptModal(animalId) {
+  adoptingAnimalId = animalId;
+
+  // Restore form if it was swapped for the success screen
+  const body = document.getElementById('adoptModalBody');
+  if (!document.getElementById('a_firstname')) {
+    body.innerHTML = window._adoptFormHTML;
+    // Re-wire radio opts after restoring HTML
+    document.querySelectorAll('#adoptAppModal .adopt-radio-opt').forEach(opt => {
+      const radio = opt.querySelector('input[type=radio]');
+      if (radio) opt.onclick = () => selectRadio(opt, radio.name);
+    });
+  }
+
+  resetAdoptForm();
+
+  // Populate animal banner
+  const a = allAnimals.find(x => x.id === animalId);
+  const banner = document.getElementById('adoptModalBanner');
+  if (a && banner) {
+    banner.innerHTML = `
+      <div class="adopt-modal-emoji">${a.emoji||'🐾'}</div>
+      <div>
+        <div class="adopt-modal-animal-name">${a.name}</div>
+        <div class="adopt-modal-animal-sub">${a.breed} · ${a.gender} · ${a.ageLabel||a.age_label}</div>
+      </div>`;
+  }
+
+  // Reset submit button
+  const btn = document.getElementById('adoptSubmitBtn');
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+
+  document.getElementById('adoptAppModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  adoptModalOpen = true;
+}
+
+function closeAdoptModal() {
+  document.getElementById('adoptAppModal').classList.remove('open');
+  document.body.style.overflow = '';
+  adoptModalOpen = false;
+  adoptingAnimalId = null;
+}
+
+// Close on backdrop click
+document.getElementById('adoptAppModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeAdoptModal();
+});
+
+async function submitAdoptionApp() {
+  // Required field validation
+  const reqFields = ['a_firstname','a_lastname','a_email','a_phone','a_address','a_reason'];
+  let valid = true;
+
+  reqFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.classList.add('err'); valid = false; }
+    else el.classList.remove('err');
+  });
+
+  if (!document.getElementById('a_household_size').value) valid = false;
+  if (!getRadioVal('home_type'))  valid = false;
+  if (!getRadioVal('rent_own'))   valid = false;
+  if (!getRadioVal('experience')) valid = false;
+
+  if (!document.getElementById('a_agree').checked) {
+    toast('error', 'Please accept the declaration at the bottom.');
+    return;
+  }
+  if (!valid) {
+    toast('error', 'Please fill in all required fields (marked with *).');
     return;
   }
 
-  // Show uploading state
-  document.getElementById('uploadStatus').style.display = 'flex';
+  const animal = allAnimals.find(x => x.id === adoptingAnimalId);
+  const btn = document.getElementById('adoptSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Submitting…';
+
+  const payload = {
+    animal_id:       adoptingAnimalId,
+    animal_name:     animal ? animal.name : '',
+    first_name:      document.getElementById('a_firstname').value.trim(),
+    last_name:       document.getElementById('a_lastname').value.trim(),
+    email:           document.getElementById('a_email').value.trim(),
+    phone:           document.getElementById('a_phone').value.trim(),
+    address:         document.getElementById('a_address').value.trim(),
+    home_type:       getRadioVal('home_type'),
+    rent_own:        getRadioVal('rent_own'),
+    landlord_ok:     getRadioVal('landlord_ok'),
+    yard:            getRadioVal('yard'),
+    household_size:  document.getElementById('a_household_size').value,
+    children:        document.getElementById('a_children').value,
+    other_pets:      document.getElementById('a_other_pets').value.trim(),
+    alone_hrs:       getRadioVal('alone_hrs'),
+    experience:      getRadioVal('experience'),
+    reason:          document.getElementById('a_reason').value.trim(),
+    home_visit:      getRadioVal('home_visit'),
+    notes:           document.getElementById('a_notes').value.trim(),
+    status:          'New',
+  };
+
+  try {
+    const { error } = await sb.from('adoption_applications').insert([payload]);
+    if (error) throw error;
+
+    // Show success screen
+    document.getElementById('adoptModalBody').innerHTML = `
+      <div class="adopt-success">
+        <div class="adopt-success-icon">🎉</div>
+        <h3>Application Submitted!</h3>
+        <p>Thank you, <strong>${payload.first_name}</strong>! Your application for
+          <strong>${animal ? animal.name : 'this animal'}</strong> has been received.
+          Our team will review it and contact you at
+          <strong>${payload.email}</strong> within 1–3 business days.</p>
+        <button class="btn btn-primary" onclick="closeAdoptModal()">Done ✓</button>
+      </div>`;
+  } catch (err) {
+    console.error('Application error:', err);
+    toast('error', `Submission failed: ${err.message}`);
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHOTO UPLOAD
+═══════════════════════════════════════════════════════════════ */
+async function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { toast('error','File too large. Max 5 MB.'); input.value=''; return; }
+
+  document.getElementById('uploadStatus').style.display     = 'flex';
+  document.getElementById('uploadDropzone').style.opacity   = '0.6';
   document.getElementById('uploadDropzone').style.pointerEvents = 'none';
-  document.getElementById('uploadDropzone').style.opacity = '0.6';
 
   try {
     const ext  = file.name.split('.').pop().toLowerCase();
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-    const { error: uploadError } = await sb.storage
-      .from('animal-images')
-      .upload(fileName, file, { upsert: true, contentType: file.type });
-
-    if (uploadError) throw uploadError;
-
-    const { data: urlData } = sb.storage.from('animal-images').getPublicUrl(fileName);
-    const publicUrl = urlData.publicUrl;
-
-    // Store in hidden input
-    document.getElementById('f_img').value = publicUrl;
-
-    // Show preview
-    document.getElementById('uploadPreviewImg').src = publicUrl;
+    const name = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error: upErr } = await sb.storage.from('animal-images').upload(name, file, { upsert:true, contentType:file.type });
+    if (upErr) throw upErr;
+    const { data: urlData } = sb.storage.from('animal-images').getPublicUrl(name);
+    document.getElementById('f_img').value = urlData.publicUrl;
+    document.getElementById('uploadPreviewImg').src = urlData.publicUrl;
     document.getElementById('uploadPreviewWrap').style.display = 'block';
-    document.getElementById('uploadDropzone').style.display = 'none';
+    document.getElementById('uploadDropzone').style.display    = 'none';
     document.getElementById('uploadCurrentWrap').style.display = 'none';
-
-    toast('info', '✅ Photo uploaded successfully!');
-  } catch (err) {
-    console.error('Upload error:', err);
-    toast('error', `Upload failed: ${err.message}`);
-    input.value = '';
+    toast('info','✅ Photo uploaded!');
+  } catch(err) {
+    toast('error',`Upload failed: ${err.message}`); input.value='';
   } finally {
-    document.getElementById('uploadStatus').style.display = 'none';
+    document.getElementById('uploadStatus').style.display     = 'none';
+    document.getElementById('uploadDropzone').style.opacity   = '';
     document.getElementById('uploadDropzone').style.pointerEvents = '';
-    document.getElementById('uploadDropzone').style.opacity = '';
   }
 }
 
 function removeUploadedPhoto() {
   document.getElementById('f_img').value = '';
   document.getElementById('uploadPreviewWrap').style.display = 'none';
-  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('uploadDropzone').style.display    = 'block';
   document.getElementById('photoFileInput').value = '';
-  // If editing, show current photo banner again
   if (editingId) {
-    const a = allAnimals.find(x => x.id === editingId);
-    if (a && a.img) {
+    const a = allAnimals.find(x=>x.id===editingId);
+    if (a?.img) {
+      document.getElementById('uploadCurrentThumb').src = a.img;
       document.getElementById('uploadCurrentWrap').style.display = 'block';
       document.getElementById('f_img').value = a.img;
     }
   }
 }
 
-// Drag-and-drop support for the drop zone
-(function() {
+// Drag and drop
+(function(){
   const zone = document.getElementById('uploadDropzone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('drag');
+  zone.addEventListener('dragover',  e=>{e.preventDefault();zone.classList.add('drag');});
+  zone.addEventListener('dragleave', ()=>zone.classList.remove('drag'));
+  zone.addEventListener('drop', e=>{
+    e.preventDefault(); zone.classList.remove('drag');
     const file = e.dataTransfer.files[0];
     if (file) {
       const input = document.getElementById('photoFileInput');
-      // Create a DataTransfer to set files on the input
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      input.files = dt.files;
+      const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
       handlePhotoUpload(input);
     }
   });
 })();
 
-// ═══════════════════════════════════════════════════════════════════
-// ADMIN PANEL
-// ═══════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN PANEL
+═══════════════════════════════════════════════════════════════ */
 function openAdmin() {
   document.getElementById('adminOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1368,24 +1556,25 @@ function switchTab(tab, btn) {
   btn.classList.add('on');
   document.getElementById('tab-' + tab).classList.add('on');
   if (tab === 'add' && !editingId) resetForm();
+  if (tab === 'apps') loadApplications();
 }
 
 function renderAdminList() {
   const el = document.getElementById('adminAnimalList');
   if (!allAnimals.length) {
-    el.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">No animals in database yet.<br>Use the <strong>➕ Add Animal</strong> tab to add your first one!</div>`;
+    el.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">No animals yet.<br>Use <strong>➕ Add Animal</strong> to get started.</div>`;
     return;
   }
   el.innerHTML = allAnimals.map(a => `
     <div class="admin-animal-row">
-      <div class="admin-animal-emoji">${a.emoji || '🐾'}</div>
+      <div class="admin-animal-emoji">${a.emoji||'🐾'}</div>
       <div class="admin-animal-info">
         <div class="admin-animal-name">${a.name}</div>
-        <div class="admin-animal-meta">${a.breed} · ${a.type} · ${a.gender} · <span class="badge ${a.badgeClass}" style="font-size:0.65rem">${a.badge}</span></div>
+        <div class="admin-animal-meta">${a.breed} · ${a.type} · ${a.gender} · <span class="badge ${a.badgeClass}" style="font-size:.65rem">${a.badge}</span></div>
       </div>
       <div class="admin-animal-actions">
-        <button class="admin-icon-btn edit" onclick="editAnimal(${a.id})" title="Edit">✏️</button>
-        <button class="admin-icon-btn del" onclick="deleteAnimal(${a.id},'${a.name}')" title="Delete">🗑️</button>
+        <button class="admin-icon-btn edit" onclick="editAnimal(${a.id})">✏️</button>
+        <button class="admin-icon-btn del"  onclick="deleteAnimal(${a.id},'${a.name.replace(/'/g,"\\'")}')">🗑️</button>
       </div>
     </div>`).join('');
 }
@@ -1394,33 +1583,32 @@ function resetForm() {
   editingId = null;
   document.getElementById('editId').value = '';
   document.getElementById('saveBtn').textContent = '💾 Save Animal';
-  ['f_name','f_breed','f_age','f_age_label','f_weight','f_tags','f_desc','f_emoji'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
+  ['f_name','f_breed','f_age','f_age_label','f_weight','f_tags','f_desc','f_emoji'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
   });
-  ['f_type','f_gender','f_size','f_badge','f_vaccinated','f_neutered'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.selectedIndex = 0;
+  ['f_type','f_gender','f_size','f_badge','f_vaccinated','f_neutered'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.selectedIndex=0;
   });
-  // Reset photo upload UI
   document.getElementById('f_img').value = '';
-  document.getElementById('uploadPreviewWrap').style.display = 'none';
-  document.getElementById('uploadCurrentWrap').style.display = 'none';
-  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('uploadPreviewWrap').style.display  = 'none';
+  document.getElementById('uploadCurrentWrap').style.display  = 'none';
+  document.getElementById('uploadDropzone').style.display     = 'block';
   document.getElementById('photoFileInput').value = '';
 }
 
 function editAnimal(id) {
-  const a = allAnimals.find(x => x.id === id);
+  const a = allAnimals.find(x=>x.id===id);
   if (!a) return;
   editingId = id;
   document.getElementById('editId').value      = id;
   document.getElementById('f_name').value      = a.name;
   document.getElementById('f_breed').value     = a.breed;
   document.getElementById('f_age').value       = a.age;
-  document.getElementById('f_age_label').value = a.age_label || a.ageLabel;
+  document.getElementById('f_age_label').value = a.age_label||a.ageLabel;
   document.getElementById('f_weight').value    = a.weight;
-  document.getElementById('f_desc').value      = a.description || a.desc;
-  document.getElementById('f_emoji').value     = a.emoji || '';
-  document.getElementById('f_tags').value      = Array.isArray(a.tags) ? a.tags.join(', ') : '';
+  document.getElementById('f_desc').value      = a.description||a.desc;
+  document.getElementById('f_emoji').value     = a.emoji||'';
+  document.getElementById('f_tags').value      = Array.isArray(a.tags)?a.tags.join(', '):'';
   document.getElementById('f_type').value      = a.type;
   document.getElementById('f_gender').value    = a.gender;
   document.getElementById('f_size').value      = a.size;
@@ -1428,11 +1616,9 @@ function editAnimal(id) {
   document.getElementById('f_vaccinated').value = a.vaccinated;
   document.getElementById('f_neutered').value  = a.neutered;
   document.getElementById('saveBtn').textContent = '💾 Update Animal';
-
-  // Photo UI: show current photo banner, hide drop zone & preview
-  document.getElementById('f_img').value = a.img || '';
-  document.getElementById('uploadPreviewWrap').style.display = 'none';
-  document.getElementById('uploadDropzone').style.display = 'block';
+  document.getElementById('f_img').value = a.img||'';
+  document.getElementById('uploadPreviewWrap').style.display  = 'none';
+  document.getElementById('uploadDropzone').style.display     = 'block';
   document.getElementById('photoFileInput').value = '';
   if (a.img) {
     document.getElementById('uploadCurrentThumb').src = a.img;
@@ -1440,39 +1626,38 @@ function editAnimal(id) {
   } else {
     document.getElementById('uploadCurrentWrap').style.display = 'none';
   }
-
-  // Switch to add/edit tab
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
-  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+  // Switch to add tab
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.admin-pane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.admin-tab')[1].classList.add('on');
   document.getElementById('tab-add').classList.add('on');
 }
 
 async function saveAnimal() {
-  const name       = document.getElementById('f_name').value.trim();
-  const breed      = document.getElementById('f_breed').value.trim();
-  const age        = parseFloat(document.getElementById('f_age').value);
-  const age_label  = document.getElementById('f_age_label').value.trim();
-  const weight     = document.getElementById('f_weight').value.trim();
-  const img        = document.getElementById('f_img').value.trim();
-  const desc       = document.getElementById('f_desc').value.trim();
-  const emoji      = document.getElementById('f_emoji').value.trim() || '🐾';
-  const tagsRaw    = document.getElementById('f_tags').value.trim();
-  const tags       = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const name      = document.getElementById('f_name').value.trim();
+  const breed     = document.getElementById('f_breed').value.trim();
+  const age       = parseFloat(document.getElementById('f_age').value);
+  const age_label = document.getElementById('f_age_label').value.trim();
+  const weight    = document.getElementById('f_weight').value.trim();
+  const img       = document.getElementById('f_img').value.trim();
+  const desc      = document.getElementById('f_desc').value.trim();
+  const emoji     = document.getElementById('f_emoji').value.trim()||'🐾';
+  const tagsRaw   = document.getElementById('f_tags').value.trim();
+  const tags      = tagsRaw ? tagsRaw.split(',').map(t=>t.trim()).filter(Boolean) : [];
   const type       = document.getElementById('f_type').value;
   const gender     = document.getElementById('f_gender').value;
   const size       = document.getElementById('f_size').value;
   const badge      = document.getElementById('f_badge').value;
   const vaccinated = document.getElementById('f_vaccinated').value;
   const neutered   = document.getElementById('f_neutered').value;
-  const badge_class = BADGE_CLASS[badge] || 'badge-green';
+  const badge_class = BADGE_CLASS[badge]||'badge-green';
 
-  if (!name || !breed || isNaN(age) || !age_label || !weight || !img || !desc) {
+  if (!name||!breed||isNaN(age)||!age_label||!weight||!img||!desc) {
     toast('error', !img ? 'Please upload a photo first.' : 'Please fill in all required fields.');
     return;
   }
 
-  const payload = { name, breed, age, age_label, weight, img, description: desc, emoji, tags, type, gender, size, badge, badge_class, vaccinated, neutered };
+  const payload = { name, breed, age, age_label, weight, img, description:desc, emoji, tags, type, gender, size, badge, badge_class, vaccinated, neutered };
 
   const saveBtn = document.getElementById('saveBtn');
   saveBtn.disabled = true;
@@ -1480,237 +1665,19 @@ async function saveAnimal() {
 
   try {
     let error;
-    if (editingId) {
-      ({ error } = await sb.from('animals').update(payload).eq('id', editingId));
-    } else {
-      ({ error } = await sb.from('animals').insert([payload]));
-    }
+    if (editingId) { ({error}=await sb.from('animals').update(payload).eq('id',editingId)); }
+    else           { ({error}=await sb.from('animals').insert([payload])); }
     if (error) throw error;
-    toast('info', `✅ ${name} ${editingId ? 'updated' : 'added'} successfully!`);
+    toast('info', `✅ ${name} ${editingId?'updated':'added'} successfully!`);
     resetForm();
-    await 
-// ===============================================================
-// ADMIN — Applications tab
-// ===============================================================
-(function addApplicationsTab() {
-  const tabsEl = document.querySelector('.admin-tabs');
-  const tabBtn = document.createElement('button');
-  tabBtn.className = 'admin-tab';
-  tabBtn.id = 'appsTabBtn';
-  tabBtn.textContent = '📩 Applications';
-  tabBtn.onclick = function() { switchAppsTab(this); };
-  tabsEl.appendChild(tabBtn);
-
-  const pane = document.createElement('div');
-  pane.className = 'admin-pane';
-  pane.id = 'tab-apps';
-  pane.innerHTML = '<div id="appsListWrap"><div class="admin-loading">Loading applications…</div></div>';
-  tabsEl.closest('.admin-body').appendChild(pane);
-})();
-
-function switchAppsTab(btn) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
-  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('tab-apps').classList.add('on');
-  loadApplications();
-}
-
-async function loadApplications() {
-  const wrap = document.getElementById('appsListWrap');
-  if (!wrap) return;
-  wrap.innerHTML = '<div class="admin-loading">Loading applications…</div>';
-  try {
-    const { data, error } = await sb.from('adoption_applications')
-      .select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    if (!data.length) {
-      wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">No applications yet.</div>';
-      return;
-    }
-    const statusMap = {'New':'app-status-new','Reviewed':'app-status-reviewed','Approved':'app-status-approved','Rejected':'app-status-rejected'};
-    wrap.innerHTML = data.map(app => {
-      const sc = statusMap[app.status] || 'app-status-new';
-      const date = new Date(app.created_at).toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});
-      return `<div class="app-card">
-        <div class="app-card-top">
-          <div>
-            <div class="app-card-name">${app.first_name} ${app.last_name}</div>
-            <div class="app-card-animal">Applying for: ${app.animal_name} (ID #${app.animal_id})</div>
-          </div>
-          <span class="app-status-badge ${sc}">${app.status || 'New'}</span>
-        </div>
-        <div class="app-card-meta">📧 ${app.email} · 📞 ${app.phone} · 📅 ${date}</div>
-        <div class="app-card-body" style="margin-top:0.6rem">
-          <strong>Address:</strong> ${app.address}<br>
-          <strong>Home:</strong> ${app.home_type||'—'} · <strong>Own/Rent:</strong> ${app.rent_own||'—'} · <strong>Yard:</strong> ${app.yard||'—'}<br>
-          <strong>Household:</strong> ${app.household_size||'—'} people · <strong>Children:</strong> ${app.children||'—'}<br>
-          <strong>Alone hrs:</strong> ${app.alone_hrs||'—'} · <strong>Other pets:</strong> ${app.other_pets||'None'}<br>
-          <strong>Experience:</strong> ${app.experience||'—'} · <strong>Home visit OK:</strong> ${app.home_visit||'—'}<br>
-          <strong>Why adopt:</strong> ${app.reason}<br>
-          ${app.notes ? '<strong>Notes:</strong> '+app.notes : ''}
-        </div>
-        <div class="app-actions">
-          <select onchange="updateAppStatus(${app.id}, this.value)">
-            <option value="New" ${app.status==='New'?'selected':''}>New</option>
-            <option value="Reviewed" ${app.status==='Reviewed'?'selected':''}>Reviewed</option>
-            <option value="Approved" ${app.status==='Approved'?'selected':''}>Approved</option>
-            <option value="Rejected" ${app.status==='Rejected'?'selected':''}>Rejected</option>
-          </select>
-          <button class="btn btn-danger" style="padding:0.35rem 0.75rem;font-size:0.78rem" onclick="deleteApp(${app.id})">🗑️ Delete</button>
-        </div>
-      </div>`;
-    }).join('');
-  } catch(err) {
-    wrap.innerHTML = '<div style="color:var(--warn);padding:1rem">Error: '+err.message+'</div>';
-  }
-}
-
-async function updateAppStatus(id, status) {
-  try {
-    const { error } = await sb.from('adoption_applications').update({ status }).eq('id', id);
-    if (error) throw error;
-    toast('info', 'Status updated to "'+status+'"');
-    loadApplications();
-  } catch(err) { toast('error', 'Error: '+err.message); }
-}
-
-async function deleteApp(id) {
-  if (!confirm('Delete this application? This cannot be undone.')) return;
-  try {
-    const { error } = await sb.from('adoption_applications').delete().eq('id', id);
-    if (error) throw error;
-    toast('info', 'Application deleted.');
-    loadApplications();
-  } catch(err) { toast('error', 'Error: '+err.message); }
-}
-
-// ===============================================================
-// ADOPTION APPLICATION MODAL
-// ===============================================================
-let adoptingAnimalId = null;
-
-function openAdoptModal(animalId) {
-  _doOpenAdoptModal(animalId);
-}
-
-function _doOpenAdoptModal(animalId) {
-  adoptingAnimalId = animalId;
-
-  // Restore form if it was replaced by success screen
-  var body = document.getElementById('adoptModalBody');
-  if (!document.getElementById('a_firstname')) {
-    body.innerHTML = window._adoptFormHTML;
-  }
-
-  const a = allAnimals.find(x => x.id === animalId);
-  const banner = document.getElementById('adoptModalBanner');
-  if (a) {
-    banner.innerHTML = '<div class="adopt-modal-animal-emoji">'+(a.emoji||'🐾')+'</div><div class="adopt-modal-animal-info"><strong>'+a.name+'</strong><span>'+a.breed+' · '+a.gender+' · '+(a.ageLabel||a.age_label)+'</span></div>';
-  }
-
-  ['a_firstname','a_lastname','a_email','a_phone','a_address','a_household_size','a_children','a_other_pets','a_reason','a_notes'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) { el.value = ''; el.classList.remove('err'); }
-  });
-  document.querySelectorAll('#adoptAppModal input[type=radio]').forEach(function(r) { r.checked = false; });
-  var ag = document.getElementById('a_agree');
-  if (ag) ag.checked = false;
-
-  var btn = document.getElementById('adoptSubmitBtn');
-  if (btn) { btn.disabled = false; btn.innerHTML = 'Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; }
-
-  document.getElementById('adoptAppModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeAdoptModal() {
-  document.getElementById('adoptAppModal').classList.remove('open');
-  document.body.style.overflow='';
-  adoptingAnimalId=null;
-}
-
-document.getElementById('adoptAppModal').addEventListener('click', function(e){
-  if(e.target===e.currentTarget) closeAdoptModal();
-});
-
-function getRadio(name) {
-  var el=document.querySelector('input[name="'+name+'"]:checked');
-  return el?el.value:'';
-}
-
-async function submitAdoptionApp() {
-  var fields=[
-    {id:'a_firstname'},{id:'a_lastname'},{id:'a_email'},
-    {id:'a_phone'},{id:'a_address'},{id:'a_reason'}
-  ];
-  var valid=true;
-  fields.forEach(function(f){
-    var el=document.getElementById(f.id);
-    if(!el.value.trim()){el.classList.add('err');valid=false;}
-    else el.classList.remove('err');
-  });
-  if(!document.getElementById('a_household_size').value) valid=false;
-  if(!getRadio('home_type')||!getRadio('rent_own')||!getRadio('experience')) valid=false;
-  if(!document.getElementById('a_agree').checked){
-    toast('error','Please accept the declaration at the bottom.');return;
-  }
-  if(!valid){toast('error','Please fill in all required fields.');return;}
-
-  var animal=allAnimals.find(function(x){return x.id===adoptingAnimalId;});
-  var btn=document.getElementById('adoptSubmitBtn');
-  btn.disabled=true; btn.textContent='⏳ Submitting…';
-
-  var payload={
-    animal_id:adoptingAnimalId, animal_name:animal?animal.name:'',
-    first_name:document.getElementById('a_firstname').value.trim(),
-    last_name:document.getElementById('a_lastname').value.trim(),
-    email:document.getElementById('a_email').value.trim(),
-    phone:document.getElementById('a_phone').value.trim(),
-    address:document.getElementById('a_address').value.trim(),
-    home_type:getRadio('home_type'), rent_own:getRadio('rent_own'),
-    landlord_ok:getRadio('landlord_ok'), yard:getRadio('yard'),
-    household_size:document.getElementById('a_household_size').value,
-    children:document.getElementById('a_children').value,
-    other_pets:document.getElementById('a_other_pets').value.trim(),
-    alone_hrs:getRadio('alone_hrs'), experience:getRadio('experience'),
-    reason:document.getElementById('a_reason').value.trim(),
-    home_visit:getRadio('home_visit'),
-    notes:document.getElementById('a_notes').value.trim(),
-    status:'New'
-  };
-
-  try {
-    var result=await sb.from('adoption_applications').insert([payload]);
-    if(result.error) throw result.error;
-    document.getElementById('adoptModalBody').innerHTML=
-      '<div class="adopt-success">'+
-      '<div class="adopt-success-icon">🎉</div>'+
-      '<h3>Application Submitted!</h3>'+
-      '<p>Thank you, <strong>'+payload.first_name+'</strong>! Your application for <strong>'+(animal?animal.name:'this animal')+'</strong> has been received. Our team will review it and contact you at <strong>'+payload.email+'</strong> within 1–3 business days.</p>'+
-      '<button class="btn btn-primary" onclick="closeAdoptModal()">Done</button>'+
-      '</div>';
-  } catch(err) {
-    toast('error','Submission failed: '+err.message);
-    btn.disabled=false;
-    btn.innerHTML='Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-  }
-}
-
-
-// Save original adoption form HTML for reuse
-window.addEventListener('load', function() {
-  var b = document.getElementById('adoptModalBody');
-  if (b) window._adoptFormHTML = b.innerHTML;
-});
-
-loadAnimals();
-    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
-    document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+    await loadAnimals();
+    // Go back to list
+    document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.admin-pane').forEach(p=>p.classList.remove('on'));
     document.querySelectorAll('.admin-tab')[0].classList.add('on');
     document.getElementById('tab-list').classList.add('on');
-  } catch (err) {
-    console.error(err);
-    toast('error', `Error saving: ${err.message}`);
+  } catch(err) {
+    toast('error',`Error saving: ${err.message}`);
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = editingId ? '💾 Update Animal' : '💾 Save Animal';
@@ -1718,22 +1685,99 @@ loadAnimals();
 }
 
 async function deleteAnimal(id, name) {
-  if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) return;
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
   try {
-    const { error } = await sb.from('animals').delete().eq('id', id);
-    if (error) throw error;
-    toast('info', `🗑️ ${name} removed from database.`);
+    const {error}=await sb.from('animals').delete().eq('id',id);
+    if(error) throw error;
+    toast('info',`🗑️ ${name} removed.`);
     await loadAnimals();
-  } catch (err) {
-    toast('error', `Error deleting: ${err.message}`);
+  } catch(err) { toast('error',`Error: ${err.message}`); }
+}
+
+document.getElementById('adminOverlay').addEventListener('click', e=>{
+  if(e.target===e.currentTarget) closeAdmin();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   APPLICATIONS TAB
+═══════════════════════════════════════════════════════════════ */
+async function loadApplications() {
+  const wrap = document.getElementById('appsListWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<div class="admin-loading">Loading applications…</div>';
+  try {
+    const {data,error} = await sb.from('adoption_applications').select('*').order('created_at',{ascending:false});
+    if (error) throw error;
+    if (!data.length) {
+      wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">No applications yet.</div>';
+      return;
+    }
+    const statusMap = {New:'app-status-new',Reviewed:'app-status-reviewed',Approved:'app-status-approved',Rejected:'app-status-rejected'};
+    wrap.innerHTML = data.map(app => {
+      const sc   = statusMap[app.status]||'app-status-new';
+      const date = new Date(app.created_at).toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});
+      return `<div class="app-card">
+        <div class="app-card-top">
+          <div>
+            <div class="app-card-name">${app.first_name} ${app.last_name}</div>
+            <div class="app-card-animal">Applying for: ${app.animal_name} (ID #${app.animal_id})</div>
+          </div>
+          <span class="app-status-badge ${sc}">${app.status||'New'}</span>
+        </div>
+        <div class="app-card-meta">📧 ${app.email} · 📞 ${app.phone} · 📅 ${date}</div>
+        <div class="app-card-body" style="margin-top:.6rem">
+          <strong>Address:</strong> ${app.address}<br>
+          <strong>Home:</strong> ${app.home_type||'—'} · <strong>Own/Rent:</strong> ${app.rent_own||'—'} · <strong>Yard:</strong> ${app.yard||'—'}<br>
+          <strong>Household:</strong> ${app.household_size||'—'} · <strong>Children:</strong> ${app.children||'—'}<br>
+          <strong>Alone hrs:</strong> ${app.alone_hrs||'—'} · <strong>Other pets:</strong> ${app.other_pets||'None'}<br>
+          <strong>Experience:</strong> ${app.experience||'—'} · <strong>Home visit OK:</strong> ${app.home_visit||'—'}<br>
+          <strong>Why adopt:</strong> ${app.reason}
+          ${app.notes?`<br><strong>Notes:</strong> ${app.notes}`:''}
+        </div>
+        <div class="app-actions">
+          <select onchange="updateAppStatus(${app.id},this.value)">
+            <option value="New"      ${app.status==='New'      ?'selected':''}>New</option>
+            <option value="Reviewed" ${app.status==='Reviewed' ?'selected':''}>Reviewed</option>
+            <option value="Approved" ${app.status==='Approved' ?'selected':''}>Approved</option>
+            <option value="Rejected" ${app.status==='Rejected' ?'selected':''}>Rejected</option>
+          </select>
+          <button class="btn btn-danger" style="padding:.35rem .75rem;font-size:.78rem" onclick="deleteApp(${app.id})">🗑️ Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    wrap.innerHTML = `<div style="color:var(--warn);padding:1rem">Error: ${err.message}</div>`;
   }
 }
 
-document.getElementById('adminOverlay').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeAdmin();
+async function updateAppStatus(id, status) {
+  try {
+    const {error}=await sb.from('adoption_applications').update({status}).eq('id',id);
+    if(error) throw error;
+    toast('info',`Status updated to "${status}"`);
+    loadApplications();
+  } catch(err) { toast('error',`Error: ${err.message}`); }
+}
+
+async function deleteApp(id) {
+  if (!confirm('Delete this application? Cannot be undone.')) return;
+  try {
+    const {error}=await sb.from('adoption_applications').delete().eq('id',id);
+    if(error) throw error;
+    toast('info','Application deleted.');
+    loadApplications();
+  } catch(err) { toast('error',`Error: ${err.message}`); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+// Save original adoption form HTML for reuse after success screen
+window.addEventListener('DOMContentLoaded', () => {
+  const b = document.getElementById('adoptModalBody');
+  if (b) window._adoptFormHTML = b.innerHTML;
 });
 
-// ═══ INIT ════════════════════════════════════════════════════════
 loadAnimals();
 </script>
 </body>
