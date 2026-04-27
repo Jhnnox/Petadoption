@@ -424,6 +424,67 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 .upload-current-img span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 @media(max-width:600px){.admin-form-grid{grid-template-columns:1fr}.admin-body{padding:1.25rem}}
+
+/* ── ADOPTION APPLICATION MODAL ── */
+.adopt-modal-bg{position:fixed;inset:0;z-index:550;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.adopt-modal-bg::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px)}
+.adopt-modal-bg.open{opacity:1;pointer-events:all}
+.adopt-modal-box{background:var(--white);border-radius:var(--r28);max-width:640px;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s cubic-bezier(.34,1.4,.64,1);position:relative;z-index:1}
+.adopt-modal-bg.open .adopt-modal-box{transform:none}
+.adopt-modal-header{background:var(--accent);padding:1.75rem 2rem;border-radius:var(--r28) var(--r28) 0 0;position:relative}
+.adopt-modal-header h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.25rem}
+.adopt-modal-header p{font-size:0.82rem;color:rgba(255,255,255,0.65)}
+.adopt-modal-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--white);transition:all var(--t)}
+.adopt-modal-close:hover{background:rgba(255,255,255,0.25)}
+.adopt-modal-animal-banner{display:flex;align-items:center;gap:1rem;background:var(--accent2);border-bottom:1px solid var(--accent3);padding:1rem 2rem}
+.adopt-modal-animal-photo{width:52px;height:52px;border-radius:var(--r10);object-fit:cover;border:2px solid var(--accent3);flex-shrink:0;background:var(--off)}
+.adopt-modal-animal-emoji{width:52px;height:52px;border-radius:var(--r10);background:var(--accent3);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0}
+.adopt-modal-animal-info strong{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);display:block}
+.adopt-modal-animal-info span{font-size:0.78rem;color:var(--muted)}
+.adopt-modal-body{padding:1.75rem 2rem 2rem}
+.adopt-section-title{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.85rem;margin-top:1.5rem;padding-bottom:0.4rem;border-bottom:1.5px solid var(--accent3)}
+.adopt-section-title:first-child{margin-top:0}
+.adopt-form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+.adopt-fgroup{margin-bottom:0.85rem}
+.adopt-flabel{display:block;font-size:0.79rem;font-weight:600;color:var(--ink);margin-bottom:0.35rem}
+.adopt-flabel .req{color:var(--warn)}
+.adopt-finput,.adopt-fselect,.adopt-ftextarea{width:100%;padding:0.65rem 0.9rem;border:1.5px solid var(--light);border-radius:var(--r10);font-size:0.88rem;color:var(--ink);background:var(--white);outline:none;transition:border-color var(--t),box-shadow var(--t)}
+.adopt-finput:focus,.adopt-fselect:focus,.adopt-ftextarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,99,71,0.08)}
+.adopt-finput.err,.adopt-fselect.err,.adopt-ftextarea.err{border-color:var(--warn);box-shadow:0 0 0 3px rgba(204,74,40,0.08)}
+.adopt-ftextarea{resize:vertical;min-height:90px;line-height:1.6}
+.adopt-radio-group{display:flex;gap:0.65rem;flex-wrap:wrap}
+.adopt-radio-opt{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.85rem;border:1.5px solid var(--light);border-radius:var(--rpill);cursor:pointer;font-size:0.82rem;font-weight:500;color:var(--muted);transition:all var(--t)}
+.adopt-radio-opt input{display:none}
+.adopt-radio-opt:has(input:checked){background:var(--accent);color:var(--white);border-color:var(--accent)}
+.adopt-radio-opt:hover:not(:has(input:checked)){border-color:var(--accent);color:var(--accent)}
+.adopt-agree{display:flex;align-items:flex-start;gap:0.65rem;background:var(--off);border-radius:var(--r10);padding:0.85rem;margin-top:1rem}
+.adopt-agree input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
+.adopt-agree label{font-size:0.82rem;color:var(--muted);line-height:1.6;cursor:pointer}
+.adopt-agree label strong{color:var(--ink)}
+.adopt-submit-row{display:flex;gap:0.65rem;margin-top:1.5rem}
+.adopt-submit-row .btn{flex:1;justify-content:center;padding:0.85rem}
+.adopt-success{text-align:center;padding:2rem 1rem}
+.adopt-success-icon{font-size:3.5rem;margin-bottom:1rem}
+.adopt-success h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:0.5rem}
+.adopt-success p{font-size:0.88rem;color:var(--muted);line-height:1.7;max-width:380px;margin:0 auto 1.5rem}
+/* Admin applications tab */
+.app-card{background:var(--off);border-radius:var(--r14);padding:1rem 1.25rem;margin-bottom:0.75rem;border:1px solid var(--light);transition:all var(--t)}
+.app-card:hover{box-shadow:var(--sh);border-color:var(--mid)}
+.app-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem}
+.app-card-name{font-family:'Syne',sans-serif;font-size:0.97rem;font-weight:700}
+.app-card-animal{font-size:0.78rem;color:var(--accent);font-weight:600}
+.app-card-meta{font-size:0.75rem;color:var(--muted)}
+.app-card-body{font-size:0.82rem;color:var(--ink);line-height:1.65}
+.app-card-body strong{color:var(--muted);font-weight:600}
+.app-status-badge{display:inline-flex;align-items:center;padding:0.2rem 0.65rem;border-radius:var(--rpill);font-size:0.68rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase}
+.app-status-new{background:var(--gold2);color:var(--gold)}
+.app-status-reviewed{background:var(--blue2);color:var(--blue)}
+.app-status-approved{background:var(--accent2);color:var(--accent)}
+.app-status-rejected{background:var(--warn2);color:var(--warn)}
+.app-actions{display:flex;gap:0.4rem;margin-top:0.75rem;flex-wrap:wrap}
+.app-actions select{padding:0.35rem 0.6rem;border:1.5px solid var(--light);border-radius:var(--r6);font-size:0.78rem;color:var(--ink);background:var(--white);outline:none;cursor:pointer}
+.app-actions select:focus{border-color:var(--accent)}
+@media(max-width:560px){.adopt-form-row{grid-template-columns:1fr}.adopt-modal-body{padding:1.25rem 1.25rem 1.5rem}.adopt-modal-header{padding:1.25rem}.adopt-modal-animal-banner{padding:0.85rem 1.25rem}}
 </style>
 </head>
 <body>
@@ -760,6 +821,152 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
   </div>
 </div>
 
+<!-- ══ ADOPTION APPLICATION MODAL ══════════════════════════════ -->
+<div class="adopt-modal-bg" id="adoptAppModal">
+  <div class="adopt-modal-box">
+    <div class="adopt-modal-header">
+      <button class="adopt-modal-close" onclick="closeAdoptModal()">✕</button>
+      <h3>🐾 Adoption Application</h3>
+      <p>Please fill out this form so we can find the best match for you and the animal.</p>
+    </div>
+    <div class="adopt-modal-animal-banner" id="adoptModalBanner"></div>
+    <div id="adoptModalBody">
+      <div class="adopt-modal-body">
+
+        <div class="adopt-section-title">👤 Personal Information</div>
+        <div class="adopt-form-row">
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">First Name <span class="req">*</span></label>
+            <input type="text" class="adopt-finput" id="a_firstname" placeholder="Juan">
+          </div>
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">Last Name <span class="req">*</span></label>
+            <input type="text" class="adopt-finput" id="a_lastname" placeholder="dela Cruz">
+          </div>
+        </div>
+        <div class="adopt-form-row">
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">Email Address <span class="req">*</span></label>
+            <input type="email" class="adopt-finput" id="a_email" placeholder="juan@email.com">
+          </div>
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">Contact Number <span class="req">*</span></label>
+            <input type="tel" class="adopt-finput" id="a_phone" placeholder="09XX XXX XXXX">
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Home Address <span class="req">*</span></label>
+          <input type="text" class="adopt-finput" id="a_address" placeholder="Barangay, City, Province">
+        </div>
+
+        <div class="adopt-section-title">🏠 Living Situation</div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Type of Home <span class="req">*</span></label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="House"> 🏡 House</label>
+            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Apartment"> 🏢 Apartment</label>
+            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Condo"> 🏙️ Condo</label>
+            <label class="adopt-radio-opt"><input type="radio" name="home_type" value="Other"> 🏘️ Other</label>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Do you rent or own? <span class="req">*</span></label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="rent_own" value="Own"> 🔑 Own</label>
+            <label class="adopt-radio-opt"><input type="radio" name="rent_own" value="Rent"> 📄 Rent</label>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">If renting, does your landlord allow pets?</label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="Yes"> ✅ Yes</label>
+            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="No"> ❌ No</label>
+            <label class="adopt-radio-opt"><input type="radio" name="landlord_ok" value="N/A"> — N/A (I own)</label>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Do you have a yard or outdoor space?</label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="yard" value="Yes - Fenced"> 🌿 Yes, fenced</label>
+            <label class="adopt-radio-opt"><input type="radio" name="yard" value="Yes - Unfenced"> 🌱 Yes, unfenced</label>
+            <label class="adopt-radio-opt"><input type="radio" name="yard" value="No"> 🚫 No</label>
+          </div>
+        </div>
+
+        <div class="adopt-section-title">👨‍👩‍👧 Household &amp; Lifestyle</div>
+        <div class="adopt-form-row">
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">People in household <span class="req">*</span></label>
+            <select class="adopt-fselect" id="a_household_size">
+              <option value="">Select…</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+            </select>
+          </div>
+          <div class="adopt-fgroup">
+            <label class="adopt-flabel">Children at home?</label>
+            <select class="adopt-fselect" id="a_children">
+              <option value="">Select…</option>
+              <option>No children</option>
+              <option>Children under 5</option>
+              <option>Children 5–12</option>
+              <option>Teenagers (13–17)</option>
+              <option>Mixed ages</option>
+            </select>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Do you currently have other pets?</label>
+          <textarea class="adopt-ftextarea" id="a_other_pets" placeholder="e.g. 1 male dog (neutered, 3 yrs), or 'None'" style="min-height:65px"></textarea>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Hours per day the pet will be alone?</label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="0-2 hrs"> 0–2 hrs</label>
+            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="3-5 hrs"> 3–5 hrs</label>
+            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="6-8 hrs"> 6–8 hrs</label>
+            <label class="adopt-radio-opt"><input type="radio" name="alone_hrs" value="8+ hrs"> 8+ hrs</label>
+          </div>
+        </div>
+
+        <div class="adopt-section-title">🐾 Experience &amp; Intentions</div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Pet ownership experience <span class="req">*</span></label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="experience" value="First-time owner"> 🌟 First-time</label>
+            <label class="adopt-radio-opt"><input type="radio" name="experience" value="Some experience"> 🐾 Some experience</label>
+            <label class="adopt-radio-opt"><input type="radio" name="experience" value="Very experienced"> 🏆 Very experienced</label>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Why do you want to adopt this animal? <span class="req">*</span></label>
+          <textarea class="adopt-ftextarea" id="a_reason" placeholder="Tell us why you'd like to adopt and what kind of home you can provide…"></textarea>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Do you agree to a home visit if required?</label>
+          <div class="adopt-radio-group">
+            <label class="adopt-radio-opt"><input type="radio" name="home_visit" value="Yes"> ✅ Yes</label>
+            <label class="adopt-radio-opt"><input type="radio" name="home_visit" value="No"> ❌ No</label>
+          </div>
+        </div>
+        <div class="adopt-fgroup">
+          <label class="adopt-flabel">Anything else we should know?</label>
+          <textarea class="adopt-ftextarea" id="a_notes" placeholder="Any additional info that may help us process your application…" style="min-height:70px"></textarea>
+        </div>
+
+        <div class="adopt-agree">
+          <input type="checkbox" id="a_agree">
+          <label for="a_agree">I confirm that all information provided is <strong>accurate and truthful</strong>. I understand that PawHaven may contact me for a follow-up interview or home visit, and that approval is not guaranteed.</label>
+        </div>
+
+        <div class="adopt-submit-row">
+          <button class="btn btn-outline" onclick="closeAdoptModal()">Cancel</button>
+          <button class="btn btn-primary" id="adoptSubmitBtn" onclick="submitAdoptionApp()">Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
 
@@ -979,7 +1186,7 @@ function openModal(id) {
   ].map(([l,v]) => `<div class="modal-fact"><div class="modal-fact-label">${l}</div><div class="modal-fact-val">${v}</div></div>`).join('');
   document.getElementById('modalAdoptBtn').onclick = () => {
     closeModal();
-    toast('info', `🐾 Thank you for your interest in ${a.name}! We'll contact you within 24 hours.`);
+    openAdoptModal(a.id);
   };
   document.getElementById('animalModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1277,7 +1484,200 @@ async function saveAnimal() {
     if (error) throw error;
     toast('info', `✅ ${name} ${editingId ? 'updated' : 'added'} successfully!`);
     resetForm();
-    await loadAnimals();
+    await 
+// ===============================================================
+// ADMIN — Applications tab
+// ===============================================================
+(function addApplicationsTab() {
+  const tabsEl = document.querySelector('.admin-tabs');
+  const tabBtn = document.createElement('button');
+  tabBtn.className = 'admin-tab';
+  tabBtn.id = 'appsTabBtn';
+  tabBtn.textContent = '📩 Applications';
+  tabBtn.onclick = function() { switchAppsTab(this); };
+  tabsEl.appendChild(tabBtn);
+
+  const pane = document.createElement('div');
+  pane.className = 'admin-pane';
+  pane.id = 'tab-apps';
+  pane.innerHTML = '<div id="appsListWrap"><div class="admin-loading">Loading applications…</div></div>';
+  tabsEl.closest('.admin-body').appendChild(pane);
+})();
+
+function switchAppsTab(btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tab-apps').classList.add('on');
+  loadApplications();
+}
+
+async function loadApplications() {
+  const wrap = document.getElementById('appsListWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<div class="admin-loading">Loading applications…</div>';
+  try {
+    const { data, error } = await sb.from('adoption_applications')
+      .select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    if (!data.length) {
+      wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">No applications yet.</div>';
+      return;
+    }
+    const statusMap = {'New':'app-status-new','Reviewed':'app-status-reviewed','Approved':'app-status-approved','Rejected':'app-status-rejected'};
+    wrap.innerHTML = data.map(app => {
+      const sc = statusMap[app.status] || 'app-status-new';
+      const date = new Date(app.created_at).toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});
+      return `<div class="app-card">
+        <div class="app-card-top">
+          <div>
+            <div class="app-card-name">${app.first_name} ${app.last_name}</div>
+            <div class="app-card-animal">Applying for: ${app.animal_name} (ID #${app.animal_id})</div>
+          </div>
+          <span class="app-status-badge ${sc}">${app.status || 'New'}</span>
+        </div>
+        <div class="app-card-meta">📧 ${app.email} · 📞 ${app.phone} · 📅 ${date}</div>
+        <div class="app-card-body" style="margin-top:0.6rem">
+          <strong>Address:</strong> ${app.address}<br>
+          <strong>Home:</strong> ${app.home_type||'—'} · <strong>Own/Rent:</strong> ${app.rent_own||'—'} · <strong>Yard:</strong> ${app.yard||'—'}<br>
+          <strong>Household:</strong> ${app.household_size||'—'} people · <strong>Children:</strong> ${app.children||'—'}<br>
+          <strong>Alone hrs:</strong> ${app.alone_hrs||'—'} · <strong>Other pets:</strong> ${app.other_pets||'None'}<br>
+          <strong>Experience:</strong> ${app.experience||'—'} · <strong>Home visit OK:</strong> ${app.home_visit||'—'}<br>
+          <strong>Why adopt:</strong> ${app.reason}<br>
+          ${app.notes ? '<strong>Notes:</strong> '+app.notes : ''}
+        </div>
+        <div class="app-actions">
+          <select onchange="updateAppStatus(${app.id}, this.value)">
+            <option value="New" ${app.status==='New'?'selected':''}>New</option>
+            <option value="Reviewed" ${app.status==='Reviewed'?'selected':''}>Reviewed</option>
+            <option value="Approved" ${app.status==='Approved'?'selected':''}>Approved</option>
+            <option value="Rejected" ${app.status==='Rejected'?'selected':''}>Rejected</option>
+          </select>
+          <button class="btn btn-danger" style="padding:0.35rem 0.75rem;font-size:0.78rem" onclick="deleteApp(${app.id})">🗑️ Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    wrap.innerHTML = '<div style="color:var(--warn);padding:1rem">Error: '+err.message+'</div>';
+  }
+}
+
+async function updateAppStatus(id, status) {
+  try {
+    const { error } = await sb.from('adoption_applications').update({ status }).eq('id', id);
+    if (error) throw error;
+    toast('info', 'Status updated to "'+status+'"');
+    loadApplications();
+  } catch(err) { toast('error', 'Error: '+err.message); }
+}
+
+async function deleteApp(id) {
+  if (!confirm('Delete this application? This cannot be undone.')) return;
+  try {
+    const { error } = await sb.from('adoption_applications').delete().eq('id', id);
+    if (error) throw error;
+    toast('info', 'Application deleted.');
+    loadApplications();
+  } catch(err) { toast('error', 'Error: '+err.message); }
+}
+
+// ===============================================================
+// ADOPTION APPLICATION MODAL
+// ===============================================================
+let adoptingAnimalId = null;
+
+function openAdoptModal(animalId) {
+  adoptingAnimalId = animalId;
+  const a = allAnimals.find(x => x.id === animalId);
+  const banner = document.getElementById('adoptModalBanner');
+  if (a) {
+    banner.innerHTML = '<div class="adopt-modal-animal-emoji">'+( a.emoji||'🐾')+'</div><div class="adopt-modal-animal-info"><strong>'+a.name+'</strong><span>'+a.breed+' · '+a.gender+' · '+(a.ageLabel||a.age_label)+'</span></div>';
+  }
+  ['a_firstname','a_lastname','a_email','a_phone','a_address','a_household_size','a_children','a_other_pets','a_reason','a_notes'].forEach(function(id){
+    var el=document.getElementById(id); if(el){el.value='';el.classList.remove('err');}
+  });
+  document.querySelectorAll('#adoptAppModal input[type=radio]').forEach(function(r){r.checked=false;});
+  var ag=document.getElementById('a_agree'); if(ag) ag.checked=false;
+  var body=document.getElementById('adoptModalBody');
+  body.style.display='';
+  document.getElementById('adoptAppModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeAdoptModal() {
+  document.getElementById('adoptAppModal').classList.remove('open');
+  document.body.style.overflow='';
+  adoptingAnimalId=null;
+}
+
+document.getElementById('adoptAppModal').addEventListener('click', function(e){
+  if(e.target===e.currentTarget) closeAdoptModal();
+});
+
+function getRadio(name) {
+  var el=document.querySelector('input[name="'+name+'"]:checked');
+  return el?el.value:'';
+}
+
+async function submitAdoptionApp() {
+  var fields=[
+    {id:'a_firstname'},{id:'a_lastname'},{id:'a_email'},
+    {id:'a_phone'},{id:'a_address'},{id:'a_reason'}
+  ];
+  var valid=true;
+  fields.forEach(function(f){
+    var el=document.getElementById(f.id);
+    if(!el.value.trim()){el.classList.add('err');valid=false;}
+    else el.classList.remove('err');
+  });
+  if(!document.getElementById('a_household_size').value) valid=false;
+  if(!getRadio('home_type')||!getRadio('rent_own')||!getRadio('experience')) valid=false;
+  if(!document.getElementById('a_agree').checked){
+    toast('error','Please accept the declaration at the bottom.');return;
+  }
+  if(!valid){toast('error','Please fill in all required fields.');return;}
+
+  var animal=allAnimals.find(function(x){return x.id===adoptingAnimalId;});
+  var btn=document.getElementById('adoptSubmitBtn');
+  btn.disabled=true; btn.textContent='⏳ Submitting…';
+
+  var payload={
+    animal_id:adoptingAnimalId, animal_name:animal?animal.name:'',
+    first_name:document.getElementById('a_firstname').value.trim(),
+    last_name:document.getElementById('a_lastname').value.trim(),
+    email:document.getElementById('a_email').value.trim(),
+    phone:document.getElementById('a_phone').value.trim(),
+    address:document.getElementById('a_address').value.trim(),
+    home_type:getRadio('home_type'), rent_own:getRadio('rent_own'),
+    landlord_ok:getRadio('landlord_ok'), yard:getRadio('yard'),
+    household_size:document.getElementById('a_household_size').value,
+    children:document.getElementById('a_children').value,
+    other_pets:document.getElementById('a_other_pets').value.trim(),
+    alone_hrs:getRadio('alone_hrs'), experience:getRadio('experience'),
+    reason:document.getElementById('a_reason').value.trim(),
+    home_visit:getRadio('home_visit'),
+    notes:document.getElementById('a_notes').value.trim(),
+    status:'New'
+  };
+
+  try {
+    var result=await sb.from('adoption_applications').insert([payload]);
+    if(result.error) throw result.error;
+    document.getElementById('adoptModalBody').innerHTML=
+      '<div class="adopt-success">'+
+      '<div class="adopt-success-icon">🎉</div>'+
+      '<h3>Application Submitted!</h3>'+
+      '<p>Thank you, <strong>'+payload.first_name+'</strong>! Your application for <strong>'+(animal?animal.name:'this animal')+'</strong> has been received. Our team will review it and contact you at <strong>'+payload.email+'</strong> within 1–3 business days.</p>'+
+      '<button class="btn btn-primary" onclick="closeAdoptModal()">Done</button>'+
+      '</div>';
+  } catch(err) {
+    toast('error','Submission failed: '+err.message);
+    btn.disabled=false;
+    btn.innerHTML='Submit Application <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+}
+
+loadAnimals();
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
     document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('on'));
     document.querySelectorAll('.admin-tab')[0].classList.add('on');
