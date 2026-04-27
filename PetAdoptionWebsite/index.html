@@ -426,7 +426,7 @@ footer{background:var(--ink);color:var(--white);padding:4rem 0 2.5rem}
 @media(max-width:600px){.admin-form-grid{grid-template-columns:1fr}.admin-body{padding:1.25rem}}
 
 /* ── ADOPTION APPLICATION MODAL ── */
-.adopt-modal-bg{position:fixed;inset:0;z-index:550;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.adopt-modal-bg{position:fixed;inset:0;z-index:800;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .25s}
 .adopt-modal-bg::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px)}
 .adopt-modal-bg.open{opacity:1;pointer-events:all}
 .adopt-modal-box{background:var(--white);border-radius:var(--r28);max-width:640px;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s cubic-bezier(.34,1.4,.64,1);position:relative;z-index:1}
@@ -1587,6 +1587,11 @@ async function deleteApp(id) {
 let adoptingAnimalId = null;
 
 function openAdoptModal(animalId) {
+  // slight delay so the animal modal finishes closing
+  setTimeout(function() { _doOpenAdoptModal(animalId); }, 50);
+}
+
+function _doOpenAdoptModal(animalId) {
   adoptingAnimalId = animalId;
   const a = allAnimals.find(x => x.id === animalId);
   const banner = document.getElementById('adoptModalBanner');
